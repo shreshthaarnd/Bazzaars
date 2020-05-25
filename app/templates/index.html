@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Industery HTML-5 Template </title>
+        <title>Bazzaars</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,10 +25,12 @@
             <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
             <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
             <link rel="stylesheet" href="{% static 'w3.css' %}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    </head>
    <style type="text/css">
         .zoom:hover {transform: scale(1.2);
                     color:orange;}
+        .itemhover:hover {color:orange;}
     </style>
    <body>
        
@@ -55,13 +57,13 @@
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="header-info-left">
                                 <ul>     
-                                    <li>+880166 253 232</li>
-                                    <li>info@domain.com </li>
+                                    <li>+91-8279831239, +91-8938979011</li>
+                                    <li>shreshtharnd20@gmail.com </li>
                                 </ul>
                             </div>
                             <div class="header-info-right">
                                 <ul>     
-                                    <li>Mon - Fri: 9:00 - 19:00 / Closed on Weekends</li>
+                                    <li>Take Your Store Online at Just <i class="fa fa-inr" style="margin-left:5px;"></i> 1000/-</li>
                                 </ul>
                             </div>
                        </div>
@@ -83,21 +85,8 @@
                                     <nav>
                                         <ul id="navigation">                                                                                                                                     
                                             <li><a href="index.html">Home</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="industries.html">Industries</a></li>
-                                            <li><a href="work.html">Works</a></li>
-                                            <li><a href="blog.html">Blog</a>
-                                                <ul class="submenu">
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="single-blog.html">Blog Details</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="#">Pages</a>
-                                                <ul class="submenu">
-                                                    <li><a href="contact.html">Contact</a></li>
-                                                    <li><a href="elements.html">Element</a></li>
-                                                </ul>
-                                            </li>
+                                            <li><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block'">Login</a></li>
+                                            <li><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block'">Signup</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -105,7 +94,7 @@
                             <div class="col-xl-2 col-lg-3 col-md-3">
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none d-lg-block">
-                                    <a href="#" class="get-btn">Get A QUOTE</a>
+                                    <a style="color:white;cursor:pointer;" onclick="document.getElementById('id03').style.display='block'" class="get-btn">Create Store</a>
                                 </div>
                             </div>
                             <!-- Mobile Menu -->
@@ -119,151 +108,292 @@
        </div>
         <!-- Header End -->
     </header>
+    <div id="id01" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Login</div>
+    <button onclick="document.getElementById('id01').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form>
+        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" type="password" placeholder="Password">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Login">
+      </form>
+      <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
+      <button onclick="document.getElementById('id02').style.display='block';document.getElementById('id01').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-orange w3-hover-black">Create Account</button>
+    </div>
+
+    
+
+  </div>
+</div>
+<div id="id02" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Create Account</div>
+    <button onclick="document.getElementById('id02').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form>
+        <input style="margin-bottom:20px;"class="w3-input" type="text" placeholder="Name *" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="number" placeholder="Mobile Number *" required>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Create">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div id="id03" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Create Store</div>
+    <button onclick="document.getElementById('id03').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form>
+        <input class="w3-input" type="text" placeholder="Store Name *" required>
+        <input class="w3-input" type="text" placeholder="Store Owner Name *" required>
+        <select class="w3-input">
+           <option disabled required selected>Select Store Category *</option> 
+        </select>
+        <input class="w3-input" type="email" placeholder="Email *" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="number" placeholder="Mobile Number *" required>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Create">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+
+<div id="id04" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Forgot Password</div>
+    <button onclick="document.getElementById('id04').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form>
+        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" required>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Send Password">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+
     <main>
 
         <!-- slider Area Start-->
-        <div class="slider-area ">
+        <div class="slider-area">
             <!-- Mobile Menu -->
-            <div class="slider-active">
-                <div class="single-slider  hero-overly slider-height d-flex align-items-center" data-background="{% static 'assets/img/hero/h1_hero.jpg' %}">
+            <div class="slider-active ">
+                <div class="single-slider  hero-overly d-flex align-items-center" data-background="{% static 'assets/img/hero/h1_hero.jpg' %}">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-6 col-lg-8 col-md-8">
                                 <div class="hero__caption" data-background="{% static 'assets/img/hero/hero_color_bg.png' %}">
-                                    <h1 data-animation="fadeInUp" data-delay=".4s" >Industery Solutions!</h1>
-                                    <p data-animation="fadeInUp" data-delay=".6s">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</p>
+                                    <p style="margin-bottom:0px;" data-animation="fadeInUp" data-delay=".6s">Take Your Store Online, Get Your Own Ecommerce Website</p>
+                                    <h1 data-animation="fadeInUp" data-delay=".4s" >At Just<br><i class="fa fa-inr"></i> 1000/-</h1>
+                                    
                                     <!-- Hero-btn -->
                                     <div class="hero__btn" data-animation="fadeInUp" data-delay=".7s">
-                                        <a href="industries.html" class="btn hero-btn">Our Services</a>
+                                        <a href="industries.html" class="btn hero-btn">Create Now</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="single-slider  hero-overly slider-height d-flex align-items-center" data-background="{% static 'assets/img/hero/h1_hero.jpg' %}">
+                <div class="single-slider  hero-overly d-flex align-items-center" data-background="{% static 'assets/img/hero/h1_hero.jpg' %}">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-6 col-lg-8 col-md-8">
                                 <div class="hero__caption" data-background="{% static 'assets/img/hero/hero_color_bg.png' %}">
-                                    <h1 data-animation="fadeInUp" data-delay=".4s" >Industery Solutions!</h1>
-                                    <p data-animation="fadeInUp" data-delay=".6s">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo.</p>
+                                    <p style="margin-bottom:0px;" data-animation="fadeInUp" data-delay=".6s">Take Your Store Online, Get Your Own Ecommerce Website</p>
+                                    <h1 data-animation="fadeInUp" data-delay=".4s" >At Just<br><i class="fa fa-inr"></i> 1000/-</h1>
+                                    
                                     <!-- Hero-btn -->
                                     <div class="hero__btn" data-animation="fadeInUp" data-delay=".7s">
-                                        <a href="industries.html" class="btn hero-btn">Our Services</a>
+                                        <a href="industries.html" class="btn hero-btn">Create Now</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
-        <!-- slider Area End-->
         <div class="services-area d-flex justify-content-lg-between">
             <div class="container text-center">
                 <h1 style="margin-top:30px;font-weight:bold;">Groceries <span style="color:orange">Stores</span></h1>
-                <div class="row">
+                <div class="row justify-content-lg-between">
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
-                        <img src="{% static 'Logo2.png' %}" style="width:100px;height:100px;">
+                        <img src="{% static 'images/0b30b1e17826313ad0017122070460e1.png' %}" style="width:100px;height:100px;">
                         <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
                     </div>
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
-                        <img src="{% static 'Logo2.png' %}" style="width:100px;height:100px;">
-                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
+                        <img src="{% static 'images/mhyu.png' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Departmental<br> Store</p>
                     </div>
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
-                        <img src="{% static 'Logo2.png' %}" style="width:100px;height:100px;">
-                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
+                        <img src="{% static 'images/backery.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Bakery</p>
                     </div>
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
-                        <img src="{% static 'Logo2.png' %}" style="width:100px;height:100px;">
-                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
+                        <img src="{% static 'images/thick-easy-dairy-product-group-1600x1200-02-324x324.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Dairy Shop</p>
                     </div>
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
-                        <img src="{% static 'Logo2.png' %}" style="width:100px;height:100px;">
-                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
+                        <img src="{% static 'images/unnamed (1).jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Eggs/Meats</p>
                     </div>
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
-                        <img src="{% static 'Logo2.png' %}" style="width:100px;height:100px;">
-                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
+                        <img src="{% static 'images/unnamed.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Fruits/<br>Vegitable</p>
                     </div>
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
-                        <img src="{% static 'Logo2.png' %}" style="width:100px;height:100px;">
-                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
+                        <img src="{% static 'images/composition-variety-grocery-products-white-background-31618939.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Super Markets</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Services Area Start -->
         <div class="services-area d-flex justify-content-lg-between">
-            <div class="single-services s-bg mb-30">
-                <div class="services-icon">
-                    <img src="{% static 'assets/img/icon/services_icon_1.png' %}" alt="">
-                </div>
-                <div class="services-caption">
-                    <h4>Automotive Manufacturing</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                </div>
-                <div class="services-btn">
-                    <a href="industries.html" class="arrow-btn"><img src="{% static 'assets/img/icon/arrow_icon.png' %}" alt=""></a>
-                </div>
-            </div>
-            <div class="single-services mb-30">
-                <div class="services-icon">
-                    <img src="{% static 'assets/img/icon/services_icon_2.png' %}" alt="">
-                </div>
-                <div class="services-caption">
-                    <h4>Heavy industry market</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                </div>
-                <div class="services-btn">
-                    <a href="industries.html" class="arrow-btn"><img src="{% static 'assets/img/icon/arrow_icon.png' %}" alt=""></a>
-                </div>
-            </div>
-            <div class="single-services s-bg mb-30">
-                <div class="services-icon">
-                    <img src="{% static 'assets/img/icon/services_icon_3.png' %}" alt="">
-                </div>
-                <div class="services-caption">
-                    <h4>Industry analysis</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                </div>
-                <div class="services-btn">
-                    <a href="industries.html" class="arrow-btn"><img src="{% static 'assets/img/icon/arrow_icon.png' %}" alt=""></a>
+            <div class="container text-center">
+                <h1 style="margin-top:30px;font-weight:bold;">Fashion <span style="color:orange">Stores</span></h1>
+                <div class="row justify-content-lg-between">
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/young.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Cloth Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/unnamed (2).jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Shoe Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/watch-wallet-watch-wallet-white-background-118331147.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Accessories Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/ohtyhjjk.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Cosmetic Store</p>
+                    </div>
+
                 </div>
             </div>
         </div>
-        <!-- Services Area End -->
-
-        <!-- Safe Industery Start -->
+        <div class="services-area d-flex justify-content-lg-between">
+            <div class="container text-center">
+                <h1 style="margin-top:30px;font-weight:bold;">General <span style="color:orange">Stores</span></h1>
+                <div class="row justify-content-lg-between">
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/02e83080f47488589fab94f7cfa566bfddc203fc.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Hardware Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/electrical-products-1509079755-3418445.jpeg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Electronic<br> Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/promo-large.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Home<br> Appliances</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/portland_livingroom_pack_1-1024x683.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Furniture Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/materials-roofing-construction-materials-isolated-white-background-d-illustration-85819270.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Building Raw<br> Material</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/laptop-tablet-desktop-mobile-vector-1642863.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Mobile/<br>Computer Store</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="services-area d-flex justify-content-lg-between">
+            <div class="container text-center">
+                <h1 style="margin-top:30px;font-weight:bold;">Other <span style="color:orange">Stores</span></h1>
+                <div class="row justify-content-lg-between">
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/Fotolia_34703220_XS.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Stationary Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/swiss-military-7pc-luggage-set.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Luggage Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/sports-products-500x500.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Sports Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/proc_family_launch_retina.png' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Medical Store</p>
+                    </div>
+                    <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
+                        <img src="{% static 'images/gifts.jpg' %}" style="width:100px;height:100px;">
+                        <p style="font-size:20px;margin-top:10px;font-weight:bold;">Gift Store</p>
+                    </div>
+                                        
+                </div>
+            </div>
+        </div>
+        
+        <!-- slider Area End-->
+        
         <div class="safe-industery-area section-padd-top30">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md pr-0">
                         <div class="safe-caption pt-10 mb-40">
-                            <h2>Safe Industery Solutions That Saves our Valuable Time and mony!</h2>
-                            <p class="safe-pera-one">Logisti Group is a representative logistics operator providing full range of service in the sphere of customs clearance and transportation worldwide for any type of cargo.</p>
-                            <p  class="safe-pera-two">Lorem ipsum dolor sit amet, consectetur ipis adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna oris aliqua. Ut enim ad minim veniam, quis nostrud.</p>
-                            <p  class="safe-pera-three"> exercitation ullamco laboris nisi ut aliquip ex ea commodo nsequat. Duis aute irure dolor in repr.</p>
+                            <h2>Get Your Store Website In Just Simple Steps</h2>
+                            <ol><li>1. Click here to create your online store website.</li>
+                            <li>2. Select Store Category</li>
+                            <li>3. Fill your store details like Store Name, Store Address, Phone, Email and Owner Name.</li>
+                            <li>4. You are all set now! login to your store dashboard from here.</li></ol>
+
+                            For more details download docs which availiable in Hindi and English.<br>
+                            <p style="margin-top:20px;font-size:18px;"><span style="font-weight:bold;">Having Trouble?</span> Call Us @ +91-8279831239 or Whatsapp Us @ +918279831239. We will help you to create your online store.</p>
                             <!-- btn -->
-                            <a href="industries.html" class="btn">Our Services</a>
+                            <a href="industries.html" class="btn">Click Here To Proceed</a>
                         </div>
                     </div>
                     <div class="col-xl-5 offset-xl-1 col-lg-6 pl-0">
                         <div class="safe-caption-right">
                             <div class="safe-img">
-                                <img src="{% static 'assets/img/safe_industery/safe_industery_1.jpg' %}" alt="">
+                                <img style="height:500px;"src="{% static 'images/ecommerce-wallpaper.jpg' %}" alt="">
                             </div>
                             <!-- img TOP caption -->
-                            <div class="safe-alert-box">
+                            <div style="padding:20px;height:200px;"class="safe-alert-box">
                                 <div class="row">
                                     <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 d-none d-sm-block">
                                         
                                         <div class="safe-alert" data-background="{% static 'assets/img/safe_industery/color_bg.png' %}">
                                             <img src="{% static 'assets/img/icon/aleart_icon.png' %}" alt="">
                                             <h4>Our Mission</h4>
-                                            <p>Quis ipsum suspendisse ultrices gravidae Risus commodo.</p>
+                                            <p>Our Mission
+                                            To take the indian local stores online
+                                            with their own website
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -273,283 +403,74 @@
                 </div>
             </div>
         </div>
-        <!-- Safe Industery End -->
-
-        <!-- Gallery Start-->
-        <div class="gallery-area">
-            <div class="container-fluid p-0">
-                <div class="row no-gutters">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                        <div class="gallery-box">
-                            <div class="single-gallery">
-                                <div class="gallery-img">
-                                    <img src="{% static 'assets/img/gallery/gallery_1.png' %}" alt="">
-                                </div>
-                                <div class="g-caption1">
-                                    <span>01.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                </div>
-                                <div class="g-caption2">
-                                    <span>01.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur smo adipiscing elit, sed do eiusmod tempor inciut labore et dolore magna ali.</p>
-                                    <a href="work.html" class="read-btn">Read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                        <div class="gallery-box">
-                            <div class="single-gallery">
-                                <div class="gallery-img">
-                                    <img src="{% static 'assets/img/gallery/gallery_2.png' %}" alt="">
-                                </div>
-                                <div class="g-caption1">
-                                    <span>02.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                </div>
-                                <div class="g-caption2">
-                                    <span>02.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur smo adipiscing elit, sed do eiusmod tempor inciut labore et dolore magna ali.</p>
-                                    <a href="work.html" class="read-btn">Read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                        <div class="gallery-box">
-                            <div class="single-gallery">
-                                <div class="gallery-img">
-                                    <img src="{% static 'assets/img/gallery/gallery_3.png' %}" alt="">
-                                </div>
-                                <div class="g-caption1">
-                                    <span>03.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                </div>
-                                <div class="g-caption2">
-                                    <span>03.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur smo adipiscing elit, sed do eiusmod tempor inciut labore et dolore magna ali.</p>
-                                    <a href="work.html" class="read-btn">Read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                        <div class="gallery-box">
-                            <div class="single-gallery">
-                                <div class="gallery-img">
-                                    <img src="{% static 'assets/img/gallery/gallery_2.png' %}" alt="">
-                                </div>
-                                <div class="g-caption1">
-                                    <span>04.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                </div>
-                                <div class="g-caption2">
-                                    <span>04.</span>
-                                    <h4>Floride Chemicals Factory</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur smo adipiscing elit, sed do eiusmod tempor inciut labore et dolore magna ali.</p>
-                                    <a href="work.html" class="read-btn">Read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Gallery End-->
-
-        <!-- Team Start -->
-        <div class="team-area section2-padding30">
-            <div class="container">
-                <div class="row">
-                    <!-- Team Info -->
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="team-info mb-30 pt-45">
-                          <h2>Our Team Best Mambers</h2>  
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna ua. Ut enim ad minim veni.</p>
-
-                          <a href="contact.html" class="btn">Contact Us</a>
-                        </div>
-                    </div>
-                    <!-- single Tem -->
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'assets/img/team/h1__team_1.png' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                <span><a href="#">Bruce Roberts</a></span>
-                                <p>Team Officer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'assets/img/team/h1__team_2.png' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                 <span><a href="#">Bruce Roberts</a></span>
-                                <p>Team Officer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'assets/img/team/h1__team_3.png' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                 <span><a href="#">Bruce Roberts</a></span>
-                                <p>Team Officer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'assets/img/team/h1__team_4.png' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                 <span><a href="#">Bruce Roberts</a></span>
-                                <p>Team Officer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
-                        <div class="single-team mb-30">
-                            <div class="team-img">
-                                <img src="{% static 'assets/img/team/h1__team_5.png' %}" alt="">
-                            </div>
-                            <div class="team-caption">
-                                 <span><a href="#">Bruce Roberts</a></span>
-                                <p>Team Officer</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Team End -->
-        
-        <!-- Testimonial Start -->
-        <div class="testimonial-area t-bg testimonial-padding">
-            <div class="container ">
-               <div class="row d-flex justify-content-center">
-                    <div class="col-xl-11 col-lg-11 col-md-9">
-                        <div class="h1-testimonial-active">
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                 <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="{% static 'assets/img/icon/testimonial.png' %}" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="{% static 'assets/img/testmonial/Homepage_testi.png' %}" alt="">
-                                        </div>
-                                       <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Testimonial -->
-                            <div class="single-testimonial text-center">
-                                 <!-- Testimonial Content -->
-                                <div class="testimonial-caption ">
-                                    <div class="testimonial-top-cap">
-                                        <img src="{% static 'assets/img/icon/testimonial.png' %}" alt="">
-                                        <p>Logisti Group is a representative logistics operator providing full range of ser
-                                            of customs clearance and transportation worl.</p>
-                                    </div>
-                                    <!-- founder -->
-                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                        <div class="founder-img">
-                                            <img src="{% static 'assets/img/testmonial/Homepage_testi.png' %}" alt="">
-                                        </div>
-                                       <div class="founder-text">
-                                            <span>Jessya Inn</span>
-                                            <p>Co Founder</p>
-                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-               </div>
-            </div>
-        </div>
-        <!-- Testimonial End -->
-
-        <!-- David Droga start -->
-        <div class="david-droga-area section-padding30">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <!-- single-david -->
-                        <div class="single-david mb-30">
-                            <div class="david-img">
-                                <img src="{% static 'assets/img/david/david_1.png' %}" alt="">
-                            </div>
-                            <div class="david-captoin">
-                                <ul class="david-info">
-                                    <li>November 24, 2020 </li>
-                                    <li> Manufacturing</li>
-                                </ul>
-                                <h2><a href="single-blog.html">David Droga Still Has Faith Advertising Dorga</a></h2>
-                                <a href="single-blog.html" class="d-btn">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <!-- single-david -->
-                        <div class="single-david mb-30">
-                            <div class="david-img">
-                                <img src="{% static 'assets/img/david/david_2.png' %}" alt="">
-                            </div>
-                            <div class="david-captoin">
-                                <ul class="david-info">
-                                    <li>November 24, 2020 </li>
-                                    <li> Manufacturing</li>
-                                </ul>
-                                <h2><a href="single-blog.html">David Droga Still Has Faith Advertising Dorga</a></h2>
-                                <a href="single-blog.html" class="d-btn">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-               </div>
-            </div>
-        </div>
-        <!-- David Droga End -->
-
-        <!-- Want To Work Start -->
         <div class="wantToWork-area w-padding">
             <div class="container">
                 <div class="row d-flex align-items-end">
                     <div class="col-xl-6 col-lg-8 col-md-8">
                         <div class="wantToWork-caption">
-                            <h2>Want To Work<br> With Us? Hit The Button.</h2>
+                            <h2>Get Your<br>Own Store Website For <br><i class="fa fa-inr"></i>1000/- Only</h2>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-4 col-md-4">
                        <div class="wantToWork-btn f-right">
-                            <a href="#" class="white-btn">Let’s Work Toghter</a>
+                            <a href="#" class="white-btn">Start Here</a>
                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Want To Work End -->
 
-    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Area Start -->
+        <div class="services-area d-flex justify-content-lg-between">
+            <div class="single-services s-bg mb-30">
+                <div class="services-icon">
+                    <i style="font-size:60px;color:orange;margin-bottom:10px;"class="fa fa-credit-card-alt"></i>
+                </div>
+                <div class="services-caption">
+                    <h4>Zero Monthly Billing</h4>
+                    <p>
+                    We take zero monthly rent and zero monthly or yearly maintenence. It means a one time investment take your business online.
+                    </p>
+                </div>
+                
+            </div>
+            <div class="single-services mb-30">
+                <div class="services-icon">
+                    <i style="font-size:60px;color:orange;margin-bottom:10px;"class="fa fa-server"></i>
+                </div>
+                <div class="services-caption">
+                    <h4>No need for Domain or Hosting</h4>
+                    <p>
+                    Just create your store's website and get a unique link by your store's name and let us handle all other stuffs.
+                    </p>
+                </div>
+                
+            </div>
+            <div class="single-services s-bg mb-30">
+                <div class="services-icon">
+                    <i style="font-size:60px;color:orange;margin-bottom:10px;"class="fa fa-phone-square"></i>
+                </div>
+                <div class="services-caption">
+                    <h4>24x7 Call Assistance</h4>
+                    <p>
+                    If you have any trouble while creating your store just call us @ +91-8279831239 and our engineers will help you.
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+        <!-- Services Area End -->
+
+        <!-- Safe Industery Start -->
+        
+        <!-- Safe Industery End -->
+
+        <!-- Gallery Start-->
+        
    <footer>
        <!-- Footer Start-->
        <div class="footer-area footer-bg footer-padding">
@@ -653,6 +574,7 @@
                </div>
            </div>
        </div>
+    </main>
        <!-- Footer End-->
    </footer>
    
@@ -693,6 +615,6 @@
 		<!-- Jquery Plugins, main Jquery -->	
         <script src="{% static 'assets/js/plugins.js' %}"></script>
         <script src="{% static 'assets/js/main.js' %}"></script>
-        
+         
     </body>
 </html>
