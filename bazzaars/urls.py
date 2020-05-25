@@ -33,17 +33,9 @@ urlpatterns = [
     path('adminwidgets/',adminwidgets),
     path('adminformsadvanced/',adminformsadvanced),
     path('adminformsbasic/',adminformsbasic),
-    path('shoppaneldashboard/',shoppaneldashboard),
-    path('shoppanelicons/',shoppanelicons),
-    path('shoppanelmap/',shoppanelmap),
-    path('shoppanelnotifications/',shoppanelnotifications),
-    path('shoppanelnucleoicons/',shoppanelnucleoicons),
-    path('shoppaneltables/',shoppaneltables),
-    path('shoppaneltypography/',shoppaneltypography),
-    path('shoppanelupgrade/',shoppanelupgrade),
-    path('shoppaneluser/',shoppaneluser),
     path('addcategory/',addcategory),
     path('savestore/',savestore),
+    path('checklogin/',checklogin),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

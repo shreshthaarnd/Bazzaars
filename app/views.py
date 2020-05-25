@@ -62,24 +62,6 @@ def adminformsadvanced(request):
 	return render(request,'adminpages/forms-advanced.html',{})
 def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
-def shoppaneldashboard(request):
-	return render(request,'shoppanel/dashboard.html',{})
-def shoppanelicons(request):
-	return render(request,'shoppanel/icons.html',{})
-def shoppanelmap(request):
-	return render(request,'shoppanel/map.html',{})
-def shoppanelnotifications(request):
-	return render(request,'shoppanel/notifications.html',{})
-def shoppanelnucleoicons(request):
-	return render(request,'shoppanel/nucleo-icons.html',{})
-def shoppaneltables(request):
-	return render(request,'shoppanel/tables.html',{})
-def shoppaneltypography(request):
-	return render(request,'shoppanel/typography.html',{})
-def shoppanelupgrade(request):
-	return render(request,'shoppanel/upgrade.html',{})
-def shoppaneluser(request):
-	return render(request,'shoppanel/user.html',{})
 def addcategory(request):
 	for x in StoreCategoryData.objects.all():
 		print(x.Category_ID)
@@ -130,6 +112,22 @@ Team Bazzaars'''
 			email=EmailMessage(sub,msg,to=[email])
 			email.send()
 			alert='<script type="text/javascript">alert("Your Account Has Been Successfully Created Please Check Your Mail");</script>'
+			dic={'category':StoreCategoryData.objects.all(),
+				'alert':alert}
+			return render(request,'index.html',dic)
+	else:
+		return HttpResponse('<h1>Error 404 Not Found</h1>')
+@csrf_exempt
+def checklogin(request):
+	if request.method=='POST':
+		email=request.POST.get('email')
+		password=request.POST.get('password')
+		print(email)
+		print(password)
+		if StoreData.objects.filter(Store_Email=email, Store_Password=password).exists():
+			return render(request,'shoppanel/index.html',{})
+		else:
+			alert='<script type="text/javascript">alert("Incorrect Email/Password");</script>'
 			dic={'category':StoreCategoryData.objects.all(),
 				'alert':alert}
 			return render(request,'index.html',dic)
