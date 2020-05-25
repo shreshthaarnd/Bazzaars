@@ -47,4 +47,8 @@ urlpatterns = [
     path('adminformsadvanced/',adminformsadvanced),
     path('adminformsbasic/',adminformsbasic),
     path('shoppanelindex/',shoppanelindex),
+    path('shoppanelbooklist/',shoppanelbooklist),
+    path('shoppanelpages404/',shoppanelpages404),
+    path('shoppanelpages500/',shoppanelpages500),
+    path('shoppanelpostnews/',shoppanelpostnews),
 ]

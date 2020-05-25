@@ -57,3 +57,11 @@ def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
 def shoppanelindex(request):
 	return render(request,'shoppanel/index.html',{})
+def shoppanelbooklist(request):
+	return render(request,'shoppanel/booklist.html',{})
+def shoppanelpages404(request):
+	return render(request,'shoppanel/pages-404-withoutmenus.html',{})
+def shoppanelpages500(request):
+	return render(request,'shoppanel/pages-500.html',{})
+def shoppanelpostnews(request):
+	return render(request,'shoppanel/postnews.html',{})
