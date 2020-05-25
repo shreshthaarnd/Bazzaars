@@ -55,21 +55,5 @@ def adminformsadvanced(request):
 	return render(request,'adminpages/forms-advanced.html',{})
 def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
-def shoppaneldashboard(request):
-	return render(request,'shoppanel/dashboard.html',{})
-def shoppanelicons(request):
-	return render(request,'shoppanel/icons.html',{})
-def shoppanelmap(request):
-	return render(request,'shoppanel/map.html',{})
-def shoppanelnotifications(request):
-	return render(request,'shoppanel/notifications.html',{})
-def shoppanelnucleoicons(request):
-	return render(request,'shoppanel/nucleo-icons.html',{})
-def shoppaneltables(request):
-	return render(request,'shoppanel/tables.html',{})
-def shoppaneltypography(request):
-	return render(request,'shoppanel/typography.html',{})
-def shoppanelupgrade(request):
-	return render(request,'shoppanel/upgrade.html',{})
-def shoppaneluser(request):
-	return render(request,'shoppanel/user.html',{})
+def shoppanelindex(request):
+	return render(request,'shoppanel/index.html',{})
