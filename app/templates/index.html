@@ -94,7 +94,7 @@
                             <div class="col-xl-2 col-lg-3 col-md-3">
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none d-lg-block">
-                                    <a style="color:white;cursor:pointer;" onclick="document.getElementById('id03').style.display='block'" class="get-btn">Create Store</a>
+                                    <a style="color:white;cursor:pointer;" onclick="document.getElementById('id03').style.display='block'" class="get-btn text-center">Create Store</a>
                                 </div>
                             </div>
                             <!-- Mobile Menu -->
@@ -117,9 +117,9 @@
 
 
     <div style="padding:20px;"class="w3-container">
-      <form>
-        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email">
-        <input style="margin-bottom:20px;"class="w3-input" type="password" placeholder="Password">
+      <form action="/checklogin/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
         <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Login">
       </form>
       <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
@@ -151,6 +151,7 @@
   </div>
 </div>
 
+
 <div id="id03" class="w3-modal w3-animate-zoom">
   <div style="width:400px;"class="w3-modal-content">
 
@@ -160,14 +161,19 @@
 
 
     <div style="padding:20px;"class="w3-container">
-      <form>
-        <input class="w3-input" type="text" placeholder="Store Name *" required>
-        <input class="w3-input" type="text" placeholder="Store Owner Name *" required>
-        <select class="w3-input">
-           <option disabled required selected>Select Store Category *</option> 
+      <form action="/savestore/" method="POST">
+        <input class="w3-input" type="text" name="name" placeholder="Store Name *" required>
+        <input class="w3-input" type="text" name="owner" placeholder="Store Owner Name *" required>
+        
+        <select class="w3-select" name="category">
+           <option disabled required selected>Select Store Category *</option>
+           {% for x in category %}
+           <option value="{{ x.Category_Name|safe }}">{{ x.Category_Name|safe }}</option>
+           {% endfor %}
         </select>
-        <input class="w3-input" type="email" placeholder="Email *" required>
-        <input style="margin-bottom:20px;"class="w3-input" type="number" placeholder="Mobile Number *" required>
+        
+        <input class="w3-input" type="email" name="email" placeholder="Email *" required>
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile Number *" required>
         <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Create">
       </form>
       
@@ -615,6 +621,6 @@
 		<!-- Jquery Plugins, main Jquery -->	
         <script src="{% static 'assets/js/plugins.js' %}"></script>
         <script src="{% static 'assets/js/main.js' %}"></script>
-         
+        {{ alert|safe }} 
     </body>
 </html>
