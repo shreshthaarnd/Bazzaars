@@ -6,7 +6,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Aaeena | Dashboard</title>
+		<title>Bazzaars | Dashboard</title>
 		
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -44,7 +44,7 @@
 			<header class="header">
 				<div class="logo-container">
 					<a href="" class="logo">
-						<img src="{% static 'shoppanel/assets/images/logo.png' %}" height="35">
+						<img src="{% static 'Bazzaars.png' %}" style="width:200px;">
 					</a>
 					<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
 						<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -59,11 +59,11 @@
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
-								<img src="{% static 'shoppanel/assets/images/!logged-user.jpg' %}" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" />
+								<img src="{% static 'Bazzaars.png' %}" alt="Joseph Doe" class="img-circle" data-lock-picture="{% static 'Bazzaars.png' %}" />
 							</figure>
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-								<span class="name">Hi! Admin</span>
-								<span class="role">Logout Here</span>
+								<span class="name">Hi! {{ owner|safe }}</span>
+								<span class="role">Account Settings</span>
 							</div>
 			
 							<i class="fa custom-caret"></i>
@@ -73,7 +73,11 @@
 							<ul class="list-unstyled">
 								<li class="divider"></li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="/adminlogout/"><i class="fa fa-power-off"></i> Logout</a>
+									<a role="menuitem" tabindex="-1" href="/adminlogout/"><i class="fa fa-power-off"></i> Publish</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a role="menuitem" tabindex="-1" href="/adminlogout/"><i class="fa fa-sign-out"></i> Logout</a>
 								</li>
 							</ul>
 						</div>
@@ -106,83 +110,64 @@
 											<span>Dashboard</span>
 										</a>
 									</li>
-									<li class="nav-parent">
-										<a>
-											<i class="fa fa-newspaper-o" aria-hidden="true"></i>
-											<span>News Section</span>
+									<li class="nav">
+										<a href="/adminhome/">
+											<i class="fa fa-eye" aria-hidden="true"></i>
+											<span>Preview Store</span>
 										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/postnews/">Post News</a>
-											</li>
-											<li>
-												<a href="/newslist/">News List</a>
-											</li>
-										</ul>
 									</li>
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-user" aria-hidden="true"></i>
-											<span>Users Section</span>
+											<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											<span>Store Products</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
-												<a href="/activeuser/">Active Users</a>
+												<a href="/postnews/">Add Product Category</a>
 											</li>
 											<li>
-												<a href="/nonactiveuser/">Non Active Users</a>
+												<a href="/newslist/">Add Product</a>
+											</li>
+											<li>
+												<a href="/newslist/">Product Category List</a>
+											</li>
+											<li>
+												<a href="/newslist/">Product List</a>
 											</li>
 										</ul>
 									</li>
-									<li class="nav-parent">
-										<a>
-											<i class="fa fa-book" aria-hidden="true"></i>
-											<span>Book Section</span>
-										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/addbooks/">Add Book</a>
-											</li>
-											<li>
-												<a href="/addbookcategroy/">Add Book Category</a>
-											</li>
-											<li>
-												<a href="/booklist/">Book List</a>
-											</li>
-										</ul>
-									</li>
-									<li class="nav-parent">
-										<a>
+									<li class="nav">
+										<a href="/adminhome/">
 											<i class="fa fa-bullhorn" aria-hidden="true"></i>
-											<span>Campaign Section</span>
+											<span>Store Banners</span>
 										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/recentcampaigns/">Recent Campaign</a>
-											</li>
-											<li>
-												<a href="/activecampaigns/">Active Campaigns</a>
-											</li>
-											<li>
-												<a href="/deactivecampaigns/">Deactive Campaigns</a>
-											</li>
-										</ul>
 									</li>
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-money" aria-hidden="true"></i>
-											<span>Donations</span>
+											<i class="fa fa-cog" aria-hidden="true"></i>
+											<span>Store Settings</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
-												<a href="/paiddonations/">Paid Donations</a>
+												<a href="/postnews/">About Store</a>
 											</li>
 											<li>
-												<a href="/faileddonations/">Failed Donations</a>
+												<a href="/postnews/">Store Logo</a>
 											</li>
-											
+											<li>
+												<a href="/postnews/">Store Banners</a>
+											</li>
+											<li>
+												<a href="/postnews/">Store Social Media Links</a>
+											</li>
+											<li>
+												<a href="/newslist/">Payment System</a>
+											</li>
+											<li>
+												<a href="/newslist/">Logout</a>
+											</li>
 										</ul>
-									</li>s
+									</li>
 								</ul>
 							</nav>
 
@@ -216,7 +201,7 @@
 					<!-- start: page -->
 					<div class="row">
 						<center>
-							<h1 style="margin-bottom:50px;">Welcome to Aeena Admin Panel</h1>
+							<h1 style="margin-bottom:50px;">Welcome to Owner</h1>
 						</center>
 						<div class="col-md-6 col-lg-12 col-xl-6">
 							<div class="row">
@@ -255,48 +240,6 @@
 														<h4 class="title">Visitors</h4>
 														<div class="info">
 															<strong class="amount">100</strong>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-tertiary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-tertiary">
-														<i class="fa fa-bullhorn"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">Campaign</h4>
-														<div class="info">
-															<strong class="amount">{{ Campaign|safe }}</strong>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-quartenary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-quartenary">
-														<i class="fa fa-newspaper-o"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">News Post</h4>
-														<div class="info">
-															<strong class="amount">{{ News|safe }}</strong>
 														</div>
 													</div>
 												</div>

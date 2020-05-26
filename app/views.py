@@ -138,8 +138,13 @@ def checklogin(request):
 	if request.method=='POST':
 		email=request.POST.get('email')
 		password=request.POST.get('password')
+		dic={}
 		if StoreData.objects.filter(Store_Email=email, Store_Password=password).exists():
-			return render(request,'shoppanel/index.html',{})
+			obj=StoreData.objects.filter(Store_Email=email)
+			for x in obj:
+				dic={'owner':x.Store_Owner}
+				request.session['storeid'] = x.Store_ID
+			return render(request,'shoppanel/index.html',dic)
 		else:
 			alert='<script type="text/javascript">alert("Incorrect Email/Password");</script>'
 			dic={'category':StoreCategoryData.objects.all(),

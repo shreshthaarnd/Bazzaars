@@ -20,6 +20,6 @@ class StoreData(models.Model):
 	Store_Address=models.CharField(max_length=100, default='NA')
 	Store_City=models.CharField(max_length=100, default='NA')
 	Store_State=models.CharField(max_length=100, default='NA')
-	Status=models.CharField(max_length=100, default='Active')
+	Status=models.CharField(max_length=100, default='Deactive')
 	class Meta:
 		db_table="StoreData"
