@@ -77,6 +77,8 @@ def shoppaneladdproductcategory(request):
 	return render(request,'shoppanel/addproductcategory.html',{})
 def shoppanelaboutshop(request):
 	return render(request,'shoppanel/aboutshop.html',{})
+def shoppanelstoreprofile(request):
+	return render(request,'shoppanel/storeprofile.html',{})
 
 def addcategory(request):
 	for x in StoreCategoryData.objects.all():

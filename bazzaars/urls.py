@@ -41,6 +41,7 @@ urlpatterns = [
     path('shoppanelpostnews/',shoppanelpostnews),
     path('shoppaneladdproductcategory/',shoppaneladdproductcategory),
     path('shoppanelaboutshop/',shoppanelaboutshop),
+    path('shoppanelstoreprofile/',shoppanelstoreprofile),
 
 
     path('addcategory/',addcategory),
