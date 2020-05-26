@@ -39,6 +39,8 @@ urlpatterns = [
     path('shoppanelpages404/',shoppanelpages404),
     path('shoppanelpages500/',shoppanelpages500),
     path('shoppanelpostnews/',shoppanelpostnews),
+    path('shoppaneladdproductcategory/',shoppaneladdproductcategory),
+    path('shoppanelaboutshop/',shoppanelaboutshop),
 
 
     path('addcategory/',addcategory),

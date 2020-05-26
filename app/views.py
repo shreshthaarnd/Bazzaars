@@ -73,6 +73,10 @@ def shoppanelpages500(request):
 	return render(request,'shoppanel/pages-500.html',{})
 def shoppanelpostnews(request):
 	return render(request,'shoppanel/postnews.html',{})
+def shoppaneladdproductcategory(request):
+	return render(request,'shoppanel/addproductcategory.html',{})
+def shoppanelaboutshop(request):
+	return render(request,'shoppanel/aboutshop.html',{})
 
 def addcategory(request):
 	for x in StoreCategoryData.objects.all():
