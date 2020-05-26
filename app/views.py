@@ -62,6 +62,22 @@ def adminformsadvanced(request):
 	return render(request,'adminpages/forms-advanced.html',{})
 def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
+
+def shoppanelindex(request):
+	return render(request,'shoppanel/index.html',{})
+def shoppanelbooklist(request):
+	return render(request,'shoppanel/booklist.html',{})
+def shoppanelpages404(request):
+	return render(request,'shoppanel/pages-404-withoutmenus.html',{})
+def shoppanelpages500(request):
+	return render(request,'shoppanel/pages-500.html',{})
+def shoppanelpostnews(request):
+	return render(request,'shoppanel/postnews.html',{})
+def shoppaneladdproductcategory(request):
+	return render(request,'shoppanel/addproductcategory.html',{})
+def shoppanelaboutshop(request):
+	return render(request,'shoppanel/aboutshop.html',{})
+
 def addcategory(request):
 	for x in StoreCategoryData.objects.all():
 		print(x.Category_ID)
@@ -131,3 +147,4 @@ def checklogin(request):
 			return render(request,'index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
+

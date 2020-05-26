@@ -33,6 +33,16 @@ urlpatterns = [
     path('adminwidgets/',adminwidgets),
     path('adminformsadvanced/',adminformsadvanced),
     path('adminformsbasic/',adminformsbasic),
+
+    path('shoppanelindex/',shoppanelindex),
+    path('shoppanelbooklist/',shoppanelbooklist),
+    path('shoppanelpages404/',shoppanelpages404),
+    path('shoppanelpages500/',shoppanelpages500),
+    path('shoppanelpostnews/',shoppanelpostnews),
+    path('shoppaneladdproductcategory/',shoppaneladdproductcategory),
+    path('shoppanelaboutshop/',shoppanelaboutshop),
+
+
     path('addcategory/',addcategory),
     path('savestore/',savestore),
     path('checklogin/',checklogin),
@@ -41,3 +51,4 @@ urlpatterns = [
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL,
                               document_root=settings.MEDIA_ROOT)
+
