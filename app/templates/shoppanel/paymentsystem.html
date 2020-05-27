@@ -205,6 +205,9 @@
 										</div>
 									</div>
 									<hr class="dotted short">
+									<h4>Total Amount Received</h4>
+									<p style="font-size:20px;"><i class="fa fa-inr"></i> 500.00</p>
+									<hr class="dotted short">
 									<div class="social-icons-list">
 										<a rel="tooltip" data-placement="bottom" target="_blank" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
 										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a>
@@ -222,25 +225,30 @@
 										<a href="#overview" data-toggle="tab">Overview</a>
 									</li>
 									<li>
-										<a href="#edit" data-toggle="tab">Edit</a>
+										<a href="#history" data-toggle="tab">Payment History</a>
 									</li>
 								</ul>
 								<div class="tab-content">
 									<div id="overview" class="tab-pane active">
 										<h1 style="text-align:center;"class="mb-md">Payment Information</h1>
-										<img src="{% static 'images/Paytm-For-Business.png' %}">
-										<p>About Store Here</p>
-									</div>
-									<div id="edit" class="tab-pane">
-
-										<form class="form-horizontal" method="get">
-											<h4 class="mb-xlg">Edit Information</h4>
+										<p style="text-align:center;">Powered By</p>
+										<div style="text-align:center">
+										<img style="width:75px;" class="text-center"src="{% static 'shoppanel/assets/images/Paytm-For-Business.png' %}">
+										</div>
+										<form class="form-horizontal">
+											<h4 class="mb-xlg">Merchent Credentials</h4>
 											<fieldset>
 												
 												<div class="form-group">
-													<label class="col-md-3 control-label" for="profileAddress">About Store</label>
+													<label class="col-md-3 control-label" for="profileAddress">Access Key</label>
 													<div class="col-md-8">
-														<textarea type="text" class="form-control" id="profileAddress"></textarea>
+														<input type="text" class="form-control" value="1234" disabled id="AccessKey">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileAddress">Access Secret</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" value="5678" disabled id="AccessSecret">
 													</div>
 												</div>
 											</fieldset>
@@ -248,11 +256,39 @@
 												<div class="row">
 													<div class="col-md-9 col-md-offset-3">
 														<button type="submit" class="btn btn-primary">Submit</button>
-														<button type="reset" class="btn btn-default">Reset</button>
+														<a onclick="document.getElementById('AccessKey').disabled = false;document.getElementById('AccessSecret').disabled = false;" class="btn btn-default">Reset</a>
 													</div>
 												</div>
 											</div>
 										</form>
+									</div>
+									<div id="history" class="tab-pane">
+										<h4>Payment History</h4>
+										<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-download"></i> Download History</button>
+										<div class="table-responsive">
+											<div style="overflow-x:auto;overflow-y:auto;">
+											<table class="table table-hover mb-none">
+												<thead>
+													<tr>
+														<th>Date</th>
+														<th>Payment Id</th>
+														<th>Order Id</th>
+														<th>Amount</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>06/04/2020</td>
+														<td>ERT56</td>
+														<td>NHU6789</td>
+														<td>100.00</td>
+														</td>
+													</tr>
+												
+													
+												</table>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
