@@ -144,7 +144,8 @@ def checklogin(request):
 		if StoreData.objects.filter(Store_Email=email, Store_Password=password).exists():
 			obj=StoreData.objects.filter(Store_Email=email)
 			for x in obj:
-				dic={'owner':x.Store_Owner}
+				dic={'owner':x.Store_Owner,
+					'name':x.Store_Name}
 				request.session['storeid'] = x.Store_ID
 			return render(request,'shoppanel/index.html',dic)
 		else:
