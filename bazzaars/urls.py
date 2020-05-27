@@ -42,6 +42,14 @@ urlpatterns = [
     path('shoppaneladdproductcategory/',shoppaneladdproductcategory),
     path('shoppanelaboutshop/',shoppanelaboutshop),
     path('shoppanelstoreprofile/',shoppanelstoreprofile),
+    path('shoppanelstorebanner/',shoppanelstorebanner),
+    path('shoppaneladdproduct/',shoppaneladdproduct),
+    path('shoppanelproductcategorylist/',shoppanelproductcategorylist),
+    path('shoppanelproductlist/',shoppanelproductlist),
+    path('shoppanelaboutstore/',shoppanelaboutstore),
+    path('shoppanelstorelogo/',shoppanelstorelogo),
+    path('shoppanelstoresocialmedialink/',shoppanelstoresocialmedialink),
+    path('shoppanelpaymentsystem/',shoppanelpaymentsystem),
 
 
     path('addcategory/',addcategory),

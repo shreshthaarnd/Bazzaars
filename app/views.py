@@ -79,6 +79,22 @@ def shoppanelaboutshop(request):
 	return render(request,'shoppanel/aboutshop.html',{})
 def shoppanelstoreprofile(request):
 	return render(request,'shoppanel/storeprofile.html',{})
+def shoppanelstorebanner(request):
+	return render(request,'shoppanel/storebanner.html',{})
+def shoppaneladdproduct(request):
+	return render(request,'shoppanel/addproduct.html',{})
+def shoppanelproductcategorylist(request):
+	return render(request,'shoppanel/productcategorylist.html',{})
+def shoppanelproductlist(request):
+	return render(request,'shoppanel/productlist.html',{})
+def shoppanelaboutstore(request):
+	return render(request,'shoppanel/aboutstore.html',{})
+def shoppanelstorelogo(request):
+	return render(request,'shoppanel/storelogo.html',{})
+def shoppanelstoresocialmedialink(request):
+	return render(request,'shoppanel/storesocialmedialink.html',{})
+def shoppanelpaymentsystem(request):
+	return render(request,'shoppanel/paymentsystem.html',{})
 
 def addcategory(request):
 	for x in StoreCategoryData.objects.all():
