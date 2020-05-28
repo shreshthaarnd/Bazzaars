@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import *
 from app.models import *
 from django.core.paginator import *
@@ -78,7 +78,20 @@ def shoppaneladdproductcategory(request):
 def shoppanelaboutshop(request):
 	return render(request,'shoppanel/aboutshop.html',{})
 def shoppanelstoreprofile(request):
-	return render(request,'shoppanel/storeprofile.html',{})
+	sid=request.session['storeid']
+	dic={}
+	obj=StoreData.objects.filter(Store_ID=sid)
+	for x in obj:
+		dic={
+		'storename':x.Store_Name,
+		'storeowner':x.Store_Owner,
+		'storeaddress':x.Store_Address,
+		'storecity':x.Store_City,
+		'storestate':x.Store_State,
+		'storephone':x.Store_Phone,
+		'storeemail':x.Store_Email
+		}
+	return render(request,'shoppanel/storeprofile.html',dic)
 def shoppanelstorebanner(request):
 	return render(request,'shoppanel/storebanner.html',{})
 def shoppaneladdproduct(request):
@@ -87,10 +100,32 @@ def shoppanelproductcategorylist(request):
 	return render(request,'shoppanel/productcategorylist.html',{})
 def shoppanelproductlist(request):
 	return render(request,'shoppanel/productlist.html',{})
+
+#About Store
 def shoppanelaboutstore(request):
-	return render(request,'shoppanel/aboutstore.html',{})
+	obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid'])
+	return render(request,'shoppanel/aboutstore.html',{'data':obj})
+@csrf_exempt
+def savestoreabout(request):
+	if request.method=='POST':
+		about=request.POST.get('about')
+		obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid'])
+		obj.update(Store_About=about)
+		return redirect('/shoppanelaboutstore/')
+
+#Store Logo
 def shoppanelstorelogo(request):
-	return render(request,'shoppanel/storelogo.html',{})
+	obj=StoreLogoData.objects.filter(Store_ID=request.session['storeid'])
+	return render(request,'shoppanel/storelogo.html',{'data':obj})
+@csrf_exempt
+def changelogo(request):
+	if request.method=='POST':
+		logo=request.FILES['logo']
+		obj=StoreLogoData(Store_ID=request.session['storeid'],
+							Store_Logo=logo)
+		obj.save()
+		return redirect('/shoppanelstorelogo/')
+
 def shoppanelstoresocialmedialink(request):
 	return render(request,'shoppanel/storesocialmedialink.html',{})
 def shoppanelpaymentsystem(request):
@@ -135,6 +170,8 @@ def savestore(request):
 			return render(request,'index.html',dic)
 		else:
 			obj.save()
+			obj=StoreOtherData(Store_ID=sid)
+			obj.save()
 			msg='''Hi there!
 Store '''+name+''' has successfully created!
 
@@ -151,15 +188,35 @@ Team Bazzaars'''
 			return render(request,'index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
+
+@csrf_exempt
+def editstoredetails(request):
+	if request.method=='POST':
+		phone=request.POST.get('phone')
+		address=request.POST.get('address')
+		city=request.POST.get('city')
+		state=request.POST.get('state')
+		obj=StoreData.objects.filter(Store_ID=request.session['storeid'])
+		obj.update(
+			Store_Phone=phone,
+			Store_Address=address,
+			Store_City=city,
+			Store_State=state
+		)
+		return redirect('/shoppanelstoreprofile/')
+	else:
+		return HttpResponse('<h1>Error 404 Not Found</h1>')
 @csrf_exempt
 def checklogin(request):
 	if request.method=='POST':
 		email=request.POST.get('email')
 		password=request.POST.get('password')
-		print(email)
-		print(password)
+		dic={}
 		if StoreData.objects.filter(Store_Email=email, Store_Password=password).exists():
-			return render(request,'shoppanel/index.html',{})
+			obj=StoreData.objects.filter(Store_Email=email)
+			for x in obj:
+				request.session['storeid'] = x.Store_ID
+			return redirect('/shoppanelstoreprofile/')
 		else:
 			alert='<script type="text/javascript">alert("Incorrect Email/Password");</script>'
 			dic={'category':StoreCategoryData.objects.all(),
@@ -167,4 +224,9 @@ def checklogin(request):
 			return render(request,'index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
-
+def shoppanelallorderslist(request):
+	return render(request,'shoppanel/allorderslist.html',{})
+def shoppanelcompletedorderlist(request):
+	return render(request,'shoppanel/completedorderlist.html',{})
+def shoppanelpendingorderlist(request):
+	return render(request,'shoppanel/pendingorderlist.html',{})

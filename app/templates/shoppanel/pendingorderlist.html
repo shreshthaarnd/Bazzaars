@@ -6,7 +6,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Bazzaars |  Product List</title>
+		<title>Bazzaars |  Pending Order List</title>
 		
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -193,7 +193,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2> Product list</h2>
+						<h2>Pending Orders list</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -212,7 +212,7 @@
 								<section class="panel">
 									<header class="panel-heading">
 						
-										<h2 class="panel-title">Product list</h2>
+										<h2 class="panel-title">Pending Orders list</h2>
 
 									</header>
 									<div class="panel-body">
@@ -221,27 +221,37 @@
 											<table class="table table-hover mb-none">
 												<thead>
 													<tr>
-														<th>Product ID</th>
+														<th>Date</th>
+														<th>Order ID</th>
 														<th>Product Name</th>
-														<th>Product Category</th>
-														<th>Product Discription</th>
-														<th>Product Amount</th>
-														<th>Product Image</th>
+														<th>Product Quantity</th>
+														<th>Product Price</th>
+														<th>Customer Name</th>
+														<th>Customer Address</th>
+														<th>Customer Phone</th>
+														<th>Customer E-Mail</th>
+														<th>Total Amount</th>
+														<th>Status</th>
 														<th>Action</th>
 													</tr>
 												</thead>
-												<tbody>
 													<tr>
-														<td>FGTR456</td>
-														<td>Sweta</td>
-														<td>RTYu</td>
-														<td>ERTYUIOPLKHG</td>
+														<td>04/022020</td>
+														<td>00234GHT</td>
+														<td>Besan</td>
+														<th>1.0</th>
 														<th>50.00</th>
+														<th>Akash Mittal</th>
+														<th>Sector 15,Kamla Nagar Delhi</th>
+														<th>4589670201</th>
+														<th>aksh23@gmail.com</th>
 														
-														
-														<td><img style="width:100px;"src="{% static 'images/279photo170400407.jpg' %}"></td>
+														<th>50.00</th>
+														<td style="padding-top:20px;">
+															<span style="background-color:red;color:white;padding:5px;border-radius:5px;">Pending</span>
+														</td>
 														<td>
-															<a class="mb-xs mt-xs mr-xs btn btn-danger" href="/deletebook/?bid={{ x.Book_ID|safe }}">Delete</a>
+															<button type="button" class="mb-xs mt-xs mr-xs btn btn-success"> Completed</button>
 														</td>
 													</tr>
 												

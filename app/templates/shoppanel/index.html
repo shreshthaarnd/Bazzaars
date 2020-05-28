@@ -44,7 +44,7 @@
 			<header class="header">
 				<div class="logo-container">
 					<a href="" class="logo">
-						<img src="{% static 'shoppanel/assets/images/logo.png' %}" height="35">
+						<img src="{% static 'Bazzaars.png' %}" style="width:200px;">
 					</a>
 					<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
 						<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -59,11 +59,11 @@
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
-								<img src="{% static 'shoppanel/assets/images/!logged-user.jpg' %}" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" />
+								<img src="{% static 'Bazzaars.png' %}" alt="Joseph Doe" class="img-circle" data-lock-picture="{% static 'Bazzaars.png' %}" />
 							</figure>
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-								<span class="name">Hi! Admin</span>
-								<span class="role">Logout Here</span>
+								<span class="name">Hi! {{ owner|safe }}</span>
+								<span class="role">Account Settings</span>
 							</div>
 			
 							<i class="fa custom-caret"></i>
@@ -73,7 +73,11 @@
 							<ul class="list-unstyled">
 								<li class="divider"></li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="/adminlogout/"><i class="fa fa-power-off"></i> Logout</a>
+									<a role="menuitem" tabindex="-1" href="/adminlogout/"><i class="fa fa-power-off"></i> Publish</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a role="menuitem" tabindex="-1" href="/adminlogout/"><i class="fa fa-sign-out"></i> Logout</a>
 								</li>
 							</ul>
 						</div>
@@ -101,88 +105,86 @@
 							<nav id="menu" class="nav-main" role="navigation">
 								<ul class="nav nav-main">
 									<li class="nav-active">
-										<a href="/adminhome/">
+										<a href="/shoppanelstoreprofile/">
 											<i class="fa fa-home" aria-hidden="true"></i>
 											<span>Dashboard</span>
 										</a>
 									</li>
+									<li class="nav">
+										<a href="/adminhome/">
+											<i class="fa fa-eye" aria-hidden="true"></i>
+											<span>Preview Store</span>
+										</a>
+									</li>
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-newspaper-o" aria-hidden="true"></i>
-											<span>News Section</span>
+											<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											<span>Store Products</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
-												<a href="/postnews/">Post News</a>
+												<a href="/shoppaneladdproductcategory/">Add Product Category</a>
 											</li>
 											<li>
-												<a href="/newslist/">News List</a>
+												<a href="/shoppaneladdproduct/">Add Product</a>
+											</li>
+											<li>
+												<a href="/shoppanelproductcategorylist/">Product Category List</a>
+											</li>
+											<li>
+												<a href="/shoppanelproductlist/">Product List</a>
 											</li>
 										</ul>
 									</li>
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-user" aria-hidden="true"></i>
-											<span>Users Section</span>
+											<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+											<span>Orders Data</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
-												<a href="/activeuser/">Active Users</a>
+												<a href="/shoppanelallorderslist/">All Orders List</a>
 											</li>
 											<li>
-												<a href="/nonactiveuser/">Non Active Users</a>
+												<a href="/shoppanelcompletedorderlist/">Completed Orders List</a>
+											</li>
+											<li>
+												<a href="/shoppanelpendingorderlist/">Pending Orders List</a>
 											</li>
 										</ul>
 									</li>
-									<li class="nav-parent">
-										<a>
-											<i class="fa fa-book" aria-hidden="true"></i>
-											<span>Book Section</span>
-										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/addbooks/">Add Book</a>
-											</li>
-											<li>
-												<a href="/addbookcategroy/">Add Book Category</a>
-											</li>
-											<li>
-												<a href="/booklist/">Book List</a>
-											</li>
-										</ul>
-									</li>
-									<li class="nav-parent">
-										<a>
+									<li class="nav">
+										<a href="/shoppanelstorebanner/">
 											<i class="fa fa-bullhorn" aria-hidden="true"></i>
-											<span>Campaign Section</span>
+											<span>Store Banners</span>
 										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/recentcampaigns/">Recent Campaign</a>
-											</li>
-											<li>
-												<a href="/activecampaigns/">Active Campaigns</a>
-											</li>
-											<li>
-												<a href="/deactivecampaigns/">Deactive Campaigns</a>
-											</li>
-										</ul>
 									</li>
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-money" aria-hidden="true"></i>
-											<span>Donations</span>
+											<i class="fa fa-cog" aria-hidden="true"></i>
+											<span>Store Settings</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
-												<a href="/paiddonations/">Paid Donations</a>
+												<a href="/shoppanelaboutstore/">About Store</a>
 											</li>
 											<li>
-												<a href="/faileddonations/">Failed Donations</a>
+												<a href="/shoppanelstorelogo/">Store Logo</a>
 											</li>
-											
+											<li>
+												<a href="/shoppanelstorebanner/">Store Banners</a>
+											</li>
+											<li>
+												<a href="/shoppanelstoresocialmedialink/">Store Social Media Links</a>
+											</li>
+											<li>
+												<a href="/shoppanelpaymentsystem/">Payment System</a>
+											</li>
+											<li>
+												<a href="/logout/">Logout</a>
+											</li>
 										</ul>
-									</li>s
+									</li>
 								</ul>
 							</nav>
 
@@ -195,7 +197,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2>Dashboard</h2>
+						<h2>Store Dashboard</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -204,22 +206,100 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span>Dashboard</span></li>
+								<li><span>Store Dashboard</span></li>
 							</ol>
-					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
 					</header>
 
-						
-
 					<!-- start: page -->
+
 					<div class="row">
-						<center>
-							<h1 style="margin-bottom:50px;">Welcome to Aeena Admin Panel</h1>
-						</center>
-						<div class="col-md-6 col-lg-12 col-xl-6">
-							<div class="row">
+						<div class="col-md-4 col-lg-3">
+
+							<section class="panel">
+								<div class="panel-body">
+									<div class="thumb-info mb-md">
+										<img src="{% static 'shoppanel/assets/images/!logged-user.jpg' %}" class="rounded img-responsive" alt="Store Owner">
+										<div class="thumb-info-title">
+											<span class="thumb-info-inner">{{ owner|safe }}</span>
+											<span class="thumb-info-type">Store Owner</span>
+										</div>
+									</div>
+
+									<hr class="dotted short">
+
+									<h6 class="text-muted">About Store</h6>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate quam. Interdum et malesuada</p>
+									<hr class="dotted short">
+
+									<div class="social-icons-list">
+										<a rel="tooltip" data-placement="bottom" target="_blank" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
+										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a>
+										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Linkedin"><i class="fa fa-instagram"></i><span>Instagram</span></a>
+									</div>
+
+								</div>
+							</section>
+						</div>
+						<div style="width:75%;"class="col-md-8 col-lg-6">
+
+							<div class="tabs">
+								<ul class="nav nav-tabs tabs-primary">
+									<li class="active">
+										<a href="#overview" data-toggle="tab">Overview</a>
+									</li>
+									<li>
+										<a href="#edit" data-toggle="tab">Edit</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div id="overview" class="tab-pane active">
+										<h1 style="text-align:center;"class="mb-md">{{ name|safe }}</h1>
+										<h4 style="background-color:orange;color:white;width:auto;text-align:center;margin-top:0px;">Category</h4>
+										<h4 class="mb-md">Store Details :</h4>
+										<div style="padding-left:20px;font-size:15px;">
+											<h5 style="font-size:15px;"class="mb-md"><i class="fa fa-map-marker"></i> Address</h5>
+											<p style="padding-left:20px;">15,saraswati nagar Agra</p>
+											<h5 style="font-size:15px;"class="mb-md"><i class="fa fa-mobile"></i> mobile Number</h5>
+											<p style="padding-left:20px;">5678930913</p>
+											<h5 style="font-size:15px;"class="mb-md"><i class="fa fa-envelope"></i> Email Id</h5>
+											<p style="padding-left:20px;">shop45@gmailcom</p>
+										</div>
+									</div>
+									<div id="edit" class="tab-pane">
+
+										<form class="form-horizontal" method="get">
+											<h4 class="mb-xlg">Edit Information</h4>
+											<fieldset>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileFirstName">Mobile Number</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" id="profileFirstName">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileAddress">Address</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" id="profileAddress">
+													</div>
+												</div>
+											</fieldset>
+											<div class="panel-footer">
+												<div class="row">
+													<div class="col-md-9 col-md-offset-3">
+														<button type="submit" class="btn btn-primary">Submit</button>
+														<button type="reset" class="btn btn-default">Reset</button>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end: page -->
+					<div class="row">
 								<div class="col-md-12 col-lg-6 col-xl-6">
 									<section class="panel panel-featured-left panel-featured-primary">
 										<div class="panel-body">
@@ -262,51 +342,7 @@
 										</div>
 									</section>
 								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-tertiary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-tertiary">
-														<i class="fa fa-bullhorn"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">Campaign</h4>
-														<div class="info">
-															<strong class="amount">{{ Campaign|safe }}</strong>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-quartenary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-quartenary">
-														<i class="fa fa-newspaper-o"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">News Post</h4>
-														<div class="info">
-															<strong class="amount">{{ News|safe }}</strong>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
 							</div>
-						</div>
-					</div>
 				</section>
 			</div>
 

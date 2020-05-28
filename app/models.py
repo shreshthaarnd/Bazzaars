@@ -20,6 +20,21 @@ class StoreData(models.Model):
 	Store_Address=models.CharField(max_length=100, default='NA')
 	Store_City=models.CharField(max_length=100, default='NA')
 	Store_State=models.CharField(max_length=100, default='NA')
-	Status=models.CharField(max_length=100, default='Active')
+	Status=models.CharField(max_length=100, default='Deactive')
 	class Meta:
 		db_table="StoreData"
+
+class StoreOtherData(models.Model):
+	Store_ID=models.CharField(max_length=100, primary_key=True)
+	Store_About=models.CharField(max_length=1500, default='NA')
+	Store_Facebook=models.CharField(max_length=500, default='NA')
+	Store_Twitter=models.CharField(max_length=500, default='NA')
+	Store_Instagram=models.CharField(max_length=500, default='NA')
+	class Meta:
+		db_table="StoreOtherData"
+
+class StoreLogoData(models.Model):
+	Store_ID=models.CharField(max_length=100, primary_key=True)
+	Store_Logo=models.FileField(upload_to='storelogo/')
+	class Meta:
+		db_table="StoreLogoData"
