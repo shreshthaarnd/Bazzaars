@@ -73,38 +73,105 @@ def shoppanelpages500(request):
 	return render(request,'shoppanel/pages-500.html',{})
 def shoppanelpostnews(request):
 	return render(request,'shoppanel/postnews.html',{})
+
+#Store Product Category
 def shoppaneladdproductcategory(request):
-	return render(request,'shoppanel/addproductcategory.html',{})
-def shoppanelaboutshop(request):
-	return render(request,'shoppanel/aboutshop.html',{})
+	try:
+		sid=request.session['storeid']
+		return render(request,'shoppanel/addproductcategory.html',{})
+	except:
+		return redirect('/shoppanelpages404/')
+@csrf_exempt
+def saveproductcategory(request):
+	if request.method=='POST':
+		cname=request.POST.get('cname')
+		cimage=request.FILES['cimage']
+		sid=request.session['storeid']
+		c="CA00"
+		x=1
+		cid=c+str(x)
+		while StoreProductCategoryData.objects.filter(Store_ID=sid).exists():
+			x=x+1
+			cid=c+str(x)
+		x=int(x)
+		obj=StoreProductCategoryData(
+			Store_ID=sid,
+			Product_Category_ID=cid,
+			Product_Category_Name=cname,
+			Product_Category_Image=cimage
+			)
+		if StoreProductCategoryData.objects.filter(Product_Category_Name=cname).exists():
+			dic={'msg':'Category Already Exists'}
+			return render(request, 'shoppanel/addproductcategory.html', dic)
+		else:
+			obj.save()
+			dic={'msg':'Category Saved Successfully'}
+			return render(request, 'shoppanel/addproductcategory.html', dic)
+	else:
+		return redirect('/shoppanelpages404/')
+def shoppanelproductcategorylist(request):
+	try:
+		sid=request.session['storeid']
+		obj=StoreProductCategoryData.objects.filter(Store_ID=sid)
+		dic={'data':obj}
+		return render(request,'shoppanel/productcategorylist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def shoppanelproductcategorydelete(request):
+	try:
+		sid=request.session['storeid']
+		cid=request.GET.get('cid')
+		obj=StoreProductCategoryData.objects.filter(Product_Category_ID=cid).delete()
+		dic={'data':obj}
+		return redirect('/shoppanelproductcategorylist/')
+	except:
+		return redirect('/shoppanelpages404/')
+
+#Store Profile
 def shoppanelstoreprofile(request):
-	sid=request.session['storeid']
-	dic={}
-	obj=StoreData.objects.filter(Store_ID=sid)
-	for x in obj:
-		dic={
-		'storename':x.Store_Name,
-		'storeowner':x.Store_Owner,
-		'storeaddress':x.Store_Address,
-		'storecity':x.Store_City,
-		'storestate':x.Store_State,
-		'storephone':x.Store_Phone,
-		'storeemail':x.Store_Email
-		}
-	return render(request,'shoppanel/storeprofile.html',dic)
+	try:
+		sid=request.session['storeid']
+		dic={}
+		obj=StoreData.objects.filter(Store_ID=sid)
+		for x in obj:
+			dic={
+			'storename':x.Store_Name,
+			'storeowner':x.Store_Owner,
+			'storeaddress':x.Store_Address,
+			'storecity':x.Store_City,
+			'storestate':x.Store_State,
+			'storephone':x.Store_Phone,
+			'storeemail':x.Store_Email
+			}
+		return render(request,'shoppanel/storeprofile.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+	
 def shoppanelstorebanner(request):
 	return render(request,'shoppanel/storebanner.html',{})
+
+#Store Product
 def shoppaneladdproduct(request):
-	return render(request,'shoppanel/addproduct.html',{})
-def shoppanelproductcategorylist(request):
-	return render(request,'shoppanel/productcategorylist.html',{})
+	try:
+		sid=request.session['storeid']
+		obj=StoreProductCategoryData.objects.filter(Store_ID=sid)
+		dic={'data':obj}
+		return render(request,'shoppanel/addproduct.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+
 def shoppanelproductlist(request):
 	return render(request,'shoppanel/productlist.html',{})
 
 #About Store
 def shoppanelaboutstore(request):
-	obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid'])
-	return render(request,'shoppanel/aboutstore.html',{'data':obj})
+	try:
+		sid=request.session['storeid']
+		obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid'])
+		return render(request,'shoppanel/aboutstore.html',{'data':obj})
+	except:
+		return redirect('/shoppanelpages404/')
+
 @csrf_exempt
 def savestoreabout(request):
 	if request.method=='POST':
@@ -115,8 +182,13 @@ def savestoreabout(request):
 
 #Store Logo
 def shoppanelstorelogo(request):
-	obj=StoreLogoData.objects.filter(Store_ID=request.session['storeid'])
-	return render(request,'shoppanel/storelogo.html',{'data':obj})
+	try:
+		sid=request.session['storeid']
+		obj=StoreLogoData.objects.filter(Store_ID=request.session['storeid'])
+		return render(request,'shoppanel/aboutstore.html',{'data':obj})
+	except:
+		return redirect('/shoppanelpages404/')
+
 @csrf_exempt
 def changelogo(request):
 	if request.method=='POST':
@@ -126,8 +198,33 @@ def changelogo(request):
 		obj.save()
 		return redirect('/shoppanelstorelogo/')
 
+#Store Social Media Links
 def shoppanelstoresocialmedialink(request):
-	return render(request,'shoppanel/storesocialmedialink.html',{})
+	try:
+		sid=request.session['storeid']
+		obj=StoreSocialMedia.objects.filter(Store_ID=request.session['storeid'])
+		return render(request,'shoppanel/storesocialmedialink.html',{'data':obj})
+	except:
+		return redirect('/shoppanelpages404/')
+@csrf_exempt
+def savesocialmedialink(request):
+	#try:
+		sid=request.session['storeid']
+		if request.method=='POST':
+			facebook=request.POST.get('facebook')
+			twitter=request.POST.get('twitter')
+			instagram=request.POST.get('instagram')
+			obj=StoreSocialMedia.objects.filter(Store_ID=sid).delete()
+			obj=StoreSocialMedia(
+				Store_ID=sid,
+				Store_Facebook=facebook,
+				Store_Twitter=twitter,
+				Store_Instagram=instagram,)
+			obj.save()
+			return redirect('/shoppanelstoresocialmedialink/')
+	#except:
+	#	return redirect('/shoppanelpages404/')
+
 def shoppanelpaymentsystem(request):
 	return render(request,'shoppanel/paymentsystem.html',{})
 

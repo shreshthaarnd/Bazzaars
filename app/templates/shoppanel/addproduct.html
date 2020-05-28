@@ -204,28 +204,28 @@
 												<label class="col-md-3 control-label" for="inputDefault">Select Product Category</label>
 												<div class="col-md-6">
 													<select class="form-control input-lg mb-md">
-														<option>Option 1</option>
-														<option>Option 2</option>
-														<option>Option 3</option>
+														{% for x in data %}
+														<option value="{{ x.Product_Category_Name|safe }}">{{ x.Product_Category_Name|safe }}</option>
+														{% endfor %}
 													</select>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="inputDefault">Product Name</label>
 												<div class="col-md-6">
-													<input type="text" name="bname" class="form-control" id="inputDefault" required>
+													<input type="text" name="name" class="form-control" required>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="inputDefault">Product Discription</label>
 												<div class="col-md-6">
-													<input type="text" name="bname" class="form-control" id="inputDefault" required>
+													<textarea type="text" name="des" class="form-control" id="inputDefault" required></textarea>
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="inputDefault">Product Price</label>
 												<div class="col-md-6">
-													<input type="text" name="bname" class="form-control" id="inputDefault" required>
+													<input type="text" name="price" class="form-control" id="inputDefault" required>
 												</div>
 											</div>
 											<div class="form-group">
@@ -235,7 +235,7 @@
 														<div class="input-append">
 															<span class="btn btn-default btn-file">
 																<span class="fileupload-new">Select file</span>
-																<input type="file" name="bimage" required>
+																<input type="file" name="image" multiple required>
 															</span>
 														</div>
 													</div>
