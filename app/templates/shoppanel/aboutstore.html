@@ -6,7 +6,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Bazzaarrs | Dashboard</title>
+		<title>Bazzaars | Dashboard</title>
 		
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -199,16 +199,14 @@
 								<div class="panel-body">
 									<div class="thumb-info mb-md">
 										<img src="{% static 'shoppanel/assets/images/!logged-user.jpg' %}" class="rounded img-responsive" alt="Store Owner">
-										<div class="thumb-info-title">
-											<span class="thumb-info-inner">Store Owner</span>
-											<span class="thumb-info-type">Store Owner</span>
-										</div>
 									</div>
 									<hr class="dotted short">
 									<div class="social-icons-list">
-										<a rel="tooltip" data-placement="bottom" target="_blank" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
-										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a>
-										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Linkedin"><i class="fa fa-instagram"></i><span>Instagram</span></a>
+										{% for x in data %}
+										<a rel="tooltip" data-placement="bottom" target="_blank" href="{{ x.Store_Facebook|safe }}" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
+										<a rel="tooltip" data-placement="bottom" href="{{ x.Store_Twitter|safe }}" data-original-title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a>
+										<a rel="tooltip" data-placement="bottom" href="{{ x.Store_Instagram|safe }}" data-original-title="Linkedin"><i class="fa fa-instagram"></i><span>Instagram</span></a>
+										{% endfor %}
 									</div>
 
 								</div>
@@ -228,18 +226,20 @@
 								<div class="tab-content">
 									<div id="overview" class="tab-pane active">
 										<h1 style="text-align:center;"class="mb-md">About Store</h1>
-										<p>About Store Here</p>
+										{% for x in data %}
+										<p>{{ x.Store_About|safe }}</p>
+										{% endfor %}
 									</div>
 									<div id="edit" class="tab-pane">
 
-										<form class="form-horizontal" method="get">
+										<form class="form-horizontal" action="/savestoreabout/" method="POST">
 											<h4 class="mb-xlg">Edit Information</h4>
 											<fieldset>
 												
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="profileAddress">About Store</label>
 													<div class="col-md-8">
-														<textarea type="text" class="form-control" id="profileAddress"></textarea>
+														<textarea type="text" class="form-control" name="about"></textarea>
 													</div>
 												</div>
 											</fieldset>

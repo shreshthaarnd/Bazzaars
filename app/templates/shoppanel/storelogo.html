@@ -6,7 +6,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Bazzaarrs | Dashboard</title>
+		<title>Bazzaars | Dashboard</title>
 		
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -198,15 +198,10 @@
 							<section class="panel">
 								<div class="panel-body">
 									<div class="thumb-info mb-md">
-										<img src="{% static 'shoppanel/assets/images/!logged-user.jpg' %}" class="rounded img-responsive" alt="Store Owner">
+										{% for x in data %}
+										<img src="{{ x.Store_Logo.url|safe }}" class="rounded img-responsive" alt="Store Owner">
+										{% endfor %}
 									</div>
-									<hr class="dotted short">
-									<div class="social-icons-list">
-										<a rel="tooltip" data-placement="bottom" target="_blank" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
-										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a>
-										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Linkedin"><i class="fa fa-instagram"></i><span>Instagram</span></a>
-									</div>
-
 								</div>
 							</section>
 						</div>
@@ -220,7 +215,7 @@
 								</ul>
 								<div class="tab-content">
 									<div id="edit" class="tab-pane active">
-										<form class="form-horizontal" method="get">
+										<form class="form-horizontal" action="/changelogo/" method="POST" enctype="multipart/form-data">
 											<h4 class="mb-xlg">Change logo</h4>
 											<fieldset>
 												
@@ -231,7 +226,7 @@
 														<div class="input-append">
 															<span class="btn btn-default btn-file">
 																<span class="fileupload-new">Select file</span>
-																<input type="file" name="bimage" required>
+																<input type="file" name="logo" required>
 															</span>
 														</div>
 													</div>

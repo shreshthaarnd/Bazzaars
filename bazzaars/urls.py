@@ -47,14 +47,15 @@ urlpatterns = [
     path('shoppanelproductcategorylist/',shoppanelproductcategorylist),
     path('shoppanelproductlist/',shoppanelproductlist),
     path('shoppanelaboutstore/',shoppanelaboutstore),
+    path('savestoreabout/',savestoreabout),
     path('shoppanelstorelogo/',shoppanelstorelogo),
+    path('changelogo/',changelogo),
     path('shoppanelstoresocialmedialink/',shoppanelstoresocialmedialink),
     path('shoppanelpaymentsystem/',shoppanelpaymentsystem),
-
-
     path('addcategory/',addcategory),
     path('savestore/',savestore),
     path('checklogin/',checklogin),
+    path('editstoredetails/',editstoredetails),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
