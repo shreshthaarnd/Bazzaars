@@ -6,7 +6,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>NGO | Add About Your Store</title>
+		<title>Bazzaars |  Orders List</title>
 		
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -106,81 +106,62 @@
 											<span>Dashboard</span>
 										</a>
 									</li>
-									<li class="nav-parent">
-										<a>
-											<i class="fa fa-newspaper-o" aria-hidden="true"></i>
-											<span>News Section</span>
+									<li class="nav">
+										<a href="/adminhome/">
+											<i class="fa fa-eye" aria-hidden="true"></i>
+											<span>Preview Store</span>
 										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/postnews/">Post News</a>
-											</li>
-											<li>
-												<a href="/newslist/">News List</a>
-											</li>
-										</ul>
 									</li>
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-user" aria-hidden="true"></i>
-											<span>Users Section</span>
+											<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+											<span>Store Products</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
-												<a href="/activeuser/">Active Users</a>
+												<a href="/postnews/">Add Product Category</a>
 											</li>
 											<li>
-												<a href="/nonactiveuser/">Non Active Users</a>
+												<a href="/newslist/">Add Product</a>
+											</li>
+											<li>
+												<a href="/newslist/">Product Category List</a>
+											</li>
+											<li>
+												<a href="/newslist/">Product List</a>
 											</li>
 										</ul>
 									</li>
-									<li class="nav-parent">
-										<a>
-											<i class="fa fa-book" aria-hidden="true"></i>
-											<span>Book Section</span>
-										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/addbooks/">Add Book</a>
-											</li>
-											<li>
-												<a href="/addbookcategroy/">Add Book Category</a>
-											</li>
-											<li>
-												<a href="/booklist/">Book List</a>
-											</li>
-										</ul>
-									</li>
-									<li class="nav-parent">
-										<a>
+									<li class="nav">
+										<a href="/adminhome/">
 											<i class="fa fa-bullhorn" aria-hidden="true"></i>
-											<span>Campaign Section</span>
+											<span>Store Banners</span>
 										</a>
-										<ul class="nav nav-children">
-											<li>
-												<a href="/recentcampaigns/">Recent Campaign</a>
-											</li>
-											<li>
-												<a href="/activecampaigns/">Active Campaigns</a>
-											</li>
-											<li>
-												<a href="/deactivecampaigns/">Deactive Campaigns</a>
-											</li>
-										</ul>
 									</li>
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-money" aria-hidden="true"></i>
-											<span>Donations</span>
+											<i class="fa fa-cog" aria-hidden="true"></i>
+											<span>Store Settings</span>
 										</a>
 										<ul class="nav nav-children">
 											<li>
-												<a href="/recentdonation/">Recent Donation</a>
+												<a href="/postnews/">About Store</a>
 											</li>
 											<li>
-												<a href="/receiveddonation/">Received Donation</a>
+												<a href="/postnews/">Store Logo</a>
 											</li>
-											
+											<li>
+												<a href="/postnews/">Store Banners</a>
+											</li>
+											<li>
+												<a href="/postnews/">Store Social Media Links</a>
+											</li>
+											<li>
+												<a href="/newslist/">Payment System</a>
+											</li>
+											<li>
+												<a href="/newslist/">Logout</a>
+											</li>
 										</ul>
 									</li>
 								</ul>
@@ -190,11 +171,12 @@
 				
 					</div>
 				
-				</aside>				<!-- end: sidebar -->
+				</aside>
+				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2>Add About Your Store</h2>
+						<h2> Orders list</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -213,34 +195,53 @@
 								<section class="panel">
 									<header class="panel-heading">
 						
-										<h2 class="panel-title">{{ msg|safe }}</h2>
+										<h2 class="panel-title">Orders list</h2>
 
 									</header>
 									<div class="panel-body">
-										
-										<form class="form-horizontal form-bordered" method="POST" action="/savebook/" enctype="multipart/form-data">
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="inputDefault">About Your Store</label>
-												<div class="col-md-6">
-													<textarea type="text" name="bname" class="form-control" id="inputDefault" required></textarea>
-												</div>
+										<div class="table-responsive">
+											<div style="overflow-x:auto;overflow-y:auto;">
+											<table class="table table-hover mb-none">
+												<thead>
+													<tr>
+														<th>Date</th>
+														<th>Order ID</th>
+														<th>Product Name</th>
+														<th>Product Quantity</th>
+														<th>Product Price</th>
+														<th>Customer Name</th>
+														<th>Customer Address</th>
+														<th>Customer Phone</th>
+														<th>Customer E-Mail</th>
+														<th>Total Amount</th>
+														<th>status</th>
+													</tr>
+												</thead>
+													<tr>
+														<td>04/022020</td>
+														<td>00234GHT</td>
+														<td>Besan</td>
+														<th>1.0</th>
+														<th>50.00</th>
+														<th>Akash Mittal</th>
+														<th>Sector 15,Kamla Nagar Delhi</th>
+														<th>4589670201</th>
+														<th>aksh23@gmail.com</th>
+														
+														<th>50.00</th>
+														<td>
+															<span style="background-color:red;color:white;padding:5px;border-radius:5px;">Pending</span>
+														</td>
+													</tr>
+												
+													
+												</table>
 											</div>
-											<div class="form-group">
-												<div class="col-md-6" style="width:100%">
-													<input type="submit" value="Add" class="mb-xs mt-xs mr-xs btn btn-primary btn-block">
-												</div>
-											</div>
-
 										</div>
 									</div>
-								</form>
-
+								</section>
 							</div>
 						</div>
-					</div>
-				</section>
-			</div>
-		</div>
 						
 						
 					<!-- end: page -->

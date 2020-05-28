@@ -35,10 +35,8 @@ urlpatterns = [
     path('adminformsbasic/',adminformsbasic),
 
     path('shoppanelindex/',shoppanelindex),
-    path('shoppanelbooklist/',shoppanelbooklist),
     path('shoppanelpages404/',shoppanelpages404),
     path('shoppanelpages500/',shoppanelpages500),
-    path('shoppanelpostnews/',shoppanelpostnews),
     path('shoppaneladdproductcategory/',shoppaneladdproductcategory),
     path('shoppanelproductcategorylist/',shoppanelproductcategorylist),
     path('shoppanelproductcategorydelete/',shoppanelproductcategorydelete),
@@ -58,6 +56,9 @@ urlpatterns = [
     path('savestore/',savestore),
     path('checklogin/',checklogin),
     path('editstoredetails/',editstoredetails),
+    path('shoppanelallorderslist/',shoppanelallorderslist),
+    path('shoppanelcompletedorderlist/',shoppanelcompletedorderlist),
+    path('shoppanelpendingorderlist/',shoppanelpendingorderlist),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

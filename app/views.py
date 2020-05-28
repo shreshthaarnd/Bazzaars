@@ -5,6 +5,7 @@ from django.core.paginator import *
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 import uuid
+from app.myutil import *
 
 # Create your views here.
 def about(request):
@@ -65,14 +66,10 @@ def adminformsbasic(request):
 
 def shoppanelindex(request):
 	return render(request,'shoppanel/index.html',{})
-def shoppanelbooklist(request):
-	return render(request,'shoppanel/booklist.html',{})
 def shoppanelpages404(request):
 	return render(request,'shoppanel/pages-404-withoutmenus.html',{})
 def shoppanelpages500(request):
 	return render(request,'shoppanel/pages-500.html',{})
-def shoppanelpostnews(request):
-	return render(request,'shoppanel/postnews.html',{})
 
 #Store Product Category
 def shoppaneladdproductcategory(request):
@@ -131,18 +128,7 @@ def shoppanelproductcategorydelete(request):
 def shoppanelstoreprofile(request):
 	try:
 		sid=request.session['storeid']
-		dic={}
-		obj=StoreData.objects.filter(Store_ID=sid)
-		for x in obj:
-			dic={
-			'storename':x.Store_Name,
-			'storeowner':x.Store_Owner,
-			'storeaddress':x.Store_Address,
-			'storecity':x.Store_City,
-			'storestate':x.Store_State,
-			'storephone':x.Store_Phone,
-			'storeemail':x.Store_Email
-			}
+		dic=GetShopDash(sid)
 		return render(request,'shoppanel/storeprofile.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
@@ -167,8 +153,10 @@ def shoppanelproductlist(request):
 def shoppanelaboutstore(request):
 	try:
 		sid=request.session['storeid']
+		dic=GetShopDash(sid)
 		obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid'])
-		return render(request,'shoppanel/aboutstore.html',{'data':obj})
+		dic.update({'data':obj})
+		return render(request,'shoppanel/aboutstore.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
 
@@ -185,7 +173,7 @@ def shoppanelstorelogo(request):
 	try:
 		sid=request.session['storeid']
 		obj=StoreLogoData.objects.filter(Store_ID=request.session['storeid'])
-		return render(request,'shoppanel/aboutstore.html',{'data':obj})
+		return render(request,'shoppanel/storelogo.html',{'data':obj})
 	except:
 		return redirect('/shoppanelpages404/')
 
@@ -203,12 +191,14 @@ def shoppanelstoresocialmedialink(request):
 	try:
 		sid=request.session['storeid']
 		obj=StoreSocialMedia.objects.filter(Store_ID=request.session['storeid'])
-		return render(request,'shoppanel/storesocialmedialink.html',{'data':obj})
+		dic=GetShopDash(sid)
+		dic.update({'data':obj})
+		return render(request,'shoppanel/storesocialmedialink.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
 @csrf_exempt
 def savesocialmedialink(request):
-	#try:
+	try:
 		sid=request.session['storeid']
 		if request.method=='POST':
 			facebook=request.POST.get('facebook')
@@ -222,11 +212,16 @@ def savesocialmedialink(request):
 				Store_Instagram=instagram,)
 			obj.save()
 			return redirect('/shoppanelstoresocialmedialink/')
-	#except:
-	#	return redirect('/shoppanelpages404/')
+	except:
+		return redirect('/shoppanelpages404/')
 
 def shoppanelpaymentsystem(request):
-	return render(request,'shoppanel/paymentsystem.html',{})
+	try:
+		sid=request.session['storeid']
+		dic=GetShopDash(sid)
+		return render(request,'shoppanel/paymentsystem.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
 
 def addcategory(request):
 	for x in StoreCategoryData.objects.all():
@@ -321,4 +316,9 @@ def checklogin(request):
 			return render(request,'index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
-
+def shoppanelallorderslist(request):
+	return render(request,'shoppanel/allorderslist.html',{})
+def shoppanelcompletedorderlist(request):
+	return render(request,'shoppanel/completedorderlist.html',{})
+def shoppanelpendingorderlist(request):
+	return render(request,'shoppanel/pendingorderlist.html',{})
