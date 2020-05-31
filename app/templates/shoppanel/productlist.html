@@ -230,24 +230,22 @@
 														<th>Product Category</th>
 														<th>Product Discription</th>
 														<th>Product Amount</th>
-														<th>Product Image</th>
 														<th>Action</th>
 													</tr>
 												</thead>
 												<tbody>
+													{% for x in data %}
 													<tr>
-														<td>FGTR456</td>
-														<td>Sweta</td>
-														<td>RTYu</td>
-														<td>ERTYUIOPLKHG</td>
-														<th>50.00</th>
-														
-														
-														<td><img style="width:100px;"src="{% static 'images/279photo170400407.jpg' %}"></td>
+														<td>{{ x.Product_ID|safe }}</td>
+														<td>{{ x.Product_Name|safe }}</td>
+														<td>{{ x.Product_Category_ID|safe }}</td>
+														<td>{{ x.Product_Description|safe }}</td>
+														<td><i class="fa fa-inr"> {{ x.Product_Price|safe }}</i></td>
 														<td>
-															<a class="mb-xs mt-xs mr-xs btn btn-danger" href="/deletebook/?bid={{ x.Book_ID|safe }}">Delete</a>
+															<a class="mb-xs mt-xs mr-xs btn btn-danger" href="/deletebook/?bid={{ x.Product_ID|safe }}">Delete</a>
 														</td>
 													</tr>
+													{% endfor %}
 												
 													
 												</table>
