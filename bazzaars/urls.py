@@ -15,6 +15,7 @@ urlpatterns = [
     path('main/',main),
     path('singleblog/',singleblog),
     path('work/',work),
+    path('userdashboard/',userdashboard),
     
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),
