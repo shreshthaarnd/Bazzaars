@@ -13,13 +13,14 @@ class StoreData(models.Model):
 	Store_ID=models.CharField(max_length=100, primary_key=True)
 	Store_Name=models.CharField(max_length=100)
 	Store_Owner=models.CharField(max_length=100)
-	Store_Category=models.CharField(max_length=100)
+	Store_Category=models.CharField(max_length=100, default='NA')
 	Store_Email=models.CharField(max_length=100)
 	Store_Phone=models.CharField(max_length=100)
 	Store_Password=models.CharField(max_length=100)
 	Store_Address=models.CharField(max_length=100, default='NA')
 	Store_City=models.CharField(max_length=100, default='NA')
 	Store_State=models.CharField(max_length=100, default='NA')
+	Verify_Status=models.CharField(max_length=100, default='Unverified')
 	Status=models.CharField(max_length=100, default='Deactive')
 	class Meta:
 		db_table="StoreData"
@@ -45,9 +46,27 @@ class StoreLogoData(models.Model):
 		db_table="StoreLogoData"
 
 class StoreProductCategoryData(models.Model):
-	Store_ID=models.CharField(max_length=100, primary_key=True)
-	Product_Category_ID=models.CharField(max_length=100)
+	Store_ID=models.CharField(max_length=100)
+	Product_Category_ID=models.CharField(max_length=100, primary_key=True)
 	Product_Category_Name=models.CharField(max_length=500)
 	Product_Category_Image=models.FileField(upload_to='productcategory/')
 	class Meta:
 		db_table="StoreProductCategoryData"
+
+class StoreProductData(models.Model):
+	Store_ID=models.CharField(max_length=100)
+	Product_Category_ID=models.CharField(max_length=100)
+	Product_ID=models.CharField(max_length=100, primary_key=True)
+	Product_Name=models.CharField(max_length=500)
+	Product_Description=models.CharField(max_length=1000, default='Description Not Availiable')
+	Product_Price=models.CharField(max_length=100)
+	class Meta:
+		db_table="StoreProductData"
+
+class StoreProductImageData(models.Model):
+	Store_ID=models.CharField(max_length=100)
+	Product_Category_ID=models.CharField(max_length=100)
+	Product_ID=models.CharField(max_length=100, primary_key=True)
+	Product_Image=models.FileField(upload_to='productcategory/')
+	class Meta:
+		db_table="StoreProductImageData"

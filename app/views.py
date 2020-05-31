@@ -87,7 +87,7 @@ def saveproductcategory(request):
 		c="CA00"
 		x=1
 		cid=c+str(x)
-		while StoreProductCategoryData.objects.filter(Store_ID=sid).exists():
+		while StoreProductCategoryData.objects.filter(Product_Category_ID=cid).exists():
 			x=x+1
 			cid=c+str(x)
 		x=int(x)
@@ -97,7 +97,7 @@ def saveproductcategory(request):
 			Product_Category_Name=cname,
 			Product_Category_Image=cimage
 			)
-		if StoreProductCategoryData.objects.filter(Product_Category_Name=cname).exists():
+		if StoreProductCategoryData.objects.filter(Store_ID=sid, Product_Category_Name=cname).exists():
 			dic={'msg':'Category Already Exists'}
 			return render(request, 'shoppanel/addproductcategory.html', dic)
 		else:
@@ -124,6 +124,69 @@ def shoppanelproductcategorydelete(request):
 	except:
 		return redirect('/shoppanelpages404/')
 
+#Store Product
+def shoppaneladdproduct(request):
+	try:
+		sid=request.session['storeid']
+		obj=StoreProductCategoryData.objects.filter(Store_ID=sid)
+		dic={'data':obj}
+		return render(request,'shoppanel/addproduct.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+@csrf_exempt
+def saveproduct(request):
+	if request.method=='POST':
+		sid=request.session['storeid']
+		name=request.POST.get('name')
+		des=request.POST.get('des')
+		price=request.POST.get('price')
+		images=request.FILES.getlist('images')
+		category=request.POST.get('category')
+		p="PR00"
+		x=1
+		pid=p+str(x)
+		while StoreProductData.objects.filter(Product_ID=pid).exists():
+			x=x+1
+			pid=p+str(x)
+		x=int(x)
+		obj=StoreProductData(
+			Store_ID=sid,
+			Product_Category_ID=category,
+			Product_ID=pid,
+			Product_Name=name,
+			Product_Description=des,
+			Product_Price=price
+			)
+
+		if StoreProductData.objects.filter(Store_ID=sid, Product_Name=name).exists():
+			obj1=StoreProductCategoryData.objects.filter(Store_ID=sid)
+			dic={'data':obj1,'msg':'Product Already Exists'}
+			return render(request,'shoppanel/addproduct.html',dic)
+		else:
+			obj.save()
+			for x in images:
+				obj2=StoreProductImageData(
+					Store_ID=sid,
+					Product_Category_ID=category,
+					Product_ID=pid,
+					Product_Image=x
+					)
+				obj2.save()
+			obj1=StoreProductCategoryData.objects.filter(Store_ID=sid)
+			dic={'data':obj1,'msg':'Product Added Successfully'}
+			return render(request,'shoppanel/addproduct.html',dic)
+	else:
+		return redirect('/shoppanelpages404/')
+
+def shoppanelproductlist(request):
+	try:
+		sid=request.session['storeid']
+		dic=GetShopDash(sid)
+		dic.update({'data':StoreProductData.objects.filter(Store_ID=sid)})
+		return render(request,'shoppanel/productlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+
 #Store Profile
 def shoppanelstoreprofile(request):
 	try:
@@ -136,18 +199,7 @@ def shoppanelstoreprofile(request):
 def shoppanelstorebanner(request):
 	return render(request,'shoppanel/storebanner.html',{})
 
-#Store Product
-def shoppaneladdproduct(request):
-	try:
-		sid=request.session['storeid']
-		obj=StoreProductCategoryData.objects.filter(Store_ID=sid)
-		dic={'data':obj}
-		return render(request,'shoppanel/addproduct.html',dic)
-	except:
-		return redirect('/shoppanelpages404/')
 
-def shoppanelproductlist(request):
-	return render(request,'shoppanel/productlist.html',{})
 
 #About Store
 def shoppanelaboutstore(request):
@@ -224,7 +276,8 @@ def shoppanelpaymentsystem(request):
 		return redirect('/shoppanelpages404/')
 
 def addcategory(request):
-	for x in StoreCategoryData.objects.all():
+	obj=StoreCategoryData.objects.all()
+	for x in obj:
 		print(x.Category_ID)
 		print(x.Category_Name)
 	return HttpResponse('Saved')
@@ -233,9 +286,9 @@ def savestore(request):
 	if request.method=='POST':
 		name=request.POST.get('name')
 		owner=request.POST.get('owner')
-		category=request.POST.get('category')
 		email=request.POST.get('email')
 		mobile=request.POST.get('mobile')
+		password=request.POST.get('pass')
 		s="S00"
 		x=1
 		sid=s+str(x)
@@ -243,14 +296,14 @@ def savestore(request):
 			x=x+1
 			sid=s+str(x)
 		x=int(x)
-		otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+name+owner+category+mobile+email)
-		password=str(otp)
-		password=password.upper()[0:6]
+		otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+name+owner+password+mobile+email)
+		otp=str(otp)
+		otp=otp.upper()[0:6]
+		request.session['storeotp'] = otp
 		obj=StoreData(
 			Store_ID=sid,
 			Store_Name=name,
 			Store_Owner=owner,
-			Store_Category=category,
 			Store_Email=email,
 			Store_Phone=mobile,
 			Store_Password=password,
@@ -265,22 +318,95 @@ def savestore(request):
 			obj=StoreOtherData(Store_ID=sid)
 			obj.save()
 			msg='''Hi there!
-Store '''+name+''' has successfully created!
+Store '''+name+''' has successfully created! Please verify your account with the following One Time Password
 
-Store Password : '''+password+'''
+Verification OTP : '''+otp+'''
 
 Thanks for creating your store on Bazzaars,
 Team Bazzaars'''
-			sub='Congratulations! Your '+name+' Website Has Been Successfully Created'
+			sub='Congratulations! Your '+name+' has Successfully Created'
 			email=EmailMessage(sub,msg,to=[email])
 			email.send()
 			alert='<script type="text/javascript">alert("Your Account Has Been Successfully Created Please Check Your Mail");</script>'
-			dic={'category':StoreCategoryData.objects.all(),
-				'alert':alert}
-			return render(request,'index.html',dic)
+			dic={'data':StoreCategoryData.objects.all(),
+				'storeid':sid}
+			return render(request,'savestorecategory.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
+@csrf_exempt
+def savestorecategory(request):
+	if request.method=='POST':
+		sid=request.POST.get('storeid')
+		category=request.POST.get('category')
+		obj=StoreData.objects.filter(Store_ID=sid)
+		obj.update(Store_Category=category)
+		alert='<script type="text/javascript">alert("Your Account Has Been Successfully Created! Kindly Login to Proceed");</script>'
+		dic={'category':StoreCategoryData.objects.all(),
+		'alert':alert}
+		dic={'storeid':sid}
+		return render(request,'verifystore.html',dic)
+	else:
+		return HttpResponse('<h1>Error 404 Not Found</h1>')
+@csrf_exempt
+def verifystore(request):
+	if request.method=='POST':
+		otpp=request.POST.get('otp').upper()
+		sid=request.POST.get('storeid')
+		storeotp=request.session['storeotp']
+		if otpp == storeotp:
+			obj=StoreData.objects.filter(Store_ID=sid)
+			obj.update(Verify_Status='Verified')
+			alert='<script type="text/javascript">alert("Your Account Has Been Successfully Created! Kindly Login to Proceed");</script>'
+			dic={'category':StoreCategoryData.objects.all(),
+			'alert':alert}
+			return render(request,'index.html',dic)
+		else:
+			otp=''
+			email=''
+			for x in StoreData.objects.filter(Store_ID=sid):
+				email=x.Store_Email
+				otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+x.Store_Name+x.Store_Owner+x.Store_Category+x.Store_Phone+x.Store_Email)
+			otp=str(otp)
+			otp=otp.upper()[0:6]
+			request.session['storeotp'] = otp
+			msg='''Hi there!
+Please verify your account with the following One Time Password
 
+Verification OTP : '''+otp+'''
+
+Thanks for creating your store on Bazzaars,
+Team Bazzaars'''
+			sub='Bazzaars One Time Password (OTP)'
+			email=EmailMessage(sub,msg,to=[email])
+			email.send()
+			alert='<script type="text/javascript">alert("Incorrect OTP. We have sent another OTP, Verify Again");</script>'
+			dic={'alert':alert,'storeid':sid}
+			return render(request,'verifystore.html',dic)
+	else:
+		return HttpResponse('<h1>Error 404 Not Found</h1>')
+def ResendOTP(request):
+	sid=request.GET.get('sid')
+	otp=''
+	email=''
+	for x in StoreData.objects.filter(Store_ID=sid):
+		email=x.Store_Email
+		otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+x.Store_Name+x.Store_Owner+x.Store_Category+x.Store_Phone+x.Store_Email)
+	otp=str(otp)
+	otp=otp.upper()[0:6]
+	request.session['storeotp'] = otp
+	msg='''Hi there!
+Please verify your account with the following One Time Password
+
+Verification OTP : '''+otp+'''
+
+Thanks for creating your store on Bazzaars,
+Team Bazzaars'''
+	sub='Bazzaars One Time Password (OTP)'
+	email=EmailMessage(sub,msg,to=[email])
+	email.send()
+	dic={'storeid':sid}
+	return render(request,'verifystore.html',dic)
+			
 @csrf_exempt
 def editstoredetails(request):
 	if request.method=='POST':
@@ -322,3 +448,24 @@ def shoppanelcompletedorderlist(request):
 	return render(request,'shoppanel/completedorderlist.html',{})
 def shoppanelpendingorderlist(request):
 	return render(request,'shoppanel/pendingorderlist.html',{})
+
+#Store Website
+def storewebsite(request, shopname):
+	shopname=shopname.upper()
+	obj=StoreData.objects.all()
+	d=0
+	storename=''
+	for x in obj:
+		sname=''
+		for y in x.Store_Name:
+			if y!=' ':
+				sname=sname+y
+		if shopname==sname.upper():
+			request.session['storewebid'] = x.Store_ID
+			storename=x.Store_Name
+			d=1
+	if d==1:
+		dic=GetShopData(storename)
+		return render(request,'shoppages/index.html',dic)
+	else:
+		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')

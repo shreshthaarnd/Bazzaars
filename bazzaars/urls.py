@@ -15,6 +15,7 @@ urlpatterns = [
     path('main/',main),
     path('singleblog/',singleblog),
     path('work/',work),
+    
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),
     path('shopblogsingle/',shopblogsingle),
@@ -44,6 +45,7 @@ urlpatterns = [
     path('shoppanelstoreprofile/',shoppanelstoreprofile),
     path('shoppanelstorebanner/',shoppanelstorebanner),
     path('shoppaneladdproduct/',shoppaneladdproduct),
+    path('saveproduct/',saveproduct),
     path('shoppanelproductlist/',shoppanelproductlist),
     path('shoppanelaboutstore/',shoppanelaboutstore),
     path('savestoreabout/',savestoreabout),
@@ -54,11 +56,15 @@ urlpatterns = [
     path('shoppanelpaymentsystem/',shoppanelpaymentsystem),
     path('addcategory/',addcategory),
     path('savestore/',savestore),
+    path('savestorecategory/',savestorecategory),
+    path('verifystore/',verifystore),
+    path('resendotp/',ResendOTP),
     path('checklogin/',checklogin),
     path('editstoredetails/',editstoredetails),
     path('shoppanelallorderslist/',shoppanelallorderslist),
     path('shoppanelcompletedorderlist/',shoppanelcompletedorderlist),
     path('shoppanelpendingorderlist/',shoppanelpendingorderlist),
+    path('<str:shopname>',storewebsite),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
