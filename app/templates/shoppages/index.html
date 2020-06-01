@@ -153,10 +153,10 @@
           {% for x in productcategory %}
     			<div class="col-sm col-md-6 col-lg ftco-animate">
     				<div class="product">
-    					<a href="/openproductcategory/?store={{ storename|safe }}&cid={{ x.id|safe }}" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{{ x.image|safe }}" alt="">
+    					<a href="{{ url|safe }}/openproductcategory/?cid={{ x.id|safe }}" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{{ x.image|safe }}" alt="">
     					</a>
     					<div class="text py-3 px-3 text-center">
-    						<h3 style="font-weight:bold;"><a href="/openproductcategory/?store={{ storename|safe }}&cid={{ x.id|safe }}">{{ x.name|safe }}</a></h3>
+    						<h3 style="font-weight:bold;"><a href="{{ url|safe }}/openproductcategory/?cid={{ x.id|safe }}">{{ x.name|safe }}</a></h3>
     					</div>
     				</div>
     			</div>
@@ -229,24 +229,18 @@
     	<div class="container">
     		<div class="row">
     			{% for x in product %}
-                <div class="col-sm col-md-6 col-lg ftco-animate">
+            <div class="col-sm col-md-6 col-lg ftco-animate">
     				<div class="product">
-                        <a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{% static 'images/product-5.jpg' %}" alt="">
+                <a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{{ x.image|safe }}" alt="">
     					</a>
     					<div class="text py-3 px-3">
-    						<h3 style="font-weight:bold;"><a href="#">{{ x.Product_Name|safe }}</a></h3>
+    						<h3 style="font-weight:bold;"><a href="#">{{ x.name|safe }}</a></h3>
     						<div class="d-flex">
     							<div class="pricing">
-		    						<p class="price"><span class="price-sale"><i class="fa fa-inr"></i> {{ x.Product_Price|safe }}</span></p>
+		    						<p class="price"><span class="price-sale"><i class="fa fa-inr"></i> {{ x.price|safe }}</span></p>
 		    					</div>
 		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
+	    							<p style="background-color:green;color:white;float:right;padding-right:10px;padding-left:10px;border-radius:5px;"><i class="fa fa-star"></i> 4.5</p>
 	    						</div>
 	    					</div>
     						<p class="bottom-area d-flex px-3">

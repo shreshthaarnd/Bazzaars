@@ -41,8 +41,6 @@ def shopcontact(request):
 	return render(request,'shoppages/contact.html',{})
 def shopindex(request):
 	return render(request,'shoppages/index.html',{})
-def shopproductsingle(request):
-	return render(request,'shoppages/product-single.html',{})
 def shopshop(request):
 	return render(request,'shoppages/shop.html',{})
 def adminindex(request):
@@ -495,21 +493,37 @@ def storewebsite(request, shopname):
 	if d==1:
 		dic=GetShopData(storename)
 		dic.update({
-			'product':StoreProductData.objects.filter(Store_ID=sid)[0:4],
-			'productimage':StoreProductImageData.objects.filter(Store_ID=sid),
+			'product':GetFourProducts(sid)[0:4],
 			'banner':StoreBannerData.objects.filter(Store_ID=sid)
 			})
 		return render(request,'shoppages/index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')
 
-def openproductcategory(request):
-	storename=request.GET.get('store')
+def openproductcategory(request, shopname):
 	category=request.GET.get('cid')
-	sid=GetStoreIDByName(storename)
+	data1=GetStoreIDByName(shopname)
 	product=GetCategoryProducts(category)
-	dic=GetShopData(storename)
-	dic.update({'product':product})
+	dic=GetShopData(data1['sname'])
+	page = request.GET.get('page')
+	paginator = Paginator(list(reversed(product)), 15)
+	try:
+		data = paginator.page(page)
+	except PageNotAnInteger:
+		data = paginator.page(1)
+	except EmptyPage:
+		data = paginator.page(paginator.num_pages)
+	cname=''
+	for x in StoreProductCategoryData.objects.filter(Product_Category_ID=category):
+		cname=x.Product_Category_Name
+	dic.update({'data':data,
+				'cid':category,
+				'cname':cname,
+				'categorydata':StoreProductCategoryData.objects.filter(Store_ID=data1['sid'])})
 	return render(request,'shoppages/shop.html',dic)
 def userdashboard(request):
 	return render(request,'userdashboard.html',{})
+def shopproductsingle(request, shopname):
+	data1=GetStoreIDByName(shopname)
+	pid=
+	return render(request,'shoppages/product-single.html',{})
