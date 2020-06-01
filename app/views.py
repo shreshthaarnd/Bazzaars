@@ -502,6 +502,7 @@ def storewebsite(request, shopname):
 		return render(request,'shoppages/index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')
+
 def openproductcategory(request):
 	storename=request.GET.get('store')
 	category=request.GET.get('cid')
@@ -510,3 +511,5 @@ def openproductcategory(request):
 	dic=GetShopData(storename)
 	dic.update({'product':product})
 	return render(request,'shoppages/shop.html',dic)
+def userdashboard(request):
+	return render(request,'userdashboard.html',{})
