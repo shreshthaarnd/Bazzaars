@@ -128,20 +128,15 @@
 
     <section id="home-section" class="hero">
 		  <div class="home-slider owl-carousel" style="height:400px;">
-	      <div class="slider-item">
+	      {% for x in banner %}
+        <div class="slider-item">
 	      	<div class="overlay"></div>
 	        <div class="container-fluid p-0">
-	          <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true" style="background-image:url({% static 'slide1.jpg' %});background-size:100% auto;"></div>
+	          <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true" style="background-image:url({{ x.Store_Banner.url|safe }});background-size:100% auto;"></div>
 	        </div>
 	      </div>
-
-	      <div class="slider-item">
-	      	<div class="overlay"></div>
-	        <div class="container-fluid p-0">
-	          <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true" style="background-image:url({% static 'slide2.jpg' %});background-size:100% auto;"></div>
-	        </div>
-	      </div>
-	    </div>
+        {% endfor %}
+      </div>
     </section>
 
     <section style="padding-bottom:0px;margin-bottom:0px;"class="ftco-section bg-light" style="padding-top:50px;">
@@ -155,13 +150,13 @@
     	<div class="container">
     		<div class="row">
                 
-                {% for x in productcategory %}
+          {% for x in productcategory %}
     			<div class="col-sm col-md-6 col-lg ftco-animate">
     				<div class="product">
-    					<a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{{ x.image|safe }}" alt="">
+    					<a href="/openproductcategory/?store={{ storename|safe }}&cid={{ x.id|safe }}" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{{ x.image|safe }}" alt="">
     					</a>
     					<div class="text py-3 px-3 text-center">
-    						<h3 style="font-weight:bold;"><a href="#">{{ x.name|safe }}</a></h3>
+    						<h3 style="font-weight:bold;"><a href="/openproductcategory/?store={{ storename|safe }}&cid={{ x.id|safe }}">{{ x.name|safe }}</a></h3>
     					</div>
     				</div>
     			</div>
@@ -233,15 +228,16 @@
     	</div>
     	<div class="container">
     		<div class="row">
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
+    			{% for x in product %}
+                <div class="col-sm col-md-6 col-lg ftco-animate">
     				<div class="product">
-    					<a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{% static 'images/product-5.jpg' %}" alt="Colorlib Template">
+                        <a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{% static 'images/product-5.jpg' %}" alt="">
     					</a>
     					<div class="text py-3 px-3">
-    						<h3 style="font-weight:bold;"><a href="#">Product 1</a></h3>
+    						<h3 style="font-weight:bold;"><a href="#">{{ x.Product_Name|safe }}</a></h3>
     						<div class="d-flex">
     							<div class="pricing">
-		    						<p class="price"><span class="mr-2 price-dc"><i class="fa fa-inr"></i> 100.00</span><span class="price-sale">80.00</span></p>
+		    						<p class="price"><span class="price-sale"><i class="fa fa-inr"></i> {{ x.Product_Price|safe }}</span></p>
 		    					</div>
 		    					<div class="rating">
 	    							<p class="text-right">
@@ -260,87 +256,8 @@
     					</div>
     				</div>
     			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{% static 'images/product-5.jpg' %}" alt="Colorlib Template">
-    					</a>
-    					<div class="text py-3 px-3">
-    						<h3 style="font-weight:bold;"><a href="#">Product 1</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span class="mr-2 price-dc"><i class="fa fa-inr"></i> 100.00</span><span class="price-sale">80.00</span></p>
-		    					</div>
-		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
-	    						</div>
-	    					</div>
-    						<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{% static 'images/product-5.jpg' %}" alt="Colorlib Template">
-    					</a>
-    					<div class="text py-3 px-3">
-    						<h3 style="font-weight:bold;"><a href="#">Product 1</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span class="mr-2 price-dc"><i class="fa fa-inr"></i> 100.00</span><span class="price-sale">80.00</span></p>
-		    					</div>
-		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
-	    						</div>
-	    					</div>
-    						<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{% static 'images/product-5.jpg' %}" alt="Colorlib Template">
-    					</a>
-    					<div class="text py-3 px-3">
-    						<h3 style="font-weight:bold;"><a href="#">Product 1</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span class="mr-2 price-dc"><i class="fa fa-inr"></i> 100.00</span><span class="price-sale">80.00</span></p>
-		    					</div>
-		    					<div class="rating">
-	    							<p class="text-right">
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    								<a href="#"><span class="ion-ios-star-outline"></span></a>
-	    							</p>
-	    						</div>
-	    					</div>
-    						<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
+                {% endfor %}
+
     		</div>
     	</div>
     </section>
@@ -428,7 +345,6 @@
         </div>
       </div>
     </footer>
-    
   
 
   <!-- loader -->

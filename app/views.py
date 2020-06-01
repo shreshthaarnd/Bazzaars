@@ -75,7 +75,8 @@ def shoppanelpages500(request):
 def shoppaneladdproductcategory(request):
 	try:
 		sid=request.session['storeid']
-		return render(request,'shoppanel/addproductcategory.html',{})
+		dic=GetShopDash(sid)
+		return render(request,'shoppanel/addproductcategory.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
 @csrf_exempt
@@ -99,10 +100,12 @@ def saveproductcategory(request):
 			)
 		if StoreProductCategoryData.objects.filter(Store_ID=sid, Product_Category_Name=cname).exists():
 			dic={'msg':'Category Already Exists'}
+			dic.update(GetShopDash(sid))
 			return render(request, 'shoppanel/addproductcategory.html', dic)
 		else:
 			obj.save()
 			dic={'msg':'Category Saved Successfully'}
+			dic.update(GetShopDash(sid))
 			return render(request, 'shoppanel/addproductcategory.html', dic)
 	else:
 		return redirect('/shoppanelpages404/')
@@ -111,6 +114,7 @@ def shoppanelproductcategorylist(request):
 		sid=request.session['storeid']
 		obj=StoreProductCategoryData.objects.filter(Store_ID=sid)
 		dic={'data':obj}
+		dic.update(GetShopDash(sid))
 		return render(request,'shoppanel/productcategorylist.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
@@ -120,6 +124,7 @@ def shoppanelproductcategorydelete(request):
 		cid=request.GET.get('cid')
 		obj=StoreProductCategoryData.objects.filter(Product_Category_ID=cid).delete()
 		dic={'data':obj}
+		dic.update(GetShopDash(sid))
 		return redirect('/shoppanelproductcategorylist/')
 	except:
 		return redirect('/shoppanelpages404/')
@@ -130,6 +135,7 @@ def shoppaneladdproduct(request):
 		sid=request.session['storeid']
 		obj=StoreProductCategoryData.objects.filter(Store_ID=sid)
 		dic={'data':obj}
+		dic.update(GetShopDash(sid))
 		return render(request,'shoppanel/addproduct.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
@@ -157,10 +163,10 @@ def saveproduct(request):
 			Product_Description=des,
 			Product_Price=price
 			)
-
 		if StoreProductData.objects.filter(Store_ID=sid, Product_Name=name).exists():
 			obj1=StoreProductCategoryData.objects.filter(Store_ID=sid)
 			dic={'data':obj1,'msg':'Product Already Exists'}
+			dic.update(GetShopDash(sid))
 			return render(request,'shoppanel/addproduct.html',dic)
 		else:
 			obj.save()
@@ -174,6 +180,7 @@ def saveproduct(request):
 				obj2.save()
 			obj1=StoreProductCategoryData.objects.filter(Store_ID=sid)
 			dic={'data':obj1,'msg':'Product Added Successfully'}
+			dic.update(GetShopDash(sid))
 			return render(request,'shoppanel/addproduct.html',dic)
 	else:
 		return redirect('/shoppanelpages404/')
@@ -183,6 +190,7 @@ def shoppanelproductlist(request):
 		sid=request.session['storeid']
 		dic=GetShopDash(sid)
 		dic.update({'data':StoreProductData.objects.filter(Store_ID=sid)})
+		dic.update(GetShopDash(sid))
 		return render(request,'shoppanel/productlist.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
@@ -197,9 +205,24 @@ def shoppanelstoreprofile(request):
 		return redirect('/shoppanelpages404/')
 	
 def shoppanelstorebanner(request):
-	return render(request,'shoppanel/storebanner.html',{})
-
-
+	sid=request.session['storeid']
+	dic=GetShopDash(sid)
+	return render(request,'shoppanel/storebanner.html',dic)
+@csrf_exempt
+def savebanner(request):
+	if request.method=='POST':
+		sid=request.session['storeid']
+		banner=request.FILES['banner']
+		obj=StoreBannerData(
+			Store_ID=sid,
+			Store_Banner=banner
+			)
+		obj.save()
+		dic=GetShopDash(sid)
+		dic.update({'msg':'Banner Uploaded'})
+		return render(request,'shoppanel/storebanner.html',dic)
+	else:
+		return redirect('/shoppanelpages404/')
 
 #About Store
 def shoppanelaboutstore(request):
@@ -208,6 +231,7 @@ def shoppanelaboutstore(request):
 		dic=GetShopDash(sid)
 		obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid'])
 		dic.update({'data':obj})
+		dic.update(GetShopDash(sid))
 		return render(request,'shoppanel/aboutstore.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
@@ -225,7 +249,9 @@ def shoppanelstorelogo(request):
 	try:
 		sid=request.session['storeid']
 		obj=StoreLogoData.objects.filter(Store_ID=request.session['storeid'])
-		return render(request,'shoppanel/storelogo.html',{'data':obj})
+		dic={'data':obj}
+		dic.update(GetShopDash(sid))
+		return render(request,'shoppanel/storelogo.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
 
@@ -245,6 +271,7 @@ def shoppanelstoresocialmedialink(request):
 		obj=StoreSocialMedia.objects.filter(Store_ID=request.session['storeid'])
 		dic=GetShopDash(sid)
 		dic.update({'data':obj})
+		dic.update(GetShopDash(sid))
 		return render(request,'shoppanel/storesocialmedialink.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
@@ -453,6 +480,7 @@ def shoppanelpendingorderlist(request):
 def storewebsite(request, shopname):
 	shopname=shopname.upper()
 	obj=StoreData.objects.all()
+	sid=''
 	d=0
 	storename=''
 	for x in obj:
@@ -461,11 +489,24 @@ def storewebsite(request, shopname):
 			if y!=' ':
 				sname=sname+y
 		if shopname==sname.upper():
-			request.session['storewebid'] = x.Store_ID
+			sid=x.Store_ID
 			storename=x.Store_Name
 			d=1
 	if d==1:
 		dic=GetShopData(storename)
+		dic.update({
+			'product':StoreProductData.objects.filter(Store_ID=sid)[0:4],
+			'productimage':StoreProductImageData.objects.filter(Store_ID=sid),
+			'banner':StoreBannerData.objects.filter(Store_ID=sid)
+			})
 		return render(request,'shoppages/index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')
+def openproductcategory(request):
+	storename=request.GET.get('store')
+	category=request.GET.get('cid')
+	sid=GetStoreIDByName(storename)
+	product=GetCategoryProducts(category)
+	dic=GetShopData(storename)
+	dic.update({'product':product})
+	return render(request,'shoppages/shop.html',dic)

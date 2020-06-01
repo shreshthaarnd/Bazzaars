@@ -58,6 +58,8 @@ class StoreProductData(models.Model):
 	Product_Category_ID=models.CharField(max_length=100)
 	Product_ID=models.CharField(max_length=100, primary_key=True)
 	Product_Name=models.CharField(max_length=500)
+	Product_Expiry=models.CharField(max_length=500, default="NA")
+	Product_Stock=models.CharField(max_length=500, default="NA")
 	Product_Description=models.CharField(max_length=1000, default='Description Not Availiable')
 	Product_Price=models.CharField(max_length=100)
 	class Meta:
@@ -70,3 +72,9 @@ class StoreProductImageData(models.Model):
 	Product_Image=models.FileField(upload_to='productcategory/')
 	class Meta:
 		db_table="StoreProductImageData"
+
+class StoreBannerData(models.Model):
+	Store_ID=models.CharField(max_length=100)
+	Store_Banner=models.FileField(upload_to='storebanner/')
+	class Meta:
+		db_table="StoreBannerData"

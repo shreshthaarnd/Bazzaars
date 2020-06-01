@@ -71,3 +71,22 @@ def GetShopData(shopname):
 				'instagramlink':z.Store_Instagram,
 				})
 	return dic
+def GetStoreIDByName(storename):
+	obj=StoreData.objects.filter(Store_Name=storename)
+	for x in obj:
+		sid=x.Store_ID
+	return sid
+def GetCategoryProducts(cid):
+	obj=StoreProductData.objects.filter(Product_Category_ID=cid)
+	dic={}
+	lt=[]
+	for x in obj:
+		dic={'id':x.Product_ID,
+			'name':x.Product_Name,
+			'price':x.Product_Price}
+		obj1=StoreProductImageData.objects.filter(Product_ID=x.Product_ID)
+		for y in obj1:
+			dic.update({'image':y.Product_Image.url})
+			break
+		lt.append(dic)
+	return lt
