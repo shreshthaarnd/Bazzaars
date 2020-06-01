@@ -66,6 +66,7 @@ urlpatterns = [
     path('shoppanelcompletedorderlist/',shoppanelcompletedorderlist),
     path('shoppanelpendingorderlist/',shoppanelpendingorderlist),
     path('<str:shopname>',storewebsite),
+    path('shopuserdashboard/',shopuserdashboard),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

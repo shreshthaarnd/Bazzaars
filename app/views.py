@@ -471,3 +471,5 @@ def storewebsite(request, shopname):
 		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')
 def userdashboard(request):
 	return render(request,'userdashboard.html',{})
+def shopuserdashboard(request):
+	return render(request,'shoppages/userdashboard.html',{})
