@@ -679,3 +679,5 @@ def deleteaddress(request):
 	return HttpResponse("<script>alert('Address Deleted Successfully'); window.location.replace('/userdashboard/')</script>")
 def shopuserdashboard(request):
 	return render(request,'shoppages/userdashboard.html',{})
+def searchresult(request):
+	return render(request,'searchresult.html',{})

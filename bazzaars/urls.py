@@ -76,6 +76,7 @@ urlpatterns = [
     path('<str:shopname>/openproductcategory/',openproductcategory),
     path('<str:shopname>/<str:pid>/',shopproductsingle),
     path('shopuserdashboard/',shopuserdashboard),
+    path('searchresult/',searchresult),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
