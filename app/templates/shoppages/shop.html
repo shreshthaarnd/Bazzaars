@@ -46,9 +46,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
 	      	{% if storelogo %}
-	           <a class="navbar-brand" href="/{{ storename|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
+	           <a class="navbar-brand" href="/{{ url|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
             {% else %}
-                <a class="navbar-brand" href="/{{ storename|safe }}">{{ storename|safe }}</a>
+                <a class="navbar-brand" href="/{{ url|safe }}">{{ storename|safe }}</a>
             {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
@@ -131,7 +131,7 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="/{{ url|safe }}">{{ storename|safe }}</a></span></p>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="{{ url|safe }}">{{ storename|safe }}</a></span></p>
             <h1 class="mb-0 bread">{{ cname|safe }}</h1>
           </div>
         </div>
@@ -146,11 +146,11 @@
     					{% for x in data %}
 		    			<div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
 		    				<div class="product">
-		    					<a href="#" class="img-prod"><img class="img-fluid" src="{{ x.image|safe }}" style="height:200px;" alt="">
+		    					<a href="/{{ url|safe }}/{{ x.id|safe }}/" class="img-prod"><img class="img-fluid" src="{{ x.image|safe }}" style="height:200px;" alt="">
 		    						<div class="overlay"></div>
 		    					</a>
 		    					<div class="text py-3 px-3">
-		    						<h3 style="color:black;font-weight:bold;"><a href="#">{{ x.name|safe }}</a></h3>
+		    						<h3 style="color:black;font-weight:bold;"><a href="/{{ url|safe }}/{{ x.id|safe }}/">{{ x.name|safe }}</a></h3>
 		    						<div class="d-flex">
 		    							<div class="pricing">
 				    						<p class="price"><span class="price-sale"><i class="fa fa-inr"></i> {{ x.price|safe }}</span></p>
@@ -160,8 +160,8 @@
 			    						</div>
 			    					</div>
 			    					<p class="bottom-area d-flex px-3">
-		    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-		    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
+		    							<a href="/{{ storename|safe }}/{{ x.id|safe }}/" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+		    							<a href="/{{ storename|safe }}/{{ x.id|safe }}/" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
 		    						</p>
 		    					</div>
 		    				</div>

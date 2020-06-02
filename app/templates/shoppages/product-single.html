@@ -27,27 +27,28 @@
     <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'w3.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="goto-here">
 		<div class="py-1 bg-black">
-    	<div class="container">
-    		<div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
-	    		<div class="col-lg-12 d-block">
-		    		<div class="row d-flex text-center">
-					    <div class="col-md pr-4 d-flex topper align-items-center">
-						    <span class="text">Store Created By <a href="" style="color:white;">BAZZAARS.COM</a></span>
-					    </div>
-				    </div>
-			    </div>
-		    </div>
-		  </div>
+      <div class="container">
+        <div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
+          <div class="col-lg-12 d-block">
+            <div class="row d-flex text-center">
+              <div class="col-md pr-4 d-flex topper align-items-center">
+                <span class="text">Store Created By <a href="" style="color:white;">BAZZAARS.COM</a></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
 	         {% if storelogo %}
-             <a class="navbar-brand" href="/{{ storename|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
+             <a class="navbar-brand" href="/{{ url|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
             {% else %}
-                <a class="navbar-brand" href="/{{ storename|safe }}">{{ storename|safe }}</a>
+                <a class="navbar-brand" href="/{{ url|safe }}">{{ storename|safe }}</a>
             {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
@@ -55,7 +56,7 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
 	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
@@ -196,7 +197,7 @@
     transition: background-color 0.6s ease;
   }
 
-  .active, .dot:hover {
+  .activedot, .dot:hover {
     background-color: #717171;
   }
 
@@ -224,8 +225,10 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="index.html">Product</a></span> <span>Product Single</span></p>
-            <h1 class="mb-0 bread">Product Single</h1>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/{{ url|safe }}">{{ storename|safe }}</a></span></p>
+            {% for x in productdata %}
+            <h1 class="mb-0 bread">{{ x.Product_Name|safe }}</h1>
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -240,33 +243,24 @@
               <div class="slideshow-container">
 
                 <!-- Full-width images with number and caption text -->
+                {% for x in images %}
                 <div class="mySlides w3-animate-right">
-                  <img src="{% static 'images/product-1.jpg' %}" style="width:100%">
+                  <img src="{{ x.Product_Image.url|safe }}" style="width:100%">
                 </div>
+                {% endfor %}
 
                 <!-- Next and previous buttons -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
               </div>
               <br>
-
-              <!-- The dots/circles -->
-              <div style="text-align:center">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
-              </div>
     			</div>
     			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
-    				<h3>Young Woman Wearing Dress</h3>
+    				{% for x in productdata %}
+            <h3>{{ x.Product_Name|safe }}</h3>
     				<div class="rating d-flex">
 							<p class="text-left mr-4">
-								<a href="#" class="mr-2">5.0</a>
-								<a href="#"><span class="ion-ios-star-outline"></span></a>
-								<a href="#"><span class="ion-ios-star-outline"></span></a>
-								<a href="#"><span class="ion-ios-star-outline"></span></a>
-								<a href="#"><span class="ion-ios-star-outline"></span></a>
-								<a href="#"><span class="ion-ios-star-outline"></span></a>
+								<a href="#" class="mr-2 w3-green" style="padding:5px;border-radius:5px;">5.0 <i class="fa fa-star"></i></a>
 							</p>
 							<p class="text-left mr-4">
 								<a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
@@ -275,44 +269,10 @@
 								<a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
 							</p>
 						</div>
-    				<p class="price"><span>$120.00</span></p>
-    				<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-    				<p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.
-						</p>
-						<div class="row mt-4">
-							<div class="col-md-6">
-								<div class="form-group d-flex">
-		              <div class="select-wrap">
-	                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-	                  <select name="" id="" class="form-control">
-	                  	<option value="">Small</option>
-	                    <option value="">Medium</option>
-	                    <option value="">Large</option>
-	                    <option value="">Extra Large</option>
-	                  </select>
-	                </div>
-		            </div>
-							</div>
-							<div class="w-100"></div>
-							<div class="input-group col-md-6 d-flex mb-3">
-	             	<span class="input-group-btn mr-2">
-	                	<button type="button" class="quantity-left-minus btn"  data-type="minus" data-field="">
-	                   <i class="ion-ios-remove"></i>
-	                	</button>
-	            		</span>
-	             	<input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-	             	<span class="input-group-btn ml-2">
-	                	<button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-	                     <i class="ion-ios-add"></i>
-	                 </button>
-	             	</span>
-	          	</div>
-	          	<div class="w-100"></div>
-	          	<div class="col-md-12">
-	          		<p style="color: #000;">80 piece available</p>
-	          	</div>
-          	</div>
+    				<p class="price"><span><i class="fa fa-inr"></i> {{ x.Product_Price|safe }}</span></p>
+    				<p>{{ x.Product_Description|safe }}</p>
           	<p><a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+            {% endfor %}
     			</div>
     		</div>
     	</div>

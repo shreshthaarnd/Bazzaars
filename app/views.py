@@ -521,9 +521,46 @@ def openproductcategory(request, shopname):
 				'cname':cname,
 				'categorydata':StoreProductCategoryData.objects.filter(Store_ID=data1['sid'])})
 	return render(request,'shoppages/shop.html',dic)
+
+def shopproductsingle(request, shopname, pid):
+	data1=GetStoreIDByName(shopname)
+	images=StoreProductImageData.objects.filter(Product_ID=pid)
+	productdata=StoreProductData.objects.filter(Product_ID=pid)
+	dic=GetShopData(data1['sname'])
+	dic.update({'images':images,
+				'productdata':productdata})
+	return render(request,'shoppages/product-single.html',dic)
+@csrf_exempt
+def saveuser(request):
+	if request.method=='POST':
+		fname=request.POST.get('fname')
+		lname=request.POST.get('lname')
+		email=request.POST.get('email')
+		mobile=request.POST.get('mobile')
+		password=request.POST.get('password')
+		u="U00"
+		x=1
+		uid=u+str(x)
+		while UserData.objects.filter(User_ID=uid).exists():
+			x=x+1
+			uid=u+str(x)
+		x=int(x)
+		otp=uuid.uuid5(uuid.NAMESPACE_DNS, uid+fname+lname+password+mobile+email)
+		otp=str(otp)
+		otp=otp.upper()[0:6]
+		request.session['userotp'] = otp
+		obj=UserData(
+			User_ID=uid,
+			User_FName=fname,
+			User_LName=lname,
+			User_Email=email,
+			User_Mobile=mobile,
+			User_Password=password
+			)
+		if UserData.objects.filter(User_Email=email).exists():
+			return HttpResponse("<script>alert('User Already Exists'); window.location.replace('/index/')</script>")
+		else:
+			obj.save()
+			
 def userdashboard(request):
 	return render(request,'userdashboard.html',{})
-def shopproductsingle(request, shopname):
-	data1=GetStoreIDByName(shopname)
-	pid=
-	return render(request,'shoppages/product-single.html',{})

@@ -69,7 +69,7 @@ class StoreProductImageData(models.Model):
 	Store_ID=models.CharField(max_length=100)
 	Product_Category_ID=models.CharField(max_length=100)
 	Product_ID=models.CharField(max_length=100, primary_key=True)
-	Product_Image=models.FileField(upload_to='productcategory/')
+	Product_Image=models.FileField(upload_to='product/')
 	class Meta:
 		db_table="StoreProductImageData"
 
@@ -78,3 +78,15 @@ class StoreBannerData(models.Model):
 	Store_Banner=models.FileField(upload_to='storebanner/')
 	class Meta:
 		db_table="StoreBannerData"
+
+class UserData(models.Model):
+	User_ID=models.CharField(max_length=100, primary_key=True)
+	User_Fname=models.CharField(max_length=100)
+	User_Lname=models.CharField(max_length=100)
+	User_Email=models.CharField(max_length=150)
+	User_Mobile=models.CharField(max_length=100)
+	User_Password=models.CharField(max_length=50)
+	Status=models.CharField(max_length=50, default='Active')
+	Verify_Status=models.CharField(max_length=50, default='Unverified')
+	class Meta:
+		db_table="UserData"
