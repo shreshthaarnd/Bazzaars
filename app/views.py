@@ -17,7 +17,8 @@ def contact(request):
 def elements(request):
 	return render(request,'elements.html',{})
 def index(request):
-	dic={'category':StoreCategoryData.objects.all()}
+	dic={'category':StoreCategoryData.objects.all(),
+		'checksession':checksession(request)}
 	return render(request,'index.html',dic)
 def industries(request):
 	return render(request,'industries.html',{})
@@ -538,6 +539,7 @@ def saveuser(request):
 		email=request.POST.get('email')
 		mobile=request.POST.get('mobile')
 		password=request.POST.get('password')
+		obj=UserData.objects.all().delete()
 		u="U00"
 		x=1
 		uid=u+str(x)
@@ -545,14 +547,14 @@ def saveuser(request):
 			x=x+1
 			uid=u+str(x)
 		x=int(x)
-		otp=uuid.uuid5(uuid.NAMESPACE_DNS, uid+fname+lname+password+mobile+email)
+		otp=uuid.uuid5(uuid.NAMESPACE_DNS, uid+fname+lname+password+mobile+email).int
 		otp=str(otp)
 		otp=otp.upper()[0:6]
 		request.session['userotp'] = otp
 		obj=UserData(
 			User_ID=uid,
-			User_FName=fname,
-			User_LName=lname,
+			User_Fname=fname,
+			User_Lname=lname,
 			User_Email=email,
 			User_Mobile=mobile,
 			User_Password=password
@@ -561,6 +563,119 @@ def saveuser(request):
 			return HttpResponse("<script>alert('User Already Exists'); window.location.replace('/index/')</script>")
 		else:
 			obj.save()
-			
+			msg='''Hi there!
+Please verify your account with the following One Time Password
+
+Verification OTP : '''+otp+'''
+
+Thanks for creating your account on Bazzaars,
+Team Bazzaars'''
+			sub='Bazzaars One Time Password (OTP)'
+			email=EmailMessage(sub,msg,to=[email])
+			email.send()
+			return render(request,'verifyuser.html',{'userid':uid})
+@csrf_exempt
+def verifyuser(request):
+	if request.method=='POST':
+		otpp=request.POST.get('otp').upper()
+		uid=request.POST.get('userid')
+		userotp=request.session['userotp']
+		if otpp == userotp:
+			obj=UserData.objects.filter(User_ID=uid)
+			obj.update(Verify_Status='Verified')
+			return HttpResponse("<script>alert('Account Verified Successfully. Proceed for Login'); window.location.replace('/index/')</script>")
+		else:
+			alert="<script>alert('Incorrect OTP');</script>"
+			dic={'userid':uid,'alert':alert}
+			return render(request,'verifyuser.html',dic)
+	else:
+		return HttpResponse('<h1>Error 404 Not Found</h1>')
+def ResendOTPuser(request):
+	uid=request.GET.get('uid')
+	otp=request.session['userotp']
+	email=''
+	for x in UserData.objects.filter(User_ID=uid):
+		email=x.User_Email
+	msg='''Hi there!
+Please verify your account with the following One Time Password
+
+Verification OTP : '''+otp+'''
+
+Thanks for creating your store on Bazzaars,
+Team Bazzaars'''
+	sub='Bazzaars One Time Password (OTP)'
+	email=EmailMessage(sub,msg,to=[email])
+	email.send()
+	alert="<script>alert('OTP Sent Successfully!');</script>"
+	dic={'userid':uid,'alert':alert}
+	return render(request,'verifyuser.html',dic)
+@csrf_exempt
+def checklogin2(request):
+	if request.method=='POST':
+		email=request.POST.get('email')
+		password=request.POST.get('password')
+		if UserData.objects.filter(User_Email=email,User_Password=password).exists():
+			for x in UserData.objects.filter(User_Email=email):
+				request.session['userid'] = x.User_ID
+				break
+			return redirect('/userdashboard/')
+		else:
+			return HttpResponse("<script>alert('Incorrect Email ID or Password'); window.location.replace('/index/')</script>")
 def userdashboard(request):
-	return render(request,'userdashboard.html',{})
+	try:
+		uid=request.session['userid']
+		userdata=UserData.objects.filter(User_ID=uid)
+		useraddress=UserAddressData.objects.filter(User_ID=uid)
+		dic={'userdata':userdata,'address':useraddress}
+		return render(request,'userdashboard.html',dic)
+	except:
+		return HttpResponse('<h1>Error 500 Internal Server Error</h1>')
+@csrf_exempt
+def edituserdata(request):
+	if request.method=='POST':
+		fname=request.POST.get('fname')
+		lname=request.POST.get('lname')
+		mobile=request.POST.get('mobile')
+		uid=request.session['userid']
+		obj=UserData.objects.filter(User_ID=uid).update(
+			User_Fname=fname,
+			User_Lname=lname,
+			User_Mobile=mobile,
+			)
+		return redirect('/userdashboard/')
+@csrf_exempt
+def addaddress(request):
+	if request.method=='POST':
+		name=request.POST.get('name')
+		house=request.POST.get('house')
+		colony=request.POST.get('colony')
+		city=request.POST.get('city')
+		state=request.POST.get('state')
+		pincode=request.POST.get('pincode')
+		mobile=request.POST.get('mobile')
+		a="AD00"
+		x=1
+		aid=a+str(x)
+		while UserAddressData.objects.filter(Address_ID=aid).exists():
+			x=x+1
+			aid=a+str(x)
+		x=int(x)
+		obj=UserAddressData(
+			Address_ID=aid,
+			User_ID=request.session['userid'],
+			Name=name,
+			HouseStreet=house,
+			LandmarkColony=colony,
+			City=city,
+			State=state,
+			Pincode=pincode,
+			Mobile=mobile
+			)
+		obj.save()
+		return HttpResponse("<script>alert('Address Added Successfully'); window.location.replace('/userdashboard/')</script>")
+def deleteaddress(request):
+	aid=request.GET.get('aid')
+	obj=UserAddressData.objects.filter(Address_ID=aid).delete()
+	return HttpResponse("<script>alert('Address Deleted Successfully'); window.location.replace('/userdashboard/')</script>")
+def shopuserdashboard(request):
+	return render(request,'shoppages/userdashboard.html',{})

@@ -90,3 +90,16 @@ class UserData(models.Model):
 	Verify_Status=models.CharField(max_length=50, default='Unverified')
 	class Meta:
 		db_table="UserData"
+
+class UserAddressData(models.Model):
+	Address_ID=models.CharField(max_length=100, primary_key=True)
+	User_ID=models.CharField(max_length=100)
+	Name=models.CharField(max_length=100)
+	HouseStreet=models.CharField(max_length=100)
+	LandmarkColony=models.CharField(max_length=100)
+	City=models.CharField(max_length=100)
+	State=models.CharField(max_length=100)
+	Pincode=models.CharField(max_length=100)
+	Mobile=models.CharField(max_length=100)
+	class Meta:
+		db_table="UserAddressData"

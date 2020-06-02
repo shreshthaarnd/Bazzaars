@@ -118,3 +118,9 @@ def GetCategoryProducts(cid):
 			break
 		lt.append(dic)
 	return lt
+def checksession(request):
+	try:
+		uid=request.session['userid']
+		return True
+	except:
+		return False
