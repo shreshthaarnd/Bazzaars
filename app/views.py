@@ -495,8 +495,10 @@ def storewebsite(request, shopname):
 		dic=GetShopData(storename)
 		dic.update({
 			'product':GetFourProducts(sid)[0:4],
-			'banner':StoreBannerData.objects.filter(Store_ID=sid)
+			'banner':StoreBannerData.objects.filter(Store_ID=sid),
+			'checksession':checksession(request)
 			})
+		print(checksession(request))
 		return render(request,'shoppages/index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')
@@ -520,6 +522,7 @@ def openproductcategory(request, shopname):
 	dic.update({'data':data,
 				'cid':category,
 				'cname':cname,
+				'checksession':checksession(request),
 				'categorydata':StoreProductCategoryData.objects.filter(Store_ID=data1['sid'])})
 	return render(request,'shoppages/shop.html',dic)
 
@@ -529,7 +532,8 @@ def shopproductsingle(request, shopname, pid):
 	productdata=StoreProductData.objects.filter(Product_ID=pid)
 	dic=GetShopData(data1['sname'])
 	dic.update({'images':images,
-				'productdata':productdata})
+				'productdata':productdata,
+				'checksession':checksession(request)})
 	return render(request,'shoppages/product-single.html',dic)
 @csrf_exempt
 def saveuser(request):
@@ -539,7 +543,6 @@ def saveuser(request):
 		email=request.POST.get('email')
 		mobile=request.POST.get('mobile')
 		password=request.POST.get('password')
-		obj=UserData.objects.all().delete()
 		u="U00"
 		x=1
 		uid=u+str(x)
@@ -677,7 +680,107 @@ def deleteaddress(request):
 	aid=request.GET.get('aid')
 	obj=UserAddressData.objects.filter(Address_ID=aid).delete()
 	return HttpResponse("<script>alert('Address Deleted Successfully'); window.location.replace('/userdashboard/')</script>")
+def logout(request):
+	try:
+		del request.session['userid']
+		request.session.flush()
+		return redirect('/index/')
+	except:
+		return redirect('/index/')
+def logout2(request, shopname):
+	try:
+		del request.session['userid']
+		request.session.flush()
+		return redirect('/index/')
+	except:
+		return redirect('/index/')
+@csrf_exempt
+def checklogin3(request):
+	if request.method=='POST':
+		shopname=request.POST.get('url')
+		email=request.POST.get('email')
+		password=request.POST.get('password')
+		if UserData.objects.filter(User_Email=email,User_Password=password).exists():
+			for x in UserData.objects.filter(User_Email=email):
+				request.session['userid'] = x.User_ID
+				break
+			return redirect('/shopuserdashboard/?shopname='+shopname)
+		else:
+			return HttpResponse("<script>alert('Incorrect Email ID or Password'); window.location.replace('/index/')</script>")
 def shopuserdashboard(request):
-	return render(request,'shoppages/userdashboard.html',{})
+	data1=GetStoreIDByName(request.GET.get('shopname'))
+	dic=GetShopData(data1['sname'])
+	uid=request.session['userid']
+	userdata=UserData.objects.filter(User_ID=uid)
+	useraddress=UserAddressData.objects.filter(User_ID=uid)
+	dic.update({'userdata':userdata,'useraddress':useraddress})
+	return render(request,'shoppages/userdashboard.html',dic)
+@csrf_exempt
+def shopedituserdata(request):
+	if request.method=='POST':
+		fname=request.POST.get('fname')
+		shopname=request.POST.get('url')
+		lname=request.POST.get('lname')
+		mobile=request.POST.get('mobile')
+		uid=request.session['userid']
+		obj=UserData.objects.filter(User_ID=uid).update(
+			User_Fname=fname,
+			User_Lname=lname,
+			User_Mobile=mobile,
+			)
+		return redirect('/shopuserdashboard/?shopname='+shopname)
+@csrf_exempt
+def shopaddaddress(request):
+	if request.method=='POST':
+		shopname=request.POST.get('url')
+		name=request.POST.get('name')
+		house=request.POST.get('house')
+		colony=request.POST.get('colony')
+		city=request.POST.get('city')
+		state=request.POST.get('state')
+		pincode=request.POST.get('pincode')
+		mobile=request.POST.get('mobile')
+		a="AD00"
+		x=1
+		aid=a+str(x)
+		while UserAddressData.objects.filter(Address_ID=aid).exists():
+			x=x+1
+			aid=a+str(x)
+		x=int(x)
+		obj=UserAddressData(
+			Address_ID=aid,
+			User_ID=request.session['userid'],
+			Name=name,
+			HouseStreet=house,
+			LandmarkColony=colony,
+			City=city,
+			State=state,
+			Pincode=pincode,
+			Mobile=mobile
+			)
+		obj.save()
+		txt="<script>alert('Address Added Successfully'); window.location.replace('/shopuserdashboard/?shopname="+shopname+"')</script>"
+		return HttpResponse(txt)
+def shopdeleteaddress(request):
+	shopname=request.GET.get('shopname')
+	aid=request.GET.get('aid')
+	obj=UserAddressData.objects.filter(Address_ID=aid).delete()
+	return HttpResponse("<script>alert('Address Deleted Successfully'); window.location.replace('/shopuserdashboard/?shopname="+shopname+"')</script>")
+def logout2(request):
+	try:
+		shopname=request.GET.get('shopname')
+		del request.session['userid']
+		request.session.flush()
+		return redirect('/'+shopname)
+	except:
+		return redirect('/index/')
+def addtocart(request):
+	try:
+		shopname=request.GET.get('shopname')
+		del request.session['userid']
+		request.session.flush()
+		return redirect('/'+shopname)
+	except:
+		return redirect('/index/')
 def searchresult(request):
 	return render(request,'searchresult.html',{})

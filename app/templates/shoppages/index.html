@@ -56,11 +56,23 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#dropdown04" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Prouct Categories</a>
+              <div class="dropdown-menu w3-animate-bottom" aria-labelledby="dropdown04">
+                {% for x in productcategory %}
+                <a class="dropdown-item" href="{{ url|safe }}/openproductcategory/?cid={{ x.id|safe }}">{{ x.name|safe }}</a>
+                {% endfor %}
+              </div>
+            </li>
+            {% if checksession == True %}
+            <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            {% else %}
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
-
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            {% endif %}
 	        </ul>
 	      </div>
 	    </div>
@@ -75,7 +87,8 @@
 
 
     <div style="padding:20px;"class="w3-container">
-      <form action="/checklogin/" method="POST">
+      <form action="/checklogin3/" method="POST">
+        <input name="url" type="hidden" value="{{ url|safe }}">
         <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
         <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
         <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-red" type="submit" value="Login">
@@ -267,7 +280,7 @@
     	</div>
     </section>
 		<hr>
-    <footer class="ftco-footer bg-light ftco-section">
+    <footer class="ftco-footer ftco-section" style="background-color:#0044ff;color:white;padding-bottom:5px;">
       <div class="container">
       	<div class="row">
       		<div class="mouse">
@@ -279,66 +292,64 @@
         <div class="row mb-5">
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">About Us</h2>
+              <h2 class="ftco-heading-2" style="color:white;">About Us</h2>
               <p>{{ storeabout|safe }}</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="{{ twitterlink|safe }}"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="{{ facebooklink|safe }}"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="{{ instagramlink|safe }}"><span class="icon-instagram"></span></a></li>
+                <li style="color:white;" class="ftco-animate"><a href="{{ twitterlink|safe }}"><span style="color:white;" class="icon-twitter"></span></a></li>
+                <li style="color:white;" class="ftco-animate"><a href="{{ facebooklink|safe }}"><span style="color:white;" class="icon-facebook"></span></a></li>
+                <li style="color:white;" class="ftco-animate"><a href="{{ instagramlink|safe }}"><span style="color:white;" class="icon-instagram"></span></a></li>
               </ul>
             </div>
           </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Menu</h2>
+              <h2 class="ftco-heading-2" style="color:white;">Menu</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">Shop</a></li>
-                <li><a href="#" class="py-2 d-block">About</a></li>
-                <li><a href="#" class="py-2 d-block">Journal</a></li>
-                <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+                <li><a href="#" class="py-2 d-block" style="color:white;">Shop</a></li>
+                <li><a href="#" class="py-2 d-block" style="color:white;">About</a></li>
+                <li><a href="#" class="py-2 d-block" style="color:white;">Journal</a></li>
+                <li><a href="#" class="py-2 d-block" style="color:white;">Contact Us</a></li>
               </ul>
             </div>
           </div>
           <div class="col-md-4">
              <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Help</h2>
+              <h2 class="ftco-heading-2" style="color:white;">Help</h2>
               <div class="d-flex">
 	              <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
-	                <li><a href="#" class="py-2 d-block">Shipping Information</a></li>
-	                <li><a href="#" class="py-2 d-block">Returns &amp; Exchange</a></li>
-	                <li><a href="#" class="py-2 d-block">Terms &amp; Conditions</a></li>
-	                <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
+	                <li><a href="#" class="py-2 d-block" style="color:white;">Shipping Information</a></li>
+	                <li><a href="#" class="py-2 d-block" style="color:white;">Returns &amp; Exchange</a></li>
+	                <li><a href="#" class="py-2 d-block" style="color:white;">Terms &amp; Conditions</a></li>
+	                <li><a href="#" class="py-2 d-block" style="color:white;">Privacy Policy</a></li>
 	              </ul>
 	              <ul class="list-unstyled">
-	                <li><a href="#" class="py-2 d-block">FAQs</a></li>
-	                <li><a href="#" class="py-2 d-block">Contact</a></li>
+	                <li><a href="#" class="py-2 d-block" style="color:white;">FAQs</a></li>
+	                <li><a href="#" class="py-2 d-block" style="color:white;">Contact</a></li>
 	              </ul>
 	            </div>
             </div>
           </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<h2 class="ftco-heading-2" style="color:white;">Have a Questions?</h2>
             	<div class="block-23 mb-3">
 	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">{{ storeaddress|safe }}<br>{{ storecity|safe }}, {{ storestate|safe }}</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+91-{{ storemobile|safe }}</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">{{ storeemail|safe }}</span></a></li>
+	                <li><span class="icon icon-map-marker" style="color:white;"></span><span class="text">{{ storeaddress|safe }}<br>{{ storecity|safe }}, {{ storestate|safe }}</span></li>
+	                <li><a href="#"><span class="icon icon-phone" style="color:white;"></span><span class="text" style="color:white;">+91-{{ storemobile|safe }}</span></a></li>
+	                <li><a href="#"><span class="icon icon-envelope" style="color:white;"></span><span class="text" style="color:white;">{{ storeemail|safe }}</span></a></li>
 	              </ul>
 	            </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved @ <a href="https://www.srd.mobi">SRD - Shreshtha Research & Development</a>
-						</p>
-          </div>
-        </div>
+          
       </div>
     </footer>
+        <div class="ftco-footer ftco-section text-center" style="background-color:black;color:white;padding:10px;">
+            <p>
+              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved @ <a href="https://www.srd.mobi">SRD - Shreshtha Research & Development</a>
+            </p>
+          </div>
   
 
   <!-- loader -->

@@ -56,12 +56,24 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
-
-	        </ul>
+            <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#dropdown04" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Prouct Categories</a>
+              <div class="dropdown-menu w3-animate-bottom" aria-labelledby="dropdown04">
+                {% for x in productcategory %}
+                <a class="dropdown-item" href="{{ url|safe }}/openproductcategory/?cid={{ x.id|safe }}">{{ x.name|safe }}</a>
+                {% endfor %}
+              </div>
+            </li>
+            {% if checksession == True %}
+            <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            {% else %}
+            <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
+            <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            {% endif %}
+          </ul>
 	      </div>
 	    </div>
 	  </nav>
