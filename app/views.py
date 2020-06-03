@@ -784,3 +784,5 @@ def addtocart(request):
 		return redirect('/index/')
 def searchresult(request):
 	return render(request,'searchresult.html',{})
+def shopselectaddress(request):
+	return render(request,'shoppages/selectaddress.html',{})

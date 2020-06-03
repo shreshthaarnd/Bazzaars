@@ -29,6 +29,7 @@ urlpatterns = [
     path('shopcontact/',shopcontact),
     path('shopindex/',shopindex),
     path('shopshop/',shopshop),
+    path('shopselectaddress/',shopselectaddress),
     path('adminindex/',adminindex),
     path('adminpagelogin/',adminpagelogin),
     path('adminpageregister/',adminpageregister),
