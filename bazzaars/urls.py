@@ -19,6 +19,7 @@ urlpatterns = [
     path('addaddress/',addaddress),
     path('deleteaddress/',deleteaddress),
     path('edituserdata/',edituserdata),
+    path('logoutuser/',logout),
     
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),
@@ -75,7 +76,12 @@ urlpatterns = [
     path('<str:shopname>',storewebsite),
     path('<str:shopname>/openproductcategory/',openproductcategory),
     path('<str:shopname>/<str:pid>/',shopproductsingle),
+    path('checklogin3/',checklogin3),
     path('shopuserdashboard/',shopuserdashboard),
+    path('shopedituserdata/',shopedituserdata),
+    path('shopaddaddress/',shopaddaddress),
+    path('shopdeleteaddress/',shopdeleteaddress),
+    path('logout2/',logout2),
     path('searchresult/',searchresult),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -2,7 +2,9 @@
 {% load static %}
 <html lang="en">
   <head>
-    <title>Winkel - Free Bootstrap 4 Template by Colorlib</title>
+    {% for x in userdata %}
+    <title>{{ storename|safe }} - Hi! {{ x.User_Fname|safe }}</title>
+    {% endfor %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -45,16 +47,21 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
       <div class="container">
-        <a class="navbar-brand" href="index.html">Winkel</a>
+        {% if storelogo %}
+             <a class="navbar-brand" href="/{{ storename|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
+            {% else %}
+                <a class="navbar-brand" href="/{{ storename|safe }}">{{ storename|safe }}</a>
+            {% endif %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="oi oi-menu"></span> Menu
         </button>
 
         <div class="collapse navbar-collapse" id="ftco-nav">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
-            <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
+            <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
+            <li class="nav-item"><a style="cursor:pointer;" href="#order" onclick="document.getElementById('address').style.display='none';document.getElementById('account').style.display='none';document.getElementById('order').style.display='block';" class="nav-link">My Orders</a></li>
+            <li class="nav-item"><a style="cursor:pointer;" href="#address" onclick="document.getElementById('address').style.display='block';document.getElementById('account').style.display='none';document.getElementById('order').style.display='none';" class="nav-link">My Address</a></li>
+            <li class="nav-item"><a style="cursor:pointer;" href="/logout2/?shopname={{ url|safe }}" class="nav-link">Logout</a></li>
             <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 
           </ul>
@@ -72,7 +79,7 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="{{ url|safe }}">{{ storename|safe }}</a></span></p>
             <h1 class="mb-0 bread">User Dashboard</h1>
           </div>
         </div>
@@ -90,9 +97,11 @@
             <div class="container-fluid p-0">
                 <h2>Account Details</h2>
                 <p style="margin-top:10px;">
-                <span style="font-size:25px;font-weight:bold;">Sonali Kulshreshtha</span><br>
-                <span style="font-size:20px;margin-top:15px;">sonalikul1999@gmail.com</span><br>
-                <span style="font-size:20px;margin-top:15px;">8938979011</span>
+                  {% for x in userdata %}
+                  <span style="font-size:25px;font-weight:bold;">{{ x.User_Fname|safe }} {{ x.User_Lname|safe }}</span><br>
+                  <span style="font-size:20px;margin-top:15px;">{{ x.User_Email|safe }}</span><br>
+                  <span style="font-size:20px;margin-top:15px;">+91 - {{ x.User_Mobile|safe }}</span>
+                  {% endfor %}
                 </p>
                 <a style="cursor:pointer;"class="w3-button w3-blue w3-hover-black" onclick="document.getElementById('id01').style.display='block';"><i class="fa fa-pencil"></i>
                 Edit</a>
@@ -102,17 +111,20 @@
             <div class="container-fluid p-0">
                 <h2>My Address</h2>
                 <table style="margin-top:20px;margin-bottom:20px;"class="w3-table-all w3-hoverable">
+                  {% for x in useraddress %}
                   <tr>
                     <td>
                       <p>
-                        <span style="font-size:25px;font-weight:bold;">Sonali Kulshreshtha</span><br>
-                        <span style="font-size:18px;">12, Saraswat enclav<br> tundli road Tundla</span>
+                        <span style="font-size:25px;font-weight:bold;">{{ x.Name|safe }}</span><br>
+                        <span style="font-size:18px;">{{ x.HouseStreet|safe }},<br>{{ x.LandmarkColony|safe }}, {{ x.City|safe }} - {{ x.Pincode|safe }}<br>{{ x.State|safe }}</span><br>
+                        <span style="font-size:18px;">+91 - {{ x.Mobile|safe }}</span>
                       </p>
                     </td>
                     <td>
-                      <a class="w3-button w3-red w3-hover-black"href="">Delete</a>
+                      <a class="w3-button w3-red w3-hover-black"href="/shopdeleteaddress/?aid={{ x.Address_ID|safe }}&shopname={{ url|safe }}">Delete</a>
                     </td>
                   </tr>
+                  {% endfor %}
                 </table>
                 <a style="cursor:pointer;"class="w3-button w3-blue w3-hover-black" onclick="document.getElementById('id02').style.display='block';"><i class="fa fa-pencil"></i>
                 Add Address</a>
@@ -144,14 +156,15 @@
     <button onclick="document.getElementById('id02').style.display='none'"
       style="cursor:pointer;" class="w3-button w3-blue w3-hover-black w3-display-topright ">&times;</button>
     <div style="padding:20px;"class="w3-container">
-      <form action="/checklogin/" method="POST">
-        <input style="margin-bottom:20px;"class="w3-input" name="Name" type="text" placeholder="Name">
-        <input style="margin-bottom:20px;"class="w3-input" name="House/street No." type="text" placeholder="House/Street No.">
-        <input style="margin-bottom:20px;"class="w3-input" name="Landmark/Colony" type="text" placeholder="Landmark/Colony">
-        <input style="margin-bottom:20px;"class="w3-input" name="City" type="text" placeholder="City">
-        <input style="margin-bottom:20px;"class="w3-input" name="State" type="text" placeholder="State">
-        <input style="margin-bottom:20px;"class="w3-input" name="Pincode" type="number" placeholder="Pincode">
-        <input style="margin-bottom:20px;"class="w3-input" name="Mobile Number" type="number" placeholder="Mobile Number">
+      <form action="/shopaddaddress/" method="POST">
+        <input name="url" type="hidden" value="{{ url|safe }}">
+        <input style="margin-bottom:20px;"class="w3-input" name="name" type="text" placeholder="Name">
+        <input style="margin-bottom:20px;"class="w3-input" name="house" type="text" placeholder="House/Street No.">
+        <input style="margin-bottom:20px;"class="w3-input" name="colony" type="text" placeholder="Landmark/Colony">
+        <input style="margin-bottom:20px;"class="w3-input" name="city" type="text" placeholder="City">
+        <input style="margin-bottom:20px;"class="w3-input" name="state" type="text" placeholder="State">
+        <input style="margin-bottom:20px;"class="w3-input" name="pincode" type="number" placeholder="Pincode">
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile Number">
 
         <input style="margin-bottom:10px;" class="w3-input w3-button w3-blue w3-hover-black" type="submit" value="Save">
       </form>
@@ -165,11 +178,14 @@
     <button onclick="document.getElementById('id01').style.display='none'"
       style="cursor:pointer;" class="w3-button w3-blue w3-hover-black w3-display-topright ">&times;</button>
     <div style="padding:20px;"class="w3-container">
-      <form action="/checklogin/" method="POST">
-        <input style="margin-bottom:20px;"class="w3-input" name="First Name" type="text" placeholder="First Name">
-        <input style="margin-bottom:20px;"class="w3-input" name="Last Name" type="text" placeholder="Last Name">
-        <input style="margin-bottom:20px;"class="w3-input" name="Mobile Number" type="number" placeholder="Mobile Number">
+      <form action="/shopedituserdata/" method="POST">
+        {% for x in userdata %}
+        <input name="url" type="hidden" value="{{ url|safe }}">
+        <input style="margin-bottom:20px;"class="w3-input" name="fname" type="text" value="{{ x.User_Fname|safe }}">
+        <input style="margin-bottom:20px;"class="w3-input" name="lname" type="text" value="{{ x.User_Lname|safe }}">
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" value="{{ x.User_Mobile|safe }}">
         <input style="margin-bottom:10px;" class="w3-input w3-button w3-blue w3-hover-black" type="submit" value="Save">
+        {% endfor %}
       </form>
     </div>
   </div>
