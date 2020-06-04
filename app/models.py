@@ -1,7 +1,6 @@
 from django.db import models
-import datetime
+from datetime import date
 from django.conf import settings
-TIME_FORMAT = '%d.%m.%Y'
 
 class StoreCategoryData(models.Model):
 	Category_ID=models.CharField(max_length=100, primary_key=True)
@@ -103,3 +102,24 @@ class UserAddressData(models.Model):
 	Mobile=models.CharField(max_length=100)
 	class Meta:
 		db_table="UserAddressData"
+
+class CartData(models.Model):
+	Cart_ID=models.CharField(max_length=100, primary_key=True)
+	Store_ID=models.CharField(max_length=100)
+	User_ID=models.CharField(max_length=100)
+	Cart_Total=models.CharField(max_length=100, default='0')
+	Status=models.CharField(max_length=50, default='Active')
+	class Meta:
+		db_table="CartData"
+
+class CartProductData(models.Model):
+	Product_Add_Date=models.CharField(max_length=50, default=date.today().strftime("%d/%m/%Y"))
+	Cart_ID=models.CharField(max_length=100)
+	Store_ID=models.CharField(max_length=100)
+	User_ID=models.CharField(max_length=100)
+	Product_ID=models.CharField(max_length=100)
+	Product_Quantity=models.CharField(max_length=100, default='1')
+	Product_Total=models.CharField(max_length=100, default='0')
+	Status=models.CharField(max_length=50, default='Active')
+	class Meta:
+		db_table="CartProductData"

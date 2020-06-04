@@ -67,7 +67,7 @@
             </li>
             {% if checksession == True %}
             <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
-            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
             {% else %}
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
@@ -257,8 +257,11 @@
 	    						</div>
 	    					</div>
     						<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
+    							{% if checksession == True %}
+                  <a href="/{{ url|safe }}/addtocart/{{ x.id|safe }}/" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+                  {% else %}
+                  <a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+                  {% endif %}
     						</p>
     					</div>
     				</div>

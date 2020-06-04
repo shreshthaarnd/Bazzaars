@@ -2,7 +2,7 @@
 {% load static %}
 <html lang="en">
   <head>
-    <title>Winkel - Free Bootstrap 4 Template by Colorlib</title>
+    <title>{{ storename|safe }} - Cart</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'w3.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="goto-here">
 		<div class="py-1 bg-black">
@@ -44,18 +45,34 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Winkel</a>
+	      {% if storelogo %}
+             <a class="navbar-brand" href="/{{ storename|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
+            {% else %}
+                <a class="navbar-brand" href="/{{ storename|safe }}">{{ storename|safe }}</a>
+            {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
-
+	          <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#dropdown04" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Prouct Categories</a>
+              <div class="dropdown-menu w3-animate-bottom" aria-labelledby="dropdown04">
+                {% for x in productcategory %}
+                <a class="dropdown-item" href="{{ url|safe }}/openproductcategory/?cid={{ x.id|safe }}">{{ x.name|safe }}</a>
+                {% endfor %}
+              </div>
+            </li>
+            {% if checksession == True %}
+            <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            {% else %}
+            <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
+            <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            {% endif %}
 	        </ul>
 	      </div>
 	    </div>
@@ -126,7 +143,7 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Cart</span></p>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/{{ url|safe }}">{{ storename|safe }}</a></span></p>
             <h1 class="mb-0 bread">My Cart</h1>
           </div>
         </div>
@@ -150,47 +167,30 @@
 						      </tr>
 						    </thead>
 						    <tbody>
+                  {% for x in cart %}
 						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+						        <td class="product-remove">
+                      <a href="/{{ url|safe }}/removequantity/{{ x.id|safe }}/">x</a>
+                      <a href="/{{ url|safe }}/addquantity/{{ x.id|safe }}/"><i class="fa fa-plus"></i></a>
+                    </td>
 						        
-						        <td class="image-prod"><div class="img" style="background-image:url({% static 'images/product-3.jpg' %});"></div></td>
+						        <td class="image-prod"><div class="img" style="background-image:url({{ x.image|safe }});height:100px;width:100px;"></div></td>
 						        
 						        <td class="product-name">
-						        	<h3>Young Woman Wearing Dress</h3>
-						        	<p>Far far away, behind the word mountains, far from the countries</p>
+						        	<h3>{{ x.name|safe }}</h3>
 						        </td>
 						        
-						        <td class="price">$4.90</td>
+						        <td class="price"><i class="fa fa-inr"></i> {{ x.price|safe }}</td>
 						        
 						        <td class="quantity">
 						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+					             	<input type="text" name="quantity" class="quantity form-control input-number" value="{{ x.quantity|safe }}">
 					          	</div>
 					          </td>
 						        
-						        <td class="total">$4.90</td>
+						        <td class="total"><i class="fa fa-inr"></i> {{ x.tprice|safe }}</td>
 						      </tr><!-- END TR-->
-
-						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><div class="img" style="background-image:url({% static 'images/product-4.jpg' %});"></div></td>
-						        
-						        <td class="product-name">
-						        	<h3>Young Woman Wearing Dress</h3>
-						        	<p>Far far away, behind the word mountains, far from the countries</p>
-						        </td>
-						        
-						        <td class="price">$15.70</td>
-						        
-						        <td class="quantity">
-						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-					          	</div>
-					          </td>
-						        
-						        <td class="total">$15.70</td>
-						      </tr><!-- END TR-->
+                  {% endfor %}
 						    </tbody>
 						  </table>
 					  </div>
@@ -200,7 +200,8 @@
     			<div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
     				<div class="cart-total mb-3">
     					<h3>Cart Totals</h3>
-    					<p class="d-flex">
+    					{% for x in cartdata %}
+              <p class="d-flex">
     						<span>Subtotal</span>
     						<span>$20.60</span>
     					</p>
@@ -215,8 +216,9 @@
     					<hr>
     					<p class="d-flex total-price">
     						<span>Total</span>
-    						<span>$17.60</span>
+    						<span><i class="fa fa-inr"></i> {{ x.Cart_Total|safe }}</span>
     					</p>
+              {% endfor %}
     				</div>
     				<p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
     			</div>

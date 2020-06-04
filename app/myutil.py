@@ -124,3 +124,19 @@ def checksession(request):
 		return True
 	except:
 		return False
+
+def GetCartItems(obj):
+	lt=[]
+	for x in obj:
+		dic={}
+		for y in StoreProductData.objects.filter(Product_ID=x.Product_ID):
+			dic={'id':y.Product_ID,
+				'name':y.Product_Name,
+				'price':y.Product_Price}
+		for y in StoreProductImageData.objects.filter(Product_ID=x.Product_ID):
+			dic.update({'image':y.Product_Image.url})
+			break
+		dic.update({'quantity':x.Product_Quantity,
+					'tprice':x.Product_Total})
+		lt.append(dic)
+	return lt
