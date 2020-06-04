@@ -786,3 +786,5 @@ def searchresult(request):
 	return render(request,'searchresult.html',{})
 def shopselectaddress(request):
 	return render(request,'shoppages/selectaddress.html',{})
+def shoppanelpayment(request):
+		return render(request,'shoppanel/payment.html',{})

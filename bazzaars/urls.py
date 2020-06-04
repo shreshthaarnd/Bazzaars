@@ -84,6 +84,7 @@ urlpatterns = [
     path('shopdeleteaddress/',shopdeleteaddress),
     path('logout2/',logout2),
     path('searchresult/',searchresult),
+    path('shoppanelpayment/',shoppanelpayment),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
