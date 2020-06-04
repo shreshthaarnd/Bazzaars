@@ -34,8 +34,6 @@ def shopblog(request):
 	return render(request,'shoppages/blog.html',{})
 def shopblogsingle(request):
 	return render(request,'shoppages/blog.html',{})
-def shopcart(request):
-	return render(request,'shoppages/cart.html',{})
 def shopcheckout(request):
 	return render(request,'shoppages/checkout.html',{})
 def shopcontact(request):
@@ -774,14 +772,124 @@ def logout2(request):
 		return redirect('/'+shopname)
 	except:
 		return redirect('/index/')
-def addtocart(request):
-	try:
-		shopname=request.GET.get('shopname')
-		del request.session['userid']
-		request.session.flush()
-		return redirect('/'+shopname)
-	except:
-		return redirect('/index/')
+def addtocart(request, shopname, pid):
+	data1=GetStoreIDByName(shopname)
+	uid=request.session['userid']
+	c="CRT00"
+	x=1
+	cid=c+str(x)
+	while CartData.objects.filter(Cart_ID=cid).exists():
+		x=x+1
+		cid=c+str(x)
+	x=int(x)
+	pprice=''
+	obj=StoreProductData.objects.filter(Product_ID=pid)
+	for x in obj:
+		pprice=x.Product_Price
+	if CartData.objects.filter(User_ID=uid).exists():
+		cartid=''
+		for x in CartData.objects.filter(User_ID=uid):
+			cartid=x.Cart_ID
+		if CartProductData.objects.filter(Product_ID=pid).exists():
+			obj=CartProductData.objects.filter(Product_ID=pid)
+			quantity=0
+			tprice=0
+			for x in obj:
+				quantity=int(x.Product_Quantity)
+				tprice=int(x.Product_Total)
+			quantity=quantity+1
+			tprice=tprice*quantity
+			obj.update(Product_Quantity=str(quantity),Product_Total=str(tprice))
+			return HttpResponse("<script>alert('Product Added to Cart!'); window.location.replace('/"+shopname+"')</script>")
+		else:
+			obj=CartProductData(
+				Cart_ID=cartid,
+				Store_ID=data1['sid'],
+				User_ID=uid,
+				Product_ID=pid,
+				Product_Total=pprice
+			)
+			obj.save()
+			return HttpResponse("<script>alert('Product Added to Cart!'); window.location.replace('/"+shopname+"')</script>")
+	else:
+		obj=CartData(
+			Cart_ID=cid,
+			Store_ID=data1['sid'],
+			User_ID=uid,
+		)
+		obj.save()
+		obj=CartProductData(
+			Cart_ID=cid,
+			Store_ID=data1['sid'],
+			User_ID=uid,
+			Product_ID=pid,
+			Product_Total=pprice
+		)
+		obj.save()
+		return HttpResponse("<script>alert('Product Added to Cart!'); window.location.replace('/"+shopname+"')</script>")
+
+def shopcart(request, shopname):
+	data1=GetStoreIDByName(shopname)
+	uid=request.session['userid']
+	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	carttotal=0
+	for x in obj:
+		carttotal=carttotal+int(x.Product_Total)
+	obj1=CartData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj1.update(Cart_Total=carttotal)
+	dic=GetShopData(data1['sname'])
+	dic.update({'cartdata':obj1,'cart':GetCartItems(obj),'checksession':checksession(request)})
+	return render(request,'shoppages/cart.html',dic)
+
+def addquantity(request, shopname, pid):
+	data1=GetStoreIDByName(shopname)
+	uid=request.session['userid']
+	obj=CartProductData.objects.filter(Product_ID=pid)
+	quantity=0
+	tprice=0
+	for x in obj:
+		quantity=int(x.Product_Quantity)
+	quantity=quantity+1
+	price=0
+	obj1=StoreProductData.objects.filter(Product_ID=pid)
+	for x in obj1:
+		price=int(x.Product_Price)
+	tprice=price*quantity
+	obj.update(Product_Quantity=str(quantity),Product_Total=str(tprice))
+	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	carttotal=0
+	for x in obj:
+		carttotal=carttotal+int(x.Product_Total)
+	obj1=CartData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj1.update(Cart_Total=carttotal)
+	dic=GetShopData(data1['sname'])
+	dic.update({'cartdata':obj1,'cart':GetCartItems(obj),'checksession':checksession(request)})
+	return render(request,'shoppages/cart.html',dic)
+def removequantity(request, shopname, pid):
+	data1=GetStoreIDByName(shopname)
+	uid=request.session['userid']
+	obj=CartProductData.objects.filter(Product_ID=pid)
+	quantity=0
+	tprice=0
+	for x in obj:
+		quantity=int(x.Product_Quantity)
+	quantity=quantity-1
+	price=0
+	obj1=StoreProductData.objects.filter(Product_ID=pid)
+	for x in obj1:
+		price=int(x.Product_Price)
+	tprice=price*quantity
+	obj.update(Product_Quantity=str(quantity),Product_Total=str(tprice))
+	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	carttotal=0
+	for x in obj:
+		carttotal=carttotal+int(x.Product_Total)
+	obj1=CartData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj1.update(Cart_Total=carttotal)
+	dic=GetShopData(data1['sname'])
+	dic.update({'cartdata':obj1,'cart':GetCartItems(obj),'checksession':checksession(request)})
+	return render(request,'shoppages/cart.html',dic)
+
 def searchresult(request):
 	return render(request,'searchresult.html',{})
 def shopselectaddress(request):

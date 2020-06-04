@@ -24,7 +24,6 @@ urlpatterns = [
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),
     path('shopblogsingle/',shopblogsingle),
-    path('shopcart/',shopcart),
     path('shopcheckout/',shopcheckout),
     path('shopcontact/',shopcontact),
     path('shopindex/',shopindex),
@@ -84,6 +83,10 @@ urlpatterns = [
     path('shopdeleteaddress/',shopdeleteaddress),
     path('logout2/',logout2),
     path('searchresult/',searchresult),
+    path('<str:shopname>/addtocart/<str:pid>/',addtocart),
+    path('<str:shopname>/addquantity/<str:pid>/',addquantity),
+    path('<str:shopname>/removequantity/<str:pid>/',removequantity),
+    path('<str:shopname>/shopcart/opencart/',shopcart),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
