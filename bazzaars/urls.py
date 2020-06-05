@@ -85,6 +85,7 @@ urlpatterns = [
     path('shoppanelpayment/',shoppanelpayment),
     path('paymentprocess/',processpayment),
     path('verifypayment/',verifypayment),
+    path('order/',order),
 
     path('<str:shopname>/addtocart/<str:pid>/',addtocart),
     path('<str:shopname>/addquantity/<str:pid>/',addquantity),

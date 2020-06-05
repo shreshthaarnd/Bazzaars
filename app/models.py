@@ -21,8 +21,27 @@ class StoreData(models.Model):
 	Store_State=models.CharField(max_length=100, default='NA')
 	Verify_Status=models.CharField(max_length=100, default='Unverified')
 	Status=models.CharField(max_length=100, default='Deactive')
+	Payment_Status=models.CharField(max_length=100, default='Unpaid')
 	class Meta:
 		db_table="StoreData"
+
+class StoreActivationData(models.Model):
+	Act_ID=models.CharField(max_length=100, primary_key=True)
+	Store_ID=models.CharField(max_length=100)
+	CURRENCY=models.CharField(max_length=100, default='None')
+	GATEWAYNAME=models.CharField(max_length=100, default='None')
+	RESPMSG=models.CharField(max_length=1000, default='None')
+	BANKNAME=models.CharField(max_length=100, default='None')
+	PAYMENTMODE=models.CharField(max_length=100, default='None')
+	RESPCODE=models.CharField(max_length=100, default='None')
+	TXNID=models.CharField(max_length=100, default='None')
+	TXNAMOUNT=models.CharField(max_length=100, default='None')
+	STATUS=models.CharField(max_length=100, default='None')
+	BANKTXNID=models.CharField(max_length=100, default='None')
+	TXNDATE=models.CharField(max_length=100, default='None')
+	CHECKSUMHASH=models.CharField(max_length=100, default='None')
+	class Meta:
+		db_table="StoreActivationData"
 
 class StoreOtherData(models.Model):
 	Store_ID=models.CharField(max_length=100, primary_key=True)
