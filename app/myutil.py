@@ -140,3 +140,23 @@ def GetCartItems(obj):
 					'tprice':x.Product_Total})
 		lt.append(dic)
 	return lt
+
+def getparamdict(orderid):
+	dic={}
+	for x in OrderData.objects.filter(Order_ID=orderid):
+		dic={
+			'ORDER_ID':x.Order_ID,
+			'TXN_AMOUNT':x.Order_Amount,
+			'CUST_ID':x.User_ID,
+			'INDUSTRY_TYPE_ID':'Retail',
+			'WEBSITE':'None',
+			'CHANNEL_ID':'WEB',
+			'CALLBACK_URL':'http://127.0.0.1:8000/verifypayment/'
+		}
+		for y in StoreData.objects.filter(Store_ID=x.Store_ID):
+			storename=''
+			for z in y.Store_Name:
+				if z != ' ':
+					storename=storename+z
+			dic['WEBSITE']='WEBSTAGING'
+	return dic

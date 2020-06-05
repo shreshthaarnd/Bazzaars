@@ -256,22 +256,38 @@
 										<div style="text-align:center">
 										<img style="width:75px;" class="text-center"src="{% static 'shoppanel/assets/images/Paytm-For-Business.png' %}">
 										</div>
-										<form class="form-horizontal">
+										<form class="form-horizontal" action="/savestorepaymentkeys/" method="POST">
 											<h4 class="mb-xlg">Merchent Credentials</h4>
 											<fieldset>
-												
+												{% if paydata %}
+												{% for x in paydata %}
 												<div class="form-group">
-													<label class="col-md-3 control-label" for="profileAddress">Access Key</label>
+													<label class="col-md-3 control-label" for="profileAddress">Merchant ID/Access Secret</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" value="1234" disabled id="AccessKey">
+														<input type="text" class="form-control" name="MID" value="{{ x.MID|safe }}" disabled id="AccessSecret">
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label" for="profileAddress">Access Secret</label>
+													<label class="col-md-3 control-label" for="profileAddress">Merchant Key/Access Key</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" value="5678" disabled id="AccessSecret">
+														<input type="text" class="form-control" name="KEY" value="{{ x.MERCHANT_KEY|safe }}" disabled id="AccessKey">
 													</div>
 												</div>
+												{% endfor %}
+												{% else %}
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileAddress">Merchant ID/Access Secret</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="MID" id="AccessSecret">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="profileAddress">Merchant Key/Access Key</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="KEY" id="AccessKey">
+													</div>
+												</div>
+												{% endif %}
 											</fieldset>
 											<div class="panel-footer">
 												<div class="row">

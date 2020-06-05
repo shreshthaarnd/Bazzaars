@@ -78,6 +78,13 @@ class StoreBannerData(models.Model):
 	class Meta:
 		db_table="StoreBannerData"
 
+class StoreMerchantData(models.Model):
+	Store_ID=models.CharField(max_length=100)
+	MID=models.CharField(max_length=500)
+	MERCHANT_KEY=models.CharField(max_length=500)
+	class Meta:
+		db_table="StoreMerchantData"
+
 class UserData(models.Model):
 	User_ID=models.CharField(max_length=100, primary_key=True)
 	User_Fname=models.CharField(max_length=100)
@@ -123,3 +130,35 @@ class CartProductData(models.Model):
 	Status=models.CharField(max_length=50, default='Active')
 	class Meta:
 		db_table="CartProductData"
+
+class OrderData(models.Model):
+	Order_Date=models.CharField(max_length=50, default=date.today().strftime("%d/%m/%Y"))
+	Order_ID=models.CharField(max_length=100)
+	Cart_ID=models.CharField(max_length=100)
+	Store_ID=models.CharField(max_length=100)
+	User_ID=models.CharField(max_length=100)
+	Address_ID=models.CharField(max_length=100, default='NA')
+	Order_Amount=models.CharField(max_length=100)
+	Order_Type=models.CharField(max_length=100, default='NA')
+	Status=models.CharField(max_length=50, default='Active')
+	class Meta:
+		db_table="OrderData"
+
+class OrderPaymentData(models.Model):
+	Order_ID=models.CharField(max_length=100, default='None')
+	MERCHANT_KEY=models.CharField(max_length=100, default='None')
+	CURRENCY=models.CharField(max_length=100, default='None')
+	GATEWAYNAME=models.CharField(max_length=100, default='None')
+	RESPMSG=models.CharField(max_length=1000, default='None')
+	BANKNAME=models.CharField(max_length=100, default='None')
+	PAYMENTMODE=models.CharField(max_length=100, default='None')
+	MID=models.CharField(max_length=100, default='None')
+	RESPCODE=models.CharField(max_length=100, default='None')
+	TXNID=models.CharField(max_length=100, default='None')
+	TXNAMOUNT=models.CharField(max_length=100, default='None')
+	STATUS=models.CharField(max_length=100, default='None')
+	BANKTXNID=models.CharField(max_length=100, default='None')
+	TXNDATE=models.CharField(max_length=100, default='None')
+	CHECKSUMHASH=models.CharField(max_length=100, default='None')
+	class Meta:
+		db_table="OrderPaymentData"
