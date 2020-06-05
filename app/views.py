@@ -483,7 +483,7 @@ def verifypayment2(request):
 	if 'GATEWAYNAME' in respons_dict:
 		if respons_dict['GATEWAYNAME'] == 'WALLET':
 			respons_dict['BANKNAME'] = 'null';
-	obj=StoreActivationData(
+	obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID']).update(
 		CURRENCY=CURRENCY,
 		GATEWAYNAME=GATEWAYNAME,
 		RESPMSG=RESPMSG,
@@ -497,11 +497,10 @@ def verifypayment2(request):
 		TXNDATE=TXNDATE,
 		CHECKSUMHASH=CHECKSUMHASH
 		)
-	obj.save()
 	MERCHANT_KEY = respons_dict['MERCHANT_KEY']
 	data_dict = {'MID':respons_dict['MID']}
 	data_dict.update(getparamdict(respons_dict['ORDERID']))
-	checksum =Checksum.generateSignature(data_dict, MERCHANT_KEY)
+	checksum = Checksum.generateSignature(data_dict, MERCHANT_KEY)
 	verify = Checksum.verifySignature(data_dict, MERCHANT_KEY, checksum)
 	if verify:
 		if respons_dict['RESPCODE'] == '01':
@@ -517,19 +516,10 @@ def verifypayment2(request):
 			dic={'txndata':obj}
 			return render(request, 'shoppanel/paymentfailed.html', dic)
 	else:
-		obj=OrderData.objects.filter(Order_ID=ORDERID)
-		obj.update(Status='Deactive')
-		sid=''
-		for x in obj:
-			sid=x.Store_ID
-			obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
-			obj.update(Status='Deactive')
-			obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
-			obj.update(Status='Deactive')
-		dic=GetShopData2(sid)
-		dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
-		dic.update({'because':respons_dict['RESPMSG']})
-		return render(request, 'shoppages/processfail.html', dic)
+		obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID'])
+		dic={'txndata':obj}
+		return render(request, 'shoppanel/paymentfailed.html', dic)
+
 def ResendOTP(request):
 	sid=request.GET.get('sid')
 	otp=''
