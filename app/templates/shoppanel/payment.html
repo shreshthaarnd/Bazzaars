@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <!-- Mobile Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>Bazzaars</title>
+        <title>Bazzaars - Account Activation</title>
         <!-- Web Fonts  -->
         <link rel="stylesheet" href="{% static 'shoppanel/assets/vendor/bootstrap/css/bootstrap.css' %}" />
         <link rel="stylesheet" href="{% static 'shoppanel/assets/vendor/font-awesome/css/font-awesome.css' %}" />
@@ -30,10 +30,20 @@
         <link rel="stylesheet" href="{% static 'shoppanel/assets/stylesheets/theme-custom.css' %}">
 
         <!-- Head Libs -->
+         <link rel="stylesheet" href="{% static 'w3.css' %}">
         <script src="{% static 'shoppanel/assets/vendor/modernizr/modernizr.js' %}"></script>
 
     </head>
     <body>
+        <div id="id01" style="background-color:white;" class="w3-modal w3-animate-zoom">
+            <div style="width:400px;"class="w3-modal-content text-center">
+              <img style="width:100px;" src="{% static 'loading.gif' %}">
+              <h3>Processing Your Transaction</h3>
+              <h2 style="font-weight:bold;">Please Wait....</h2>
+              <h5 style="color:red;">Do not press 'BACK' or 'REFRESH'</h5>
+              <img style="width:300px;" src="{% static 'shoppanel/assets/images/paytm-offer.jpg' %}">
+            </div>
+        </div>
         <!-- start: page -->
         <section class="body-sign">
             <div class="center-sign">
@@ -45,12 +55,25 @@
                     <div class="panel-title-sign mt-xl text-right">
                         <h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Activate Your Store</h2>
                     </div>
+
                     <div class="panel-body text-center">
                         <h1>Pay <i class="fa fa-inr"></i>
                             999/-
                         </h1>
                         <span style="font-size:20px;">Activate Your Account Now</span><br>
-                        <a style="font-size:25px;margin-top:20px;margin-bottom:20px;width:100%;padding:15px;"class="w3-button w3-blue w3-hover-black"href="">Pay Now</a><br>
+                        <form method="post" action="https://securegw-stage.paytm.in/order/process" name="f1">
+                            <input name="MID" type="hidden" value="{{ MID|safe }}">
+                            <input name="ORDER_ID" type="hidden" value="{{ ORDER_ID|safe }}">
+                            <input name="TXN_AMOUNT" type="hidden" value="{{ TXN_AMOUNT|safe }}">
+                            <input name="CUST_ID" type="hidden" value="{{ CUST_ID|safe }}">
+                            <input name="INDUSTRY_TYPE_ID" type="hidden" value="{{ INDUSTRY_TYPE_ID|safe }}">
+                            <input name="WEBSITE" type="hidden" value="{{ WEBSITE|safe }}">
+                            <input name="CHANNEL_ID" type="hidden" value="{{ CHANNEL_ID|safe }}">
+                            <input name="CALLBACK_URL" type="hidden" value="{{ CALLBACK_URL|safe }}">
+                            <input name="CHECKSUMHASH" type="hidden" value="{{ CHECKSUMHASH|safe }}">
+                            <button type="submit" style="font-size:25px;margin-top:20px;margin-bottom:20px;width:100%;padding:15px;"class="w3-button w3-blue w3-hover-black" onclick="document.getElementById('id01').style.display='block'">Pay Now</button>
+                          </form>
+                        
                         <span style="font-size:18px;">Payment is secured with</span><br>
                         <img style="width:200px;" src="{% static 'shoppanel/assets/images/paytm-offer.jpg' %}">
                     </div>
