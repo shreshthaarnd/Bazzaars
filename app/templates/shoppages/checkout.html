@@ -2,7 +2,7 @@
 {% load static %}
 <html lang="en">
   <head>
-    <title>Winkel - Free Bootstrap 4 Template by Colorlib</title>
+    <title>{{ storename|safe }} - Checkout</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -45,24 +45,27 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Winkel</a>
+	      {% if storelogo %}
+             <a class="navbar-brand" href="/{{ storename|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
+            {% else %}
+                <a class="navbar-brand" href="/{{ storename|safe }}">{{ storename|safe }}</a>
+            {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 
 	        </ul>
 	      </div>
 	    </div>
 	  </nav>
     <!-- END nav -->
-    <div id="id01" class="w3-modal w3-animate-zoom">
+<div id="id01" class="w3-modal w3-animate-zoom">
   <div style="width:400px;"class="w3-modal-content text-center">
 
     <div style="width:100%;font-size:20px;padding:6px"class="w3-red text-center">Login</div>
@@ -127,7 +130,7 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Checkout</span></p>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="/{{ url|safe }}">{{ storename|safe }}</a></span></p>
             <h1 class="mb-0 bread">Checkout</h1>
           </div>
         </div>
@@ -140,48 +143,58 @@
           <div class="col-xl-8 ftco-animate">
 							<h3 class="mb-4 billing-heading">Billing Details</h3>
               <h4>Delivery Address</h4>
-              <div style="margin-left:20px;border-left:10px solid cyan;padding-left:20px;"class="row">
-                <p>
-                  <span style="font-size:25px;font-weight:bold;">Shubhi</span><br>
-                  <span style="font-size:18px;"><i class="fa fa-map-marker"></i> sector 15,<br>Kamla Nagar Agra</span><br>
-                  <span style="font-size:18px;"><i class="fa fa-phone"></i> 8938979011</span>
-                </p>
-              </div>
+              {% for x in address %}
+                  <div style="margin-left:20px;border-left:10px solid blue;padding-left:20px;"class="row w3-card-4">
+                    <p>
+                      <span style="font-size:25px;font-weight:bold;">{{ x.Name|safe }}</span><br>
+                      <span style="font-size:18px;"><i class="fa fa-map-marker"></i> {{ x.HouseStreet|safe }}, {{ x.LandmarkColony|safe }}<br>{{ x.City|safe }}-{{ x.Pincode|safe }}, {{ x.State|safe }} (INDIA)</span><br>
+                      <span style="font-size:18px;"><i class="fa fa-phone"></i> {{ x.Mobile|safe }}</span>
+                    </p>
+                  </div>
+              {% endfor %}
 	          <div class="row mt-5 pt-3 d-flex">
 	          	<div class="col-md-6 d-flex">
 	          		<div class="cart-detail cart-total bg-light p-3 p-md-4">
-	          			<h3 class="billing-heading mb-4">Cart Total</h3>
-	          			<p class="d-flex">
-		    						<span>Subtotal</span>
-		    						<span>$20.60</span>
+	          			<h3 class="billing-heading mb-4">Order Total</h3>
+	          			{% for x in order %}
+                  <p class="d-flex total-price">
+		    						<span>Total Amount to Pay</span><br>
+		    						<span style="font-size:30px;"><i class="fa fa-inr"></i> {{ x.Order_Amount|safe }}</span>
 		    					</p>
-		    					<p class="d-flex">
-		    						<span>Delivery</span>
-		    						<span>$0.00</span>
-		    					</p>
-		    					<p class="d-flex">
-		    						<span>Discount</span>
-		    						<span>$3.00</span>
-		    					</p>
-		    					<hr>
-		    					<p class="d-flex total-price">
-		    						<span>Total</span>
-		    						<span>$17.60</span>
-		    					</p>
+                  {% endfor %}
 								</div>
 	          	</div>
 	          	<div class="col-md-6">
 	          		<div class="cart-detail bg-light p-3 p-md-4">
 	          			<h3 class="billing-heading mb-4">Payment Method</h3>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <img style="width:100%;"src="{% static 'golang-paytm-Integration.png' %}">
-											</div>
-										</div>
-									</div>
-									<p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
-								</div>
+									<form action="/paymentprocess/" method="POST">
+                  {% for x in order %}
+                  <input type="hidden" value="{{ x.Order_ID|safe }}" name="orderid">
+                  {% endfor %}
+                  <div class="form-group">
+                    <div class="col-md-12">
+                      <div class="radio">
+                         <label><input type="radio" value="cod" required name="paymethod" class="mr-2"> Cash On Delivery</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-12">
+                      <div class="radio">
+                         <label><input type="radio" value="online" required name="paymethod" class="mr-2"> Pay Online Now</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-12">
+                      <div class="checkbox">
+                         <label><input type="checkbox" value="" class="mr-2" required> I have read and accept the <a href="">terms and conditions</a></label>
+                      </div>
+                    </div>
+                  </div>
+									<p><input type="submit" value="Place an order" class="btn btn-primary py-3 px-4"></p>
+								  </form>
+                </div>
 	          	</div>
 	          </div>
           </div> <!-- .col-md-8 -->

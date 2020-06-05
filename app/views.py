@@ -34,8 +34,6 @@ def shopblog(request):
 	return render(request,'shoppages/blog.html',{})
 def shopblogsingle(request):
 	return render(request,'shoppages/blog.html',{})
-def shopcheckout(request):
-	return render(request,'shoppages/checkout.html',{})
 def shopcontact(request):
 	return render(request,'shoppages/contact.html',{})
 def shopindex(request):
@@ -295,8 +293,26 @@ def shoppanelpaymentsystem(request):
 	try:
 		sid=request.session['storeid']
 		dic=GetShopDash(sid)
+		dic.update({'paydata':StoreMerchantData.objects.filter(Store_ID=sid)})
 		return render(request,'shoppanel/paymentsystem.html',dic)
 	except:
+		return redirect('/shoppanelpages404/')
+@csrf_exempt
+def savestorepaymentkeys(request):
+	if request.method=='POST':
+		sid=request.session['storeid']
+		mid=request.POST.get('MID')
+		merchantkey=request.POST.get('KEY')
+		if StoreMerchantData.objects.filter(Store_ID=sid):
+			obj=StoreMerchantData.objects.filter(Store_ID=sid).delete()
+		obj=StoreMerchantData(
+			Store_ID=sid,
+			MID=mid,
+			MERCHANT_KEY=merchantkey
+			)
+		obj.save()
+		return redirect('/shoppanelpaymentsystem/')
+	else:
 		return redirect('/shoppanelpages404/')
 
 def addcategory(request):
@@ -371,6 +387,10 @@ def savestorecategory(request):
 		return render(request,'verifystore.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
+
+def shoppanelpayment(request):
+	return render(request,'shoppanel/payment.html',{})
+
 @csrf_exempt
 def verifystore(request):
 	if request.method=='POST':
@@ -380,10 +400,26 @@ def verifystore(request):
 		if otpp == storeotp:
 			obj=StoreData.objects.filter(Store_ID=sid)
 			obj.update(Verify_Status='Verified')
-			alert='<script type="text/javascript">alert("Your Account Has Been Successfully Created! Kindly Login to Proceed");</script>'
-			dic={'category':StoreCategoryData.objects.all(),
-			'alert':alert}
-			return render(request,'index.html',dic)
+			request.session['storeid'] = sid
+			a="S00"
+			x=1
+			aid=a+str(x)
+			while StoreActivationData.objects.filter(Act_ID=aid).exists():
+				x=x+1
+				aid=a+str(x)
+			x=int(x)
+			obj=StoreActivationData(
+				Act_ID=aid,
+				Store_ID=sid
+				)
+			obj.save()
+			MERCHANT_KEY = 'gDokYWVAFFW9OSlZ'
+			MID = 'bAQrse69179758299775'
+			data_dict = {'MID':MID}
+			data_dict.update(getparamdict2(sid, aid))
+			param_dict = data_dict
+			param_dict['CHECKSUMHASH'] =Checksum.generateSignature(data_dict, MERCHANT_KEY)
+			return render(request,'shoppannel/processpayment.html',param_dict)
 		else:
 			otp=''
 			email=''
@@ -408,6 +444,92 @@ Team Bazzaars'''
 			return render(request,'verifystore.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
+import cgi
+@csrf_exempt
+def verifypayment2(request):
+	MERCHANT_KEY = 'gDokYWVAFFW9OSlZ'
+	CURRENCY=request.POST.get('CURRENCY')
+	GATEWAYNAME=request.POST.get('GATEWAYNAME')
+	RESPMSG=request.POST.get('RESPMSG')
+	BANKNAME=request.POST.get('BANKNAME')
+	PAYMENTMODE=request.POST.get('PAYMENTMODE')
+	MID=request.POST.get('MID')
+	RESPCODE=request.POST.get('RESPCODE')
+	TXNID=request.POST.get('TXNID')
+	TXNAMOUNT=request.POST.get('TXNAMOUNT')
+	ORDERID=request.POST.get('ORDERID')
+	STATUS=request.POST.get('STATUS')
+	BANKTXNID=request.POST.get('BANKTXNID')
+	TXNDATE=request.POST.get('TXNDATE')
+	CHECKSUMHASH=request.POST.get('CHECKSUMHASH')
+	respons_dict = {
+					'MERCHANT_KEY':MERCHANT_KEY,
+					'CURRENCY':CURRENCY,
+					'GATEWAYNAME':GATEWAYNAME,
+					'RESPMSG':RESPMSG,
+					'BANKNAME':BANKNAME,
+					'PAYMENTMODE':PAYMENTMODE,
+					'MID':MID,
+					'RESPCODE':RESPCODE,
+					'TXNID':TXNID,
+					'TXNAMOUNT':TXNAMOUNT,
+					'ORDERID':ORDERID,
+					'STATUS':STATUS,
+					'BANKTXNID':BANKTXNID,
+					'TXNDATE':TXNDATE,
+					'CHECKSUMHASH':CHECKSUMHASH
+	}
+	checksum=respons_dict['CHECKSUMHASH']
+	if 'GATEWAYNAME' in respons_dict:
+		if respons_dict['GATEWAYNAME'] == 'WALLET':
+			respons_dict['BANKNAME'] = 'null';
+	obj=StoreActivationData(
+		CURRENCY=CURRENCY,
+		GATEWAYNAME=GATEWAYNAME,
+		RESPMSG=RESPMSG,
+		BANKNAME=BANKNAME,
+		PAYMENTMODE=PAYMENTMODE,
+		RESPCODE=RESPCODE,
+		TXNID=TXNID,
+		TXNAMOUNT=TXNAMOUNT,
+		STATUS=STATUS,
+		BANKTXNID=BANKTXNID,
+		TXNDATE=TXNDATE,
+		CHECKSUMHASH=CHECKSUMHASH
+		)
+	obj.save()
+	MERCHANT_KEY = respons_dict['MERCHANT_KEY']
+	data_dict = {'MID':respons_dict['MID']}
+	data_dict.update(getparamdict(respons_dict['ORDERID']))
+	checksum =Checksum.generateSignature(data_dict, MERCHANT_KEY)
+	verify = Checksum.verifySignature(data_dict, MERCHANT_KEY, checksum)
+	if verify:
+		if respons_dict['RESPCODE'] == '01':
+			obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID'])
+			for x in obj:
+				obj1=StoreData.objects.filter(Store_ID=x.Store_ID)
+				obj1.update(Payment_Status='Paid')
+				request.session['storeid'] = x.Store_ID
+			dic={'txndata':obj}
+			return render(request, 'shoppanel/paymentsuccess.html', dic)
+		else:
+			obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID'])
+			dic={'txndata':obj}
+			return render(request, 'shoppanel/paymentfailed.html', dic)
+	else:
+		obj=OrderData.objects.filter(Order_ID=ORDERID)
+		obj.update(Status='Deactive')
+		sid=''
+		for x in obj:
+			sid=x.Store_ID
+			obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
+			obj.update(Status='Deactive')
+			obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
+			obj.update(Status='Deactive')
+		dic=GetShopData2(sid)
+		dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
+		dic.update({'because':respons_dict['RESPMSG']})
+		return render(request, 'shoppages/processfail.html', dic)
 def ResendOTP(request):
 	sid=request.GET.get('sid')
 	otp=''
@@ -786,19 +908,21 @@ def addtocart(request, shopname, pid):
 	obj=StoreProductData.objects.filter(Product_ID=pid)
 	for x in obj:
 		pprice=x.Product_Price
-	if CartData.objects.filter(User_ID=uid).exists():
+	if CartData.objects.filter(User_ID=uid, Status='Active').exists():
 		cartid=''
 		for x in CartData.objects.filter(User_ID=uid):
 			cartid=x.Cart_ID
-		if CartProductData.objects.filter(Product_ID=pid).exists():
+		if CartProductData.objects.filter(Product_ID=pid,Status='Active').exists():
 			obj=CartProductData.objects.filter(Product_ID=pid)
 			quantity=0
-			tprice=0
 			for x in obj:
 				quantity=int(x.Product_Quantity)
-				tprice=int(x.Product_Total)
 			quantity=quantity+1
-			tprice=tprice*quantity
+			price=0
+			obj1=StoreProductData.objects.filter(Product_ID=pid)
+			for x in obj1:
+				price=int(x.Product_Price)
+			tprice=price*quantity
 			obj.update(Product_Quantity=str(quantity),Product_Total=str(tprice))
 			return HttpResponse("<script>alert('Product Added to Cart!'); window.location.replace('/"+shopname+"')</script>")
 		else:
@@ -829,9 +953,12 @@ def addtocart(request, shopname, pid):
 		return HttpResponse("<script>alert('Product Added to Cart!'); window.location.replace('/"+shopname+"')</script>")
 
 def shopcart(request, shopname):
+	#obj=OrderData.objects.all().delete()
+	#obj=CartData.objects.all().delete()
+	#obj=CartProductData.objects.all().delete()
 	data1=GetStoreIDByName(shopname)
 	uid=request.session['userid']
-	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'],Status='Active')
 	carttotal=0
 	for x in obj:
 		carttotal=carttotal+int(x.Product_Total)
@@ -860,7 +987,7 @@ def addquantity(request, shopname, pid):
 	carttotal=0
 	for x in obj:
 		carttotal=carttotal+int(x.Product_Total)
-	obj1=CartData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj1=CartData.objects.filter(User_ID=uid,Store_ID=data1['sid'],Status='Active')
 	obj1.update(Cart_Total=carttotal)
 	dic=GetShopData(data1['sname'])
 	dic.update({'cartdata':obj1,'cart':GetCartItems(obj),'checksession':checksession(request)})
@@ -889,9 +1016,205 @@ def removequantity(request, shopname, pid):
 	dic=GetShopData(data1['sname'])
 	dic.update({'cartdata':obj1,'cart':GetCartItems(obj),'checksession':checksession(request)})
 	return render(request,'shoppages/cart.html',dic)
+def selectaddress(request, shopname, crtid):
+	data1=GetStoreIDByName(shopname)
+	dic=GetShopData(data1['sname'])
+	uid=request.session['userid']
+	o="ORD00"
+	x=1
+	oid=o+str(x)
+	while OrderData.objects.filter(Order_ID=oid).exists():
+		x=x+1
+		oid=o+str(x)
+	x=int(x)
+	if OrderData.objects.filter(Cart_ID=crtid, Status='Active').exists():
+		amount=''
+		for x in CartData.objects.filter(Cart_ID=crtid):
+			amount=x.Cart_Total
+			break
+		obj=OrderData.objects.filter(Cart_ID=crtid)
+		obj.update(Order_Amount=amount)
+		dic.update({'address':UserAddressData.objects.filter(User_ID=uid),
+					'orderdata':OrderData.objects.filter(Cart_ID=crtid)})
+		return render(request, 'shoppages/selectaddress.html', dic)
+	else:
+		amount=''
+		for x in CartData.objects.filter(Cart_ID=crtid):
+			amount=x.Cart_Total
+			break
+		obj=OrderData(
+			Order_ID=oid,
+			Cart_ID=crtid,
+			Store_ID=data1['sid'],
+			User_ID=uid,
+			Order_Amount=amount,
+			)
+		obj.save()
+		dic.update({'address':UserAddressData.objects.filter(User_ID=uid),
+					'orderdata':OrderData.objects.filter(Order_ID=oid)})
+		return render(request, 'shoppages/selectaddress.html', dic)
+@csrf_exempt
+def proceedtocheckout(request, shopname, ordid):
+	if request.method=='POST':
+		data1=GetStoreIDByName(shopname)
+		dic=GetShopData(data1['sname'])
+		aid=request.POST.get('aid')
+		obj=OrderData.objects.filter(Order_ID=ordid)
+		obj.update(Address_ID=aid)
+		obj=OrderData.objects.filter(Order_ID=ordid)
+		obj1=UserAddressData.objects.filter(Address_ID=aid)
+		dic.update({'order':obj, 'address':obj1})
+		request.session['sid'] = data1['sid']
+		return render(request,'shoppages/checkout.html',dic)
+
+#Paytm Payments
+import app.Checksum as Checksum
+import requests
+import base64
+import json
+
+def order(request):
+	return render(request,'shoppages/ordersuccess.html',{})
+
+@csrf_exempt
+def processpayment(request):
+	if request.method=='POST':
+		orderid=request.POST.get('orderid')
+		paymentmode=request.POST.get('paymethod')
+		obj=OrderData.objects.filter(Order_ID=orderid)
+		obj.update(Order_Type=paymentmode)
+		if paymentmode=='cod':
+			obj=OrderData.objects.filter(Order_ID=ORDERID)
+			obj.update(Status='Deactive')
+			for x in obj:
+				obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
+				obj.update(Status='Deactive')
+				obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
+				obj.update(Status='Deactive')
+			sid=request.session['sid']
+			dic=GetShopData2(sid)
+			dic.update({'Order_ID':orderid})
+			return render(request,'shoppages/ordersuccess.html',dic)
+		else:
+			obj=StoreMerchantData.objects.filter(Store_ID=request.session['sid'])
+			MERCHANT_KEY = ''
+			MID = ''
+			for x in obj:
+				MERCHANT_KEY = x.MERCHANT_KEY
+				MID = x.MID
+			data_dict = {'MID':MID}
+			data_dict.update(getparamdict(orderid))
+			param_dict = data_dict
+			param_dict['CHECKSUMHASH'] =Checksum.generateSignature(data_dict, MERCHANT_KEY)
+			return render(request,'shoppages/paymentprocess.html',param_dict)
+import cgi
+@csrf_exempt
+def verifypayment(request):
+	MERCHANT_KEY = 'gDokYWVAFFW9OSlZ'
+	CURRENCY=request.POST.get('CURRENCY')
+	GATEWAYNAME=request.POST.get('GATEWAYNAME')
+	RESPMSG=request.POST.get('RESPMSG')
+	BANKNAME=request.POST.get('BANKNAME')
+	PAYMENTMODE=request.POST.get('PAYMENTMODE')
+	MID=request.POST.get('MID')
+	RESPCODE=request.POST.get('RESPCODE')
+	TXNID=request.POST.get('TXNID')
+	TXNAMOUNT=request.POST.get('TXNAMOUNT')
+	ORDERID=request.POST.get('ORDERID')
+	STATUS=request.POST.get('STATUS')
+	BANKTXNID=request.POST.get('BANKTXNID')
+	TXNDATE=request.POST.get('TXNDATE')
+	CHECKSUMHASH=request.POST.get('CHECKSUMHASH')
+	respons_dict = {
+					'MERCHANT_KEY':MERCHANT_KEY,
+					'CURRENCY':CURRENCY,
+					'GATEWAYNAME':GATEWAYNAME,
+					'RESPMSG':RESPMSG,
+					'BANKNAME':BANKNAME,
+					'PAYMENTMODE':PAYMENTMODE,
+					'MID':MID,
+					'RESPCODE':RESPCODE,
+					'TXNID':TXNID,
+					'TXNAMOUNT':TXNAMOUNT,
+					'ORDERID':ORDERID,
+					'STATUS':STATUS,
+					'BANKTXNID':BANKTXNID,
+					'TXNDATE':TXNDATE,
+					'CHECKSUMHASH':CHECKSUMHASH
+	}
+	checksum=respons_dict['CHECKSUMHASH']
+	if 'GATEWAYNAME' in respons_dict:
+		if respons_dict['GATEWAYNAME'] == 'WALLET':
+			respons_dict['BANKNAME'] = 'null';
+	obj=OrderPaymentData(
+		Order_ID=ORDERID,
+		MERCHANT_KEY=MERCHANT_KEY,
+		CURRENCY=CURRENCY,
+		GATEWAYNAME=GATEWAYNAME,
+		RESPMSG=RESPMSG,
+		BANKNAME=BANKNAME,
+		PAYMENTMODE=PAYMENTMODE,
+		MID=MID,
+		RESPCODE=RESPCODE,
+		TXNID=TXNID,
+		TXNAMOUNT=TXNAMOUNT,
+		STATUS=STATUS,
+		BANKTXNID=BANKTXNID,
+		TXNDATE=TXNDATE,
+		CHECKSUMHASH=CHECKSUMHASH
+		)
+	obj.save()
+	MERCHANT_KEY = respons_dict['MERCHANT_KEY']
+	data_dict = {'MID':respons_dict['MID']}
+	data_dict.update(getparamdict(respons_dict['ORDERID']))
+	checksum =Checksum.generateSignature(data_dict, MERCHANT_KEY)
+	verify = Checksum.verifySignature(data_dict, MERCHANT_KEY, checksum)
+	if verify:
+		if respons_dict['RESPCODE'] == '01':
+			obj=OrderData.objects.filter(Order_ID=ORDERID)
+			obj.update(Status='Deactive')
+			sid=''
+			for x in obj:
+				sid=x.Store_ID
+				obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
+				obj.update(Status='Deactive')
+				obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
+				obj.update(Status='Deactive')
+			dic=GetShopData2(sid)
+			dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
+			return render(request, 'shoppages/paymentsuccess.html', dic)
+		else:
+			obj=OrderData.objects.filter(Order_ID=ORDERID)
+			obj.update(Status='Deactive')
+			sid=''
+			for x in obj:
+				sid=x.Store_ID
+				obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
+				obj.update(Status='Deactive')
+				obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
+				obj.update(Status='Deactive')
+			dic=GetShopData2(sid)
+			dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
+			dic.update({'because':respons_dict['RESPMSG']})
+			return render(request, 'shoppages/processfail.html', dic)
+	else:
+		obj=OrderData.objects.filter(Order_ID=ORDERID)
+		obj.update(Status='Deactive')
+		sid=''
+		for x in obj:
+			sid=x.Store_ID
+			obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
+			obj.update(Status='Deactive')
+			obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
+			obj.update(Status='Deactive')
+		dic=GetShopData2(sid)
+		dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
+		dic.update({'because':respons_dict['RESPMSG']})
+		return render(request, 'shoppages/processfail.html', dic)
 
 def searchresult(request):
 	return render(request,'searchresult.html',{})
+<<<<<<< HEAD
 def shopselectaddress(request):
 	return render(request,'shoppages/selectaddress.html',{})
 def shoppanelpayment(request):
@@ -900,3 +1223,5 @@ def shoppanelpaymentsuccess(request):
 	return render(request,'shoppanel/paymentsuccess.html',{})
 def shoppanelpaymentfailed(request):
 	return render(request,'shoppanel/paymentfailed.html',{})
+=======
+>>>>>>> 7148c04df3f07c111116cc2d76ec8a24043f3b03

@@ -2,7 +2,7 @@
 {% load static %}
 <html lang="en">
   <head>
-    <title>Winkel - Free Bootstrap 4 Template by Colorlib</title>
+    <title>{{ storename|safe }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -33,7 +33,7 @@
 
       
          input[type=radio]:checked + p {
-           border-left:5px solid black;
+           border-left:10px solid black;
            border-radius:10px;
            box-shadow:2px 2px 15px;
            padding:30px;
@@ -66,17 +66,21 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Winkel</a>
+	      {% if storelogo %}
+             <a class="navbar-brand" href="/{{ storename|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
+            {% else %}
+                <a class="navbar-brand" href="/{{ storename|safe }}">{{ storename|safe }}</a>
+            {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
-	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          
+            <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 
 	        </ul>
 	      </div>
@@ -159,30 +163,25 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-8 ftco-animate">
-						<form action="#" class="billing-form">
+						{% for x in address %}
+            {% for y in orderdata %}
+            <form method="POST" action="/{{ url|safe }}/{{ y.Order_ID|safe }}/proceedtocheckout/" class="billing-form">
 							<h3 class="mb-4 billing-heading">Select Address</h3>
               <label>Deliver To</label><br>
               <label>
-                  <input class="w3-input" type="radio" name="design" style="margin-bottom:20px;position:absolute;opacity:0;height:0;width:0;cursor:pointer;" value="{{ x.did|safe }}" required checked>
+                  <input class="w3-input" type="radio" name="aid" style="margin-bottom:20px;position:absolute;opacity:0;height:0;width:0;cursor:pointer;" value="{{ x.Address_ID|safe }}" required>
                   <p>
-                    <span style="font-size:25px;font-weight:bold;">Shubhi</span><br>
-                    <span style="font-size:18px;"><i class="fa fa-map-marker"></i> sector 15,<br>Kamla Nagar Agra</span><br>
-                    <span style="font-size:18px;"><i class="fa fa-phone"></i> 8938979011</span>
+                    <span style="font-size:25px;font-weight:bold;">{{ x.Name|safe }}</span><br>
+                    <span style="font-size:18px;"><i class="fa fa-map-marker"></i> {{ x.HouseStreet|safe }}, {{ x.LandmarkColony|safe }}<br>{{ x.City|safe }}-{{ x.Pincode|safe }}, {{ x.State|safe }}</span><br>
+                    <span style="font-size:18px;"><i class="fa fa-phone"></i> +91-{{ x.Mobile|safe }}</span>
                   </p>
               </label><br>
-              <label>
-                  <input class="w3-input" type="radio" name="design" style="margin-bottom:20px;position:absolute;opacity:0;height:0;width:0;cursor:pointer;" value="{{ x.did|safe }}" required>
-                  <p>
-                    <span style="font-size:25px;font-weight:bold;">Shubhi</span><br>
-                    <span style="font-size:18px;"><i class="fa fa-map-marker"></i> sector 15,<br>Kamla Nagar Agra</span><br>
-                    <span style="font-size:18px;"><i class="fa fa-phone"></i> 8938979011</span>
-                  </p>
-              </label><br>
-              <button class="w3-button w3-blue w3-hover-black"type="submit"><i class="fa fa-arrow-right"></i> Proceed</button>
+              <button class="w3-button w3-blue w3-hover-black"type="submit"><i class="fa fa-arrow-right"></i> Proceed to Checkout</button>
               <a class="w3-button w3-blue w3-hover-black"href=""><i class="fa fa-plus"></i>
                 Add Address</a> 
 	          </form><!-- END -->
-	          
+	          {% endfor %}
+            {% endfor %}
           </div> <!-- .col-md-8 -->
         </div>
       </div>

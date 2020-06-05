@@ -218,9 +218,10 @@
     						<span>Total</span>
     						<span><i class="fa fa-inr"></i> {{ x.Cart_Total|safe }}</span>
     					</p>
+              <p class="text-center"><a href="/{{ url|safe }}/{{ x.Cart_ID|safe }}/selectaddress/" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
               {% endfor %}
     				</div>
-    				<p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    				
     			</div>
     		</div>
 			</div>
