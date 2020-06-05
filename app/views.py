@@ -895,4 +895,8 @@ def searchresult(request):
 def shopselectaddress(request):
 	return render(request,'shoppages/selectaddress.html',{})
 def shoppanelpayment(request):
-		return render(request,'shoppanel/payment.html',{})
+	return render(request,'shoppanel/payment.html',{})
+def shoppanelpaymentsuccess(request):
+	return render(request,'shoppanel/paymentsuccess.html',{})
+def shoppanelpaymentfailed(request):
+	return render(request,'shoppanel/paymentfailed.html',{})

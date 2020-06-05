@@ -84,6 +84,8 @@ urlpatterns = [
     path('logout2/',logout2),
     path('searchresult/',searchresult),
     path('shoppanelpayment/',shoppanelpayment),
+    path('shoppanelpaymentsuccess/',shoppanelpaymentsuccess),
+    path('shoppanelpaymentfailed/',shoppanelpaymentfailed),
 
     path('<str:shopname>/addtocart/<str:pid>/',addtocart),
     path('<str:shopname>/addquantity/<str:pid>/',addquantity),
