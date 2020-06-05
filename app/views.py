@@ -1204,3 +1204,14 @@ def verifypayment(request):
 
 def searchresult(request):
 	return render(request,'searchresult.html',{})
+<<<<<<< HEAD
+def shopselectaddress(request):
+	return render(request,'shoppages/selectaddress.html',{})
+def shoppanelpayment(request):
+	return render(request,'shoppanel/payment.html',{})
+def shoppanelpaymentsuccess(request):
+	return render(request,'shoppanel/paymentsuccess.html',{})
+def shoppanelpaymentfailed(request):
+	return render(request,'shoppanel/paymentfailed.html',{})
+=======
+>>>>>>> 7148c04df3f07c111116cc2d76ec8a24043f3b03
