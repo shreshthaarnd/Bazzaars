@@ -58,6 +58,8 @@ def adminformsadvanced(request):
 	return render(request,'adminpages/forms-advanced.html',{})
 def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
+def adminlogin(request):
+	return render(request,'adminpages/login.html',{})
 
 def shoppanelindex(request):
 	return render(request,'shoppanel/index.html',{})
@@ -401,7 +403,7 @@ def verifystore(request):
 			obj=StoreData.objects.filter(Store_ID=sid)
 			obj.update(Verify_Status='Verified')
 			request.session['storeid'] = sid
-			a="S00"
+			a="ACT00"
 			x=1
 			aid=a+str(x)
 			while StoreActivationData.objects.filter(Act_ID=aid).exists():
@@ -419,7 +421,7 @@ def verifystore(request):
 			data_dict.update(getparamdict2(sid, aid))
 			param_dict = data_dict
 			param_dict['CHECKSUMHASH'] =Checksum.generateSignature(data_dict, MERCHANT_KEY)
-			return render(request,'shoppannel/processpayment.html',param_dict)
+			return render(request,'shoppanel/payment.html',param_dict)
 		else:
 			otp=''
 			email=''
@@ -483,7 +485,7 @@ def verifypayment2(request):
 	if 'GATEWAYNAME' in respons_dict:
 		if respons_dict['GATEWAYNAME'] == 'WALLET':
 			respons_dict['BANKNAME'] = 'null';
-	obj=StoreActivationData(
+	obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID']).update(
 		CURRENCY=CURRENCY,
 		GATEWAYNAME=GATEWAYNAME,
 		RESPMSG=RESPMSG,
@@ -497,11 +499,10 @@ def verifypayment2(request):
 		TXNDATE=TXNDATE,
 		CHECKSUMHASH=CHECKSUMHASH
 		)
-	obj.save()
 	MERCHANT_KEY = respons_dict['MERCHANT_KEY']
 	data_dict = {'MID':respons_dict['MID']}
 	data_dict.update(getparamdict(respons_dict['ORDERID']))
-	checksum =Checksum.generateSignature(data_dict, MERCHANT_KEY)
+	checksum = Checksum.generateSignature(data_dict, MERCHANT_KEY)
 	verify = Checksum.verifySignature(data_dict, MERCHANT_KEY, checksum)
 	if verify:
 		if respons_dict['RESPCODE'] == '01':
@@ -511,25 +512,19 @@ def verifypayment2(request):
 				obj1.update(Payment_Status='Paid')
 				request.session['storeid'] = x.Store_ID
 			dic={'txndata':obj}
-			return render(request, 'shoppanel/paymentsuccess.html', dic)
+			dic.update({'msg':respons_dict['RESPMSG']})
+			return render(request,'shoppanel/paymentsuccess.html',dic)
 		else:
 			obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID'])
 			dic={'txndata':obj}
-			return render(request, 'shoppanel/paymentfailed.html', dic)
+			dic.update({'msg':respons_dict['RESPMSG']})
+			return render(request,'shoppanel/paymentfailed.html',dic)
 	else:
-		obj=OrderData.objects.filter(Order_ID=ORDERID)
-		obj.update(Status='Deactive')
-		sid=''
-		for x in obj:
-			sid=x.Store_ID
-			obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
-			obj.update(Status='Deactive')
-			obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
-			obj.update(Status='Deactive')
-		dic=GetShopData2(sid)
-		dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
-		dic.update({'because':respons_dict['RESPMSG']})
-		return render(request, 'shoppages/processfail.html', dic)
+		obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID'])
+		dic={'txndata':obj}
+		dic.update({'msg':respons_dict['RESPMSG']})
+		return render(request,'shoppanel/paymentfailed.html',dic)
+
 def ResendOTP(request):
 	sid=request.GET.get('sid')
 	otp=''
@@ -552,7 +547,7 @@ Team Bazzaars'''
 	email.send()
 	dic={'storeid':sid}
 	return render(request,'verifystore.html',dic)
-			
+
 @csrf_exempt
 def editstoredetails(request):
 	if request.method=='POST':
@@ -580,7 +575,32 @@ def checklogin(request):
 			obj=StoreData.objects.filter(Store_Email=email)
 			for x in obj:
 				request.session['storeid'] = x.Store_ID
-			return redirect('/shoppanelstoreprofile/')
+			if StoreData.objects.filter(Verify_Status='Unverified', Store_Email=email).exists():
+				return redirect('/resendotp/')
+			else:
+				if StoreData.objects.filter(Payment_Status='Unpaid', Store_Email=email).exists():
+					a="ACT00"
+					x=1
+					aid=a+str(x)
+					while StoreActivationData.objects.filter(Act_ID=aid).exists():
+						x=x+1
+						aid=a+str(x)
+					x=int(x)
+					obj=StoreActivationData.objects.all().delete()
+					obj=StoreActivationData(
+						Act_ID=aid,
+						Store_ID=request.session['storeid']
+						)
+					obj.save()
+					MERCHANT_KEY = 'gDokYWVAFFW9OSlZ'
+					MID = 'bAQrse69179758299775'
+					data_dict = {'MID':MID}
+					data_dict.update(getparamdict2(request.session['storeid'], aid))
+					param_dict = data_dict
+					param_dict['CHECKSUMHASH'] =Checksum.generateSignature(data_dict, MERCHANT_KEY)
+					return render(request,'shoppanel/payment.html',param_dict)
+				else:	
+					return redirect('/shoppanelstoreprofile/')
 		else:
 			alert='<script type="text/javascript">alert("Incorrect Email/Password");</script>'
 			dic={'category':StoreCategoryData.objects.all(),
@@ -1214,6 +1234,9 @@ def verifypayment(request):
 
 def searchresult(request):
 	return render(request,'searchresult.html',{})
+
+
+
 
 def shopselectaddress(request):
 	return render(request,'shoppages/selectaddress.html',{})

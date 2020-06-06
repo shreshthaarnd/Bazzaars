@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <!-- Mobile Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>NGO | Admin Login</title>
+        <title>Bazzaars - Payment Successful</title>
         <!-- Web Fonts  -->
         <link rel="stylesheet" href="{% static 'shoppanel/assets/vendor/bootstrap/css/bootstrap.css' %}" />
         <link rel="stylesheet" href="{% static 'shoppanel/assets/vendor/font-awesome/css/font-awesome.css' %}" />
@@ -49,15 +49,17 @@
                         <div style="color:green;">
                             <i style="font-size:100px;"class="fa fa-check"></i><br>
                             <span style="font-size:30px;">Payment Successful</span>
-                        </div> 
-                        <p style="line-height:30px;"><span style="font-size:20px;">Activation ID : <span style="font-weight:bold;">aryan123@paytm</span></span><br>
-                            <span style="font-size:20px;">Transaction ID : <span style="font-weight:bold;">pxn2345b</span></span>
-                        </p> 
-                        <a style="font-size:25px;margin-top:20px;width:100%;padding:15px;"class="w3-button w3-blue w3-hover-black"href="">Go to Dashboard</a><br>
+                        </div>
+                        {% for x in txndata %}
+                        <p style="line-height:30px;"><span style="font-size:20px;">Activation ID : <span style="font-weight:bold;">{{ x.Act_ID|safe }}</span></span><br>
+                            <span style="font-size:20px;">Transaction ID : <span style="font-weight:bold;">{{ x.TXNID|safe }}</span></span>
+                        </p>
+                        {% endfor %}
+                        <a style="font-size:25px;margin-top:20px;width:100%;padding:15px;"class="w3-button w3-blue w3-hover-black" href="/shoppanelstoreprofile/">Go to Dashboard</a><br>
                     </div>
                 </div>
 
-                <p class="text-center text-muted mt-md mb-md">Website Designed & Developed by<br><a style="font-weight:bold;" href="https://www.srd.mobi"><img style="width:30px;margin-right:5px;" src="{% static 'SRD.png' %}">SRD (Shreshtha Research & Development)</a>.</p>
+                <p class="text-center text-muted mt-md mb-md">Website Designed & Developed by<br><a style="font-weight:bold;" href="https://www.srd.mobi"><img style="width:30px;margin-right:5px;" src="{% static 'Logo2.png' %}">SRD (Shreshtha Research & Development)</a>.</p>
             </div>
         </section>
         <!-- end: page -->
