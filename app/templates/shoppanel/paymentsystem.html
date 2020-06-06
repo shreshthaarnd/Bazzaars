@@ -219,21 +219,25 @@
 							<section class="panel">
 								<div class="panel-body">
 									<div class="thumb-info mb-md">
+										{% if storelogo %}
+										<img src="{{ storelogo|safe }}" class="rounded img-responsive" alt="Store Owner">
+										{% else %}
 										<img src="{% static 'shoppanel/assets/images/!logged-user.jpg' %}" class="rounded img-responsive" alt="Store Owner">
+										{% endif %}
 										<div class="thumb-info-title">
-											<span class="thumb-info-inner">Store Owner</span>
+											<span class="thumb-info-inner">{{ storeowner|safe }}</span>
 											<span class="thumb-info-type">Store Owner</span>
 										</div>
 									</div>
 									<hr class="dotted short">
 									<h4>Total Amount Received</h4>
-									<p style="font-size:20px;"><i class="fa fa-inr"></i> 500.00</p>
+									{% if tamount %}
+									<p style="font-size:20px;"><i class="fa fa-inr"></i> {{ tamount|safe }}</p>
+									{% else %}
+									<p style="font-size:20px;"><i class="fa fa-inr"></i> 0.00</p>
+									{% endif %}
 									<hr class="dotted short">
-									<div class="social-icons-list">
-										<a rel="tooltip" data-placement="bottom" target="_blank" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
-										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a>
-										<a rel="tooltip" data-placement="bottom" href="" data-original-title="Linkedin"><i class="fa fa-instagram"></i><span>Instagram</span></a>
-									</div>
+									
 
 								</div>
 							</section>
@@ -301,26 +305,37 @@
 									</div>
 									<div id="history" class="tab-pane">
 										<h4>Payment History</h4>
-										<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-download"></i> Download History</button>
+										<a href="/downloadpaydata/" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-download"></i> Download History</a>
 										<div class="table-responsive">
 											<div style="overflow-x:auto;overflow-y:auto;">
 											<table class="table table-hover mb-none">
 												<thead>
 													<tr>
-														<th>Date</th>
-														<th>Payment Id</th>
-														<th>Order Id</th>
+														<th>Order Date</th>
+														<th>Order ID</th>
+														<th>Transaction ID</th>
+														<th>Payment Mode</th>
+														<th>Bank Transaction ID</th>
+														<th>Bank Name</th>
 														<th>Amount</th>
+														<th>Status</th>
+														<th>Response</th>
 													</tr>
 												</thead>
 												<tbody>
+													{% for x in txndata %}
 													<tr>
-														<td>06/04/2020</td>
-														<td>ERT56</td>
-														<td>NHU6789</td>
-														<td>100.00</td>
-														</td>
+														<td>{{ x.txndate|safe }}</td>
+														<td>{{ x.orderid|safe }}</td>
+														<td>{{ x.txnid|safe }}</td>
+														<td>{{ x.mode|safe }}</td>
+														<td>{{ x.banktxnid|safe }}</td>
+														<td>{{ x.bankname|safe }}</td>
+														<td>{{ x.amount|safe }}</td>
+														<td>{{ x.status|safe }}</td>
+														<td>{{ x.respcode|safe }} : {{ x.respmsg|safe }}</td>
 													</tr>
+													{% endfor %}
 												
 													
 												</table>

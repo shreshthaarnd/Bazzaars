@@ -30,6 +30,116 @@ def GetShopDash(sid):
 			})
 	return dic
 
+def GetShopTxnData(ordlist):
+	dic={}
+	lt=[]
+	for x in ordlist:
+		for y in OrderPaymentData.objects.filter(Order_ID=x):
+			if y.TXNID!='None':
+				dic={'orderid':y.Order_ID,
+					'txnid':y.TXNID,
+					'mode':y.PAYMENTMODE,
+					'banktxnid':y.BANKTXNID,
+					'bankname':y.BANKNAME,
+					'txndate':y.TXNDATE,
+					'respcode':y.RESPCODE,
+					'respmsg':y.RESPMSG,
+					'amount':y.TXNAMOUNT,
+					'status':y.STATUS,
+					}
+				lt.append(dic)
+	return lt
+
+def GetOrderAllList(sid):
+	dic={}
+	lt=[]
+	obj=OrderData.objects.filter(Store_ID=sid)
+	for x in obj:
+		dic={
+			'date':x.Order_Date,
+			'id':x.Order_ID,
+			'uid':x.User_ID,
+			'status':x.Order_Status,
+			'amount':x.Order_Amount,
+			'type':x.Order_Type
+		}
+		for y in UserAddressData.objects.filter(Address_ID=x.Address_ID):
+			dic.update({'name':y.Name,
+						'house':y.HouseStreet,
+						'colony':y.LandmarkColony,
+						'city':y.City,
+						'state':y.State,
+						'pincode':y.Pincode,
+						'mobile':y.Mobile})
+		lt.append(dic)
+	return lt
+
+def GetOrderCompletedList(sid):
+	dic={}
+	lt=[]
+	obj=OrderData.objects.filter(Store_ID=sid, Order_Status='Completed')
+	for x in obj:
+		dic={
+			'date':x.Order_Date,
+			'id':x.Order_ID,
+			'uid':x.User_ID,
+			'status':x.Order_Status,
+			'amount':x.Order_Amount,
+			'type':x.Order_Type
+		}
+		for y in UserAddressData.objects.filter(Address_ID=x.Address_ID):
+			dic.update({'name':y.Name,
+						'house':y.HouseStreet,
+						'colony':y.LandmarkColony,
+						'city':y.City,
+						'state':y.State,
+						'pincode':y.Pincode,
+						'mobile':y.Mobile})
+		lt.append(dic)
+	return lt
+
+def GetOrderPendingList(sid):
+	dic={}
+	lt=[]
+	obj=OrderData.objects.filter(Store_ID=sid, Order_Status='Pending')
+	for x in obj:
+		dic={
+			'date':x.Order_Date,
+			'id':x.Order_ID,
+			'uid':x.User_ID,
+			'status':x.Order_Status,
+			'amount':x.Order_Amount,
+			'type':x.Order_Type
+		}
+		for y in UserAddressData.objects.filter(Address_ID=x.Address_ID):
+			dic.update({'name':y.Name,
+						'house':y.HouseStreet,
+						'colony':y.LandmarkColony,
+						'city':y.City,
+						'state':y.State,
+						'pincode':y.Pincode,
+						'mobile':y.Mobile})
+		lt.append(dic)
+	return lt
+
+def GetOrderProducts(sid):
+	obj=OrderData.objects.filter(Store_ID=sid)
+	lt=[]
+	dic={}
+	for x in obj:
+		for y in CartProductData.objects.filter(Cart_ID=x.Cart_ID):
+			dic={'total':y.Product_Total,
+				'quantity':y.Product_Quantity}
+			for z in StoreProductData.objects.filter(Product_ID=y.Product_ID):
+				dic.update({
+					'name':z.Product_Name,
+					'price':z.Product_Price,
+					'id':z.Product_ID,
+					'oid':x.Order_ID
+					})
+		lt.append(dic)
+	return lt
+
 def GetShopData(shopname):
 	dic={}
 	surl=''
