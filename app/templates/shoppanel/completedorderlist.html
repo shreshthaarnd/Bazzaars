@@ -32,6 +32,7 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="{% static 'shoppanel/assets/stylesheets/theme-custom.css' %}">
+		<link rel="stylesheet" href="{% static 'w3.css' %}">
 
 		<!-- Head Libs -->
 		<script src="{% static 'shoppanel/assets/vendor/modernizr/modernizr.js' %}"></script>
@@ -222,40 +223,55 @@
 									<div class="panel-body">
 										<div class="table-responsive">
 											<div style="overflow-x:auto;overflow-y:auto;">
-											<table class="table table-hover mb-none">
+												<table class="table table-hover mb-none">
 												<thead>
 													<tr>
+														<th>View</th>
 														<th>Date</th>
 														<th>Order ID</th>
-														<th>Product Name</th>
-														<th>Product Quantity</th>
-														<th>Product Price</th>
-														<th>Customer Name</th>
-														<th>Customer Address</th>
-														<th>Customer Phone</th>
-														<th>Customer E-Mail</th>
-														<th>Total Amount</th>
+														<th>User ID</th>
+														<th>Type</th>
+														<th>Amount</th>
+														<th>Delivery Address</th>
 														<th>Status</th>
+														<th>Action</th>
 													</tr>
 												</thead>
+													{% for x in data %}
 													<tr>
-														<td>04/022020</td>
-														<td>00234GHT</td>
-														<td>Besan</td>
-														<th>1.0</th>
-														<th>50.00</th>
-														<th>Akash Mittal</th>
-														<th>Sector 15,Kamla Nagar Delhi</th>
-														<th>4589670201</th>
-														<th>aksh23@gmail.com</th>
-														
-														<th>50.00</th>
 														<td>
-															<span style="background-color:green;color:white;padding:5px;border-radius:5px;">Completed</span>
+															<a class="mb-xs mt-xs mr-xs btn btn-primary" href="#{{ x.id|safe }}" onclick="getElementById('{{ x.id|safe }}').style.display='block';">View</a>
+														</td>
+														<td>{{ x.date|safe }}</td>
+														<td>{{ x.id|safe }}</td>
+														<td>{{ x.uid|safe }}</td>
+														
+														{% if x.type == 'online' %}
+														<td>Online Payment</td>
+														{% else %}
+														<td>COD</td>
+														{% endif %}
+														
+														<td><i class="fa fa-inr"></i> {{ x.amount|safe }}</td>
+														<th>{{ x.name|safe }}<br>{{ x.house|safe }}, {{ x.colony|safe }}<br>{{ x.city|safe }}-{{ x.pincode|safe }}, {{ x.state|safe }} (INDIA)</th>
+														{% if x.status == 'Pending' %}
+														<td>
+															<span style="background-color:red;color:white;padding:5px;border-radius:5px;">
+															{{ x.status|safe }}
+															</span>
+														</td>
+														{% else %}
+														<td>
+															<span style="background-color:green;color:white;padding:5px;border-radius:5px;">
+															{{ x.status|safe }}
+															</span>
+														</td>
+														{% endif %}
+														<td>
+															<a class="mb-xs mt-xs mr-xs btn btn-danger" href="/makeorderpending/?oid={{ x.id|safe }}">Pending</a>
 														</td>
 													</tr>
-												
-													
+													{% endfor %}
 												</table>
 											</div>
 										</div>
@@ -269,6 +285,48 @@
 	</section>
 </div>
 
+{% for x in data2 %}
+<div style="z-index:5000;" onclick="document.getElementById('{{ x.id|safe }}').style.display='none'" id="{{ x.id|safe }}" class="w3-modal w3-animate-zoom">
+  <div class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:10px"class="w3-black text-center">Order ID {{ x.id|safe }}</div>
+    <button onclick="document.getElementById('{{ x.id|safe }}').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-black w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      	<div class="panel-body">
+			<div class="table-responsive">
+				<div style="overflow-x:auto;overflow-y:auto;">
+					<table class="table table-hover mb-none">
+						<thead>
+							<tr>
+								<th>Product ID</th>
+								<th>Product Name</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Total Price</th>
+							</tr>
+						</thead>
+						{% for y in product %}
+						{% if x.id == y.oid %}
+						<tr>
+							<td>{{ y.id|safe }}</td>
+							<td>{{ y.name|safe }}</td>
+							<td>{{ y.quantity|safe }}</td>
+							<td>{{ y.price|safe }}</td>
+							<td>{{ y.total|safe }}</td>
+						</tr>
+						{% endif %}
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 			
 </section>
 
