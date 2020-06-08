@@ -1352,3 +1352,7 @@ def adminuseraddressdata(request):
 	return render(request,'adminpages/useraddressdata.html',{})
 def adminaddcategory(request):
 	return render(request,'adminpages/addcategory.html',{})
+def adminlistcategory(request):
+	return render(request,'adminpages/listcategory.html',{})
+def termscondition(request):
+	return render(request,'terms-condition.html',{})

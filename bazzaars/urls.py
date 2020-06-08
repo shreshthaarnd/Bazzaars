@@ -114,6 +114,8 @@ urlpatterns = [
     path('adminactiveuser/',adminactiveuser),
     path('adminuseraddressdata/',adminuseraddressdata),
     path('adminaddcategory/',adminaddcategory),
+    path('adminlistcategory/',adminlistcategory),
+    path('termscondition/',termscondition),
 
 
     path('<str:shopname>/addtocart/<str:pid>/',addtocart),
