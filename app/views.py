@@ -59,6 +59,8 @@ def adminformsadvanced(request):
 	return render(request,'adminpages/forms-advanced.html',{})
 def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
+def adminlogin(request):
+	return render(request,'adminpages/login.html',{})
 
 def shoppanelindex(request):
 	return render(request,'shoppanel/index.html',{})
@@ -1403,3 +1405,45 @@ def shoppanelpaymentsuccess(request):
 	return render(request,'shoppanel/paymentsuccess.html',{})
 def shoppanelpaymentfailed(request):
 	return render(request,'shoppanel/paymentfailed.html',{})
+def adminstoreslist(request):
+	return render(request,'adminpages/storeslist.html',{})
+def adminpublishedstore(request):
+	return render(request,'adminpages/publishedstore.html',{})
+def adminunpublishedstore(request):
+	return render(request,'adminpages/unpublishedstore.html',{})
+def admindeactivestore(request):
+	return render(request,'adminpages/deactivestore.html',{})
+def adminunverifiedstore(request):
+	return render(request,'adminpages/unverifiedstore.html',{})
+def adminpaidstores(request):
+	return render(request,'adminpages/paidstores.html',{})
+def adminunpaidstores(request):
+	return render(request,'adminpages/unpaidstores.html',{})
+def adminstoremerchantdata(request):
+	return render(request,'adminpages/storemerchantdata.html',{})
+def adminstoreactivationdata(request):
+	return render(request,'adminpages/storeactivationdata.html',{})
+def adminorderlist(request):
+	return render(request,'adminpages/orderlist.html',{})
+def adminonlinepaidorderlist(request):
+	return render(request,'adminpages/onlinepaidorderlist.html',{})
+def admincodorderlist(request):
+	return render(request,'adminpages/codorderlist.html',{})
+def admincompleteorderlist(request):
+	return render(request,'adminpages/completeorderlist.html',{})
+def adminincompleteorderlist(request):
+	return render(request,'adminpages/incompleteorderlist.html',{})
+def adminorderpaymentdata(request):
+	return render(request,'adminpages/orderpaymentdata.html',{})
+def admindeactiveuser(request):
+	return render(request,'adminpages/deactiveuser.html',{})
+def adminactiveuser(request):
+	return render(request,'adminpages/activeuser.html',{})
+def adminuseraddressdata(request):
+	return render(request,'adminpages/useraddressdata.html',{})
+def adminaddcategory(request):
+	return render(request,'adminpages/addcategory.html',{})
+def adminlistcategory(request):
+	return render(request,'adminpages/listcategory.html',{})
+def termscondition(request):
+	return render(request,'terms-condition.html',{})
