@@ -20,6 +20,7 @@ urlpatterns = [
     path('deleteaddress/',deleteaddress),
     path('edituserdata/',edituserdata),
     path('logoutuser/',logout),
+    path('logout/',logoutstore),
     
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),
@@ -37,6 +38,9 @@ urlpatterns = [
     path('adminformsadvanced/',adminformsadvanced),
     path('adminformsbasic/',adminformsbasic),
 
+    path('storepublish/',StorePublish),
+    path('storeunpublish/',StoreUnpublish),
+    path('storepreview/',storepreview),
     path('shoppanelindex/',shoppanelindex),
     path('shoppanelpages404/',shoppanelpages404),
     path('shoppanelpages500/',shoppanelpages500),
@@ -50,6 +54,7 @@ urlpatterns = [
     path('shoppaneladdproduct/',shoppaneladdproduct),
     path('saveproduct/',saveproduct),
     path('shoppanelproductlist/',shoppanelproductlist),
+    path('deleteproduct/',shoppaneldeleteproduct),
     path('shoppanelaboutstore/',shoppanelaboutstore),
     path('savestoreabout/',savestoreabout),
     path('shoppanelstorelogo/',shoppanelstorelogo),
@@ -93,12 +98,12 @@ urlpatterns = [
     path('paymentprocess/',processpayment),
     path('verifypayment/',verifypayment),
     path('verifypayment2/',verifypayment2),
-    path('order/',order),
-
+    
     path('<str:shopname>/addtocart/<str:pid>/',addtocart),
     path('<str:shopname>/addquantity/<str:pid>/',addquantity),
     path('<str:shopname>/removequantity/<str:pid>/',removequantity),
     path('<str:shopname>/shopcart/opencart/',shopcart),
+    path('saverating/',saveproductrating),
     path('<str:shopname>/<str:crtid>/selectaddress/',selectaddress),
     path('<str:shopname>/<str:ordid>/proceedtocheckout/',proceedtocheckout),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

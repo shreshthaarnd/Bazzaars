@@ -228,6 +228,8 @@
 														<th>Product ID</th>
 														<th>Product Name</th>
 														<th>Product Category</th>
+														<th>Stock</th>
+														<th>Expiry</th>
 														<th>Product Discription</th>
 														<th>Product Amount</th>
 														<th>Action</th>
@@ -239,10 +241,12 @@
 														<td>{{ x.Product_ID|safe }}</td>
 														<td>{{ x.Product_Name|safe }}</td>
 														<td>{{ x.Product_Category_ID|safe }}</td>
+														<td>{{ x.Product_Stock|safe }}</td>
+														<td>{{ x.Product_Expiry|safe }}</td>
 														<td>{{ x.Product_Description|safe }}</td>
 														<td><i class="fa fa-inr"> {{ x.Product_Price|safe }}</i></td>
 														<td>
-															<a class="mb-xs mt-xs mr-xs btn btn-danger" href="/deletebook/?bid={{ x.Product_ID|safe }}">Delete</a>
+															<a class="mb-xs mt-xs mr-xs btn btn-danger" href="/deleteproduct/?pid={{ x.Product_ID|safe }}">Delete</a>
 														</td>
 													</tr>
 													{% endfor %}

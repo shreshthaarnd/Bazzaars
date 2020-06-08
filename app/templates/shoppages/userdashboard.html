@@ -30,6 +30,73 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'w3.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <style type="text/css">
+.rating {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  font-size: 50px;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating label:last-child .icon {
+  color: #000;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: #09f;
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px #09f;
+}
+</style>
   </head>
   <body class="goto-here">
 		<div class="py-1 bg-black">
@@ -133,23 +200,80 @@
         <div style="margin:50px;padding:20px;display:none;"class="gallery-area w3-animate-top" id="order">
             <div class="container-fluid p-0">
                 <h2>Order Details</h2>
+                {% for x in productdata %}
                 <div class="row">
                    <div class="column">
-                    <p style="margin-left:20px;font-size:18px;line-height:30px;">
-                      <span>Order Id:3456789</span><br>
-                      <span style="font-size:30px;font-weight:bold;">Phone</span><br>
-                      <span style="font-size:25px;">Mobile Shop</span><br>
+                    <p style="margin-left:20px;font-size:15px;line-height:30px;">
+                      {% if x.type == 'online' %}
+                      <span>Ordered On: {{ x.date|safe }} | Order ID: {{ x.id|safe }} | Paid</span><br>
+                      {% else %}
+                      <span>Ordered On: {{ x.date|safe }} | Order ID: {{ x.id|safe }} | COD</span><br>
+                      {% endif %}
+                      <span style="font-size:30px;font-weight:bold;">{{ x.name|safe }}</span><br>
+                      <span style="color:green;">Quantity {{ x.quantity|safe }}</span>
+                      <span style="font-size:20px;font-weight:bold;"><i class="fa fa-inr"></i> {{ x.total|safe }}</span><br>
+                      {% if x.status == 'Pending' %}
+                      <span style="color:red;">Yet to be delivered</span>
+                      {% else %}
                       <span style="color:green;">Delivered</span>
+                      {% endif %}
                     </p>
                     <a style="border-style:solid;border-color:cyan;color:cyan;"class="w3-button w3-hover-black"href=""><i class="fa fa-phone"></i> Ask For Return</a>
+                    <a style="border-style:solid;border-color:cyan;color:black;"class="w3-button w3-blue w3-hover-black" href="#{{ x.id|safe }}" onclick="document.getElementById('{{ x.id|safe }}').style.display='block'"><i class="fa fa-star"></i> Rate this Product</a>
                   </div>
-                  <div style="margin-left:50px;"class="column">
-                    <img style="width:200px;height:180px;"src="{% static 'images/71muFgw3oPL._SL1500_.jpg' %}">
+                  <div style="padding:20px;"class="column">
+                    <img style="width:200px;height:180px;"src="{{ x.image|safe }}">
                   </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
-        <div id="id02" class="w3-modal w3-animate-zoom">
+{% for x in productdata %}
+<div id="{{ x.id|safe }}" onclick="document.getElementById('{{ x.id|safe }}').style.display='none';document.getElementById('rateform{{ x.id|safe }}').submit();" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-blue text-center">Rate this Product</div>
+    <button onclick="document.getElementById('{{ x.id|safe }}').style.display='none';document.getElementById('rateform{{ x.id|safe }}').submit();"
+      style="cursor:pointer;" class="w3-button w3-blue w3-hover-black w3-display-topright ">&times;</button>
+    <div style="padding:20px;"class="w3-container">
+      <form action="/saverating/?pid={{ x.pid|safe }}&storename={{ url|safe }}" method="POST" class="rating" id="rateform{{ x.id|safe }}">
+              <label>
+                <input type="radio" name="stars" value="1" />
+                <span class="icon">★</span>
+              </label>
+              <label>
+                <input type="radio" name="stars" value="2" />
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+              </label>
+              <label>
+                <input type="radio" name="stars" value="3" />
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+                <span class="icon">★</span>   
+              </label>
+              <label>
+                <input type="radio" name="stars" value="4" />
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+              </label>
+              <label>
+                <input type="radio" name="stars" value="5" />
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+                <span class="icon">★</span>
+              </label>
+            </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<div id="id02" class="w3-modal w3-animate-zoom">
   <div style="width:400px;"class="w3-modal-content text-center">
 
     <div style="width:100%;font-size:20px;padding:6px"class="w3-blue text-center">Add Address</div>
@@ -289,6 +413,10 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="{% static 'js/google-map.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
-    
+    <script type="text/javascript">
+      $(':radio').change(function() {
+        console.log('New star rating: ' + this.value);
+      });
+    </script>
   </body>
 </html>

@@ -140,6 +140,8 @@ def saveproduct(request):
 	if request.method=='POST':
 		sid=request.session['storeid']
 		name=request.POST.get('name')
+		expiry=request.POST.get('expiry')
+		stock=request.POST.get('stock')
 		des=request.POST.get('des')
 		price=request.POST.get('price')
 		images=request.FILES.getlist('images')
@@ -156,6 +158,8 @@ def saveproduct(request):
 			Product_Category_ID=category,
 			Product_ID=pid,
 			Product_Name=name,
+			Product_Expiry=expiry,
+			Product_Stock=stock,
 			Product_Description=des,
 			Product_Price=price
 			)
@@ -167,6 +171,7 @@ def saveproduct(request):
 		else:
 			obj.save()
 			for x in images:
+				print(x)
 				obj2=StoreProductImageData(
 					Store_ID=sid,
 					Product_Category_ID=category,
@@ -184,10 +189,24 @@ def saveproduct(request):
 def shoppanelproductlist(request):
 	try:
 		sid=request.session['storeid']
+		obj=StoreProductImageData.objects.all()
+		for x in obj:
+			print(x.Product_ID)
 		dic=GetShopDash(sid)
 		dic.update({'data':StoreProductData.objects.filter(Store_ID=sid)})
 		dic.update(GetShopDash(sid))
 		return render(request,'shoppanel/productlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+
+def shoppaneldeleteproduct(request):
+	try:
+		sid=request.session['storeid']
+		pid=request.GET.get('pid')
+		obj=StoreProductData.objects.filter(Product_ID=pid).delete()
+		obj=StoreProductRatingData.objects.filter(Product_ID=pid).delete()
+		obj=StoreProductImageData.objects.filter(Product_ID=pid).delete()
+		return redirect('/shoppanelproductlist/')
 	except:
 		return redirect('/shoppanelpages404/')
 
@@ -350,6 +369,7 @@ def addcategory(request):
 		print(x.Category_ID)
 		print(x.Category_Name)
 	return HttpResponse('Saved')
+
 @csrf_exempt
 def savestore(request):
 	if request.method=='POST':
@@ -635,6 +655,29 @@ def checklogin(request):
 			return render(request,'index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1>')
+
+def StorePublish(request):
+	try:
+		sid=request.session['storeid']
+		msg=CheckPublishStatus(sid)
+		if msg == 'Ready to Publish':
+			obj=StoreData.objects.filter(Store_ID=sid)
+			obj.update(Status='Active')
+			return HttpResponse("<script>alert('Your Store has Published!'); window.location.replace('/shoppanelstoreprofile/')</script>")
+		else:
+			return HttpResponse("<script>alert('"+msg+"'); window.location.replace('/shoppanelstoreprofile/')</script>")
+	except:
+		return redirect('/shoppanelpages404/')
+
+def StoreUnpublish(request):
+	try:
+		sid=request.session['storeid']
+		obj=StoreData.objects.filter(Store_ID=sid)
+		obj.update(Status='Deactive')
+		return HttpResponse("<script>alert('Your Store has been Unpublished!'); window.location.replace('/shoppanelstoreprofile/')</script>")		
+	except:
+		return redirect('/shoppanelpages404/')
+
 def shoppanelallorderslist(request):
 	try:
 		sid=request.session['storeid']
@@ -682,10 +725,26 @@ def shoppanelpendingorderlist(request):
 	except:
 		return redirect('/shoppanelpages404/')
 
+def storepreview(request):
+	try:
+		sid=request.session['storeid']
+		storename=''
+		for x in StoreData.objects.filter(Store_ID=sid):
+			storename=x.Store_Name
+		dic=GetShopData(storename)
+		dic.update({
+			'product':GetFourProducts(sid)[0:4],
+			'banner':StoreBannerData.objects.filter(Store_ID=sid),
+			'checksession':checksession(request)
+			})
+		return render(request,'shoppages/index.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+
 #Store Website
 def storewebsite(request, shopname):
 	shopname=shopname.upper()
-	obj=StoreData.objects.all()
+	obj=StoreData.objects.filter(Status='Active')
 	sid=''
 	d=0
 	storename=''
@@ -705,7 +764,6 @@ def storewebsite(request, shopname):
 			'banner':StoreBannerData.objects.filter(Store_ID=sid),
 			'checksession':checksession(request)
 			})
-		print(checksession(request))
 		return render(request,'shoppages/index.html',dic)
 	else:
 		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')
@@ -736,10 +794,13 @@ def openproductcategory(request, shopname):
 def shopproductsingle(request, shopname, pid):
 	data1=GetStoreIDByName(shopname)
 	images=StoreProductImageData.objects.filter(Product_ID=pid)
+	for x in images:
+		print(x.Product_Image)
 	productdata=StoreProductData.objects.filter(Product_ID=pid)
 	dic=GetShopData(data1['sname'])
 	dic.update({'images':images,
 				'productdata':productdata,
+				'rating':GetRating(pid),
 				'checksession':checksession(request)})
 	return render(request,'shoppages/product-single.html',dic)
 @csrf_exempt
@@ -832,14 +893,16 @@ def checklogin2(request):
 		else:
 			return HttpResponse("<script>alert('Incorrect Email ID or Password'); window.location.replace('/index/')</script>")
 def userdashboard(request):
-	try:
+#	try:
 		uid=request.session['userid']
 		userdata=UserData.objects.filter(User_ID=uid)
 		useraddress=UserAddressData.objects.filter(User_ID=uid)
 		dic={'userdata':userdata,'address':useraddress}
+		dic.update({'productdata':GetUserOrderProduct(uid),
+			'orderdata':GetUserOrderData(uid)})
 		return render(request,'userdashboard.html',dic)
-	except:
-		return HttpResponse('<h1>Error 500 Internal Server Error</h1>')
+#	except:
+#		return HttpResponse('<h1>Error 500 Internal Server Error</h1>')
 @csrf_exempt
 def edituserdata(request):
 	if request.method=='POST':
@@ -900,6 +963,13 @@ def logout2(request, shopname):
 		request.session.flush()
 		return redirect('/index/')
 	except:
+		return redirect('/'+shopname)
+def logoutstore(request):
+	try:
+		del request.session['storeid']
+		request.session.flush()
+		return redirect('/index/')
+	except:
 		return redirect('/index/')
 @csrf_exempt
 def checklogin3(request):
@@ -920,8 +990,27 @@ def shopuserdashboard(request):
 	uid=request.session['userid']
 	userdata=UserData.objects.filter(User_ID=uid)
 	useraddress=UserAddressData.objects.filter(User_ID=uid)
+	dic.update({'productdata':GetUserOrderData2(uid, data1['sid'])})
 	dic.update({'userdata':userdata,'useraddress':useraddress})
 	return render(request,'shoppages/userdashboard.html',dic)
+@csrf_exempt
+def saveproductrating(request):
+	if request.method=='POST':
+		rate=request.POST.get('stars')
+		pid=request.GET.get('pid')
+		print(rate)
+		sname=request.GET.get('storename')
+		data1=GetStoreIDByName(sname)
+		if rate!=None:
+			obj=StoreProductRatingData(
+				Store_ID=data1['sid'],
+				Product_ID=pid,
+				Rating=rate
+				)
+			obj.save()
+			return redirect('/shopuserdashboard/?shopname='+sname)
+		else:
+			return redirect('/shopuserdashboard/?shopname='+sname)
 @csrf_exempt
 def shopedituserdata(request):
 	if request.method=='POST':
@@ -1178,6 +1267,7 @@ def processpayment(request):
 			for x in obj:
 				obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
 				obj.update(Status='Deactive')
+				quantity=DeductQuantity(x.Cart_ID)
 				obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
 				obj.update(Status='Deactive')
 			sid=request.session['sid']
@@ -1267,6 +1357,7 @@ def verifypayment(request):
 					sid=x.Store_ID
 					obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
 					obj.update(Status='Deactive')
+					quantity=DeductQuantity(x.Cart_ID)
 					obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
 					obj.update(Status='Deactive')
 				dic=GetShopData2(sid)

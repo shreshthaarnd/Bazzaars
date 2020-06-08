@@ -272,7 +272,15 @@
             <h3>{{ x.Product_Name|safe }}</h3>
     				<div class="rating d-flex">
 							<p class="text-left mr-4">
-								<a href="#" class="mr-2 w3-green" style="padding:5px;border-radius:5px;">5.0 <i class="fa fa-star"></i></a>
+								{% if rating %}
+                {% if rating > 3.9 %}
+                <a class="mr-2 w3-green" style="padding:5px;border-radius:5px;">{{ rating|safe }} <i class="fa fa-star"></i></a>
+                {% else %}
+                <a class="mr-2 w3-orange" style="padding:5px;border-radius:5px;">{{ rating|safe }} <i class="fa fa-star"></i></a>
+                {% endif %}
+                {% else %}
+                <a class="mr-2 w3-light-grey" style="padding:5px;border-radius:5px;">0.0 <i class="fa fa-star"></i></a>
+                {% endif %}
 							</p>
 							<p class="text-left mr-4">
 								<a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
@@ -286,6 +294,10 @@
           	<p><a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a></p>
             {% endfor %}
     			</div>
+          <h2>Product Reviews</h2>
+          <form class="w3-container">
+
+          </form>
     		</div>
     	</div>
     </section>
@@ -440,17 +452,12 @@
       function showSlides(n) {
         var i;
         var slides = document.getElementsByClassName("mySlides");
-        var dots = document.getElementsByClassName("dot");
         if (n > slides.length) {slideIndex = 1}
         if (n < 1) {slideIndex = slides.length}
         for (i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
         }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
         slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
       }
     </script>
   </body>

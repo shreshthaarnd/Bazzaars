@@ -168,14 +168,30 @@
 				    						<p class="price"><span class="price-sale"><i class="fa fa-inr"></i> {{ x.price|safe }}</span></p>
 				    					</div>
 				    					<div class="rating">
-			    							<p style="background-color:green;color:white;float:right;padding-right:10px;padding-left:10px;border-radius:5px;"><i class="fa fa-star"></i> 4.5</p>
+			    							{% if x.rating %}
+                          {% if x.rating > 3.9 %}
+                            <a class="mr-2 w3-green" style="padding:5px;float:right;border-radius:5px;">{{ x.rating|safe }} <i class="fa fa-star"></i></a>
+                          {% else %}
+                            <a class="mr-2 w3-orange" style="padding:5px;float:right;border-radius:5px;">{{ x.rating|safe }} <i class="fa fa-star"></i></a>
+                          {% endif %}
+                        {% else %}
+                          <a class="mr-2 w3-light-grey" style="padding:5px;float:right;border-radius:5px;">0.0 <i class="fa fa-star"></i></a>
+                        {% endif %}
 			    						</div>
 			    					</div>
 			    					<p class="bottom-area d-flex px-3">
-		    							<a href="/{{ storename|safe }}/{{ x.id|safe }}/" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-		    							<a href="/{{ storename|safe }}/{{ x.id|safe }}/" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
+		    							{% if checksession == True %}
+                      <a href="/{{ url|safe }}/addtocart/{{ x.id|safe }}/" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+                      {% else %}
+                      <a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+                      {% endif %}
 		    						</p>
 		    					</div>
+                  {% if checksession == True %}
+                  <a href="/{{ url|safe }}/addtocart/{{ x.id|safe }}/" style="width:100%;" class="w3-button w3-blue w3-hover-black">Add to Cart</a>
+                  {% else %}
+                  <a href="#id01" style="width:100%;" onclick="document.getElementById('id01').style.display='block';" class="w3-button w3-blue w3-hover-black">Add to Cart</a>
+                  {% endif %}
 		    				</div>
 		    			</div>
 		    			{% endfor %}

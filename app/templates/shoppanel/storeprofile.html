@@ -53,9 +53,16 @@
 			
 				<!-- start: search & user box -->
 				<div class="header-right">
-
+					{% if status == 'Deactive' %}
 					<span class="separator"></span>
-					<button type="button" class="mb-xs mt-xs mr-xs btn btn-success"><i class="fa fa-bullhorn"></i> Publish</button>
+					<a href="/storepublish/" class="mb-xs mt-xs mr-xs btn btn-success"><i class="fa fa-bullhorn"></i> Publish</a>
+					{% else %}
+					<span class="separator"></span>
+					Store URL :
+					<a href="https://bazzaars.com/{{ url|safe }}">https://bazzaars.com/{{ url|safe }}</a>
+					<span class="separator"></span>
+					<a href="/storeunpublish/" class="mb-xs mt-xs mr-xs btn btn-danger"><i class="fa fa-bullhorn"></i> Unpublish</a>
+					{% endif %}
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
@@ -111,7 +118,7 @@
 										</a>
 									</li>
 									<li class="nav">
-										<a href="/adminhome/">
+										<a href="/storepreview/">
 											<i class="fa fa-eye" aria-hidden="true"></i>
 											<span>Preview Store</span>
 										</a>
@@ -202,7 +209,7 @@
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
-									<a href="index.html">
+									<a href="">
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
@@ -237,10 +244,13 @@
 										</div>
 										<div class="widget-content-collapsed">
 											<div class="progress progress-xs light">
-												<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-													60%
+												<div class="progress-bar" role="progressbar" aria-valuenow="{{ complete|safe }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ complete|safe }}%;">
+													{{ complete|safe }}%
 												</div>
 											</div>
+											{% if status == 'Deactive' %}
+											<h6 style="font-weight:bold;color:black;font-size:18px;" class="text-muted">{{ completemsg|safe }}</h6>
+											{% endif %}
 										</div>
 									</div>
 
@@ -285,6 +295,8 @@
 											<p style="padding-left:20px;">{{ storephone|safe }}</p>
 											<h5 style="font-size:15px;"class="mb-md"><i class="fa fa-envelope"></i> Email Id</h5>
 											<p style="padding-left:20px;">{{ storeemail|safe }}</p>
+											<h5 style="font-size:15px;"class="mb-md"><i class="fa fa-globe"></i> Store Website</h5>
+											<p style="padding-left:20px;"><a href="https://bazzaars.com/{{ url|safe }}">https://bazzaars.com/{{ url|safe }}</a></p>
 										</div>
 									</div>
 									<div id="edit" class="tab-pane">
@@ -331,51 +343,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- end: page -->
-					<div class="row">
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-primary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-primary">
-														<i class="fa fa-user"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">Users</h4>
-														<div class="info">
-															<strong class="amount">{{ Users|safe }}</strong>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-								<div class="col-md-12 col-lg-6 col-xl-6">
-									<section class="panel panel-featured-left panel-featured-secondary">
-										<div class="panel-body">
-											<div class="widget-summary">
-												<div class="widget-summary-col widget-summary-col-icon">
-													<div class="summary-icon bg-secondary">
-														<i class="fa fa-eye"></i>
-													</div>
-												</div>
-												<div class="widget-summary-col">
-													<div class="summary">
-														<h4 class="title">Visitors</h4>
-														<div class="info">
-															<strong class="amount">100</strong>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</section>
-								</div>
-							</div>
+					
 				</section>
 			</div>
 

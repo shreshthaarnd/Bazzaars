@@ -14,8 +14,18 @@ def GetShopDash(sid):
 			'storecity':x.Store_City,
 			'storestate':x.Store_State,
 			'storephone':x.Store_Phone,
-			'storeemail':x.Store_Email
+			'storeemail':x.Store_Email,
+			'status':x.Status,
+			'complete':CheckPublishStatus2(x.Store_ID),
+			'completemsg':CheckPublishStatusMsg(x.Store_ID),
 	})
+		url=''
+		for y in x.Store_Name:
+			if y!=' ':
+				url=url+y
+		dic.update({
+			'url':url.lower(),
+		})
 	obj=StoreOtherData.objects.filter(Store_ID=sid)
 	for x in obj:
 		dic.update({
@@ -241,6 +251,7 @@ def GetFourProducts(sid):
 	for x in obj:
 		dic={'id':x.Product_ID,
 			'name':x.Product_Name,
+			'rating':GetRating(x.Product_ID),
 			'price':x.Product_Price}
 		obj1=StoreProductImageData.objects.filter(Product_ID=x.Product_ID)
 		for y in obj1:
@@ -269,7 +280,8 @@ def GetCategoryProducts(cid):
 	for x in obj:
 		dic={'id':x.Product_ID,
 			'name':x.Product_Name,
-			'price':x.Product_Price}
+			'price':x.Product_Price,
+			'rating':GetRating(x.Product_ID)}
 		obj1=StoreProductImageData.objects.filter(Product_ID=x.Product_ID)
 		for y in obj1:
 			dic.update({'image':y.Product_Image.url})
@@ -338,3 +350,146 @@ def getparamdict2(sid, aid):
 					storename=storename+z
 			dic['WEBSITE']='WEBSTAGING'
 	return dic
+
+def GetUserOrderProduct(uid):
+	dic={}
+	lt=[]
+	obj=CartProductData.objects.filter(User_ID=uid)
+	for x in obj:
+		dic={'quantity':x.Product_Quantity,
+			'total':x.Product_Total}
+		for y in StoreProductData.objects.filter(Product_ID=x.Product_ID):
+			dic.update({
+				'name':y.Product_Name,
+				'price':y.Product_Price
+				})
+		for z in StoreProductImageData.objects.filter(Product_ID=x.Product_ID):
+			dic.update({
+				'image':z.Product_Image.url
+				})
+			break
+		for w in OrderData.objects.filter(Cart_ID=x.Cart_ID):
+			dic.update({
+				'oid':w.Order_ID
+				})
+		lt.append(dic)
+	return lt
+
+def GetUserOrderData(uid):
+	dic={}
+	lt=[]
+	for x in OrderData.objects.filter(User_ID=uid, Status='Deactive'):
+		dic={
+		'date':x.Order_Date,
+		'id':x.Order_ID,
+		'status':x.Order_Status,
+		'type':x.Order_Type,
+		'total':x.Order_Amount,
+		}
+		for y in StoreData.objects.filter(Store_ID=x.Store_ID):
+			dic.update({
+				'storename':y.Store_Name
+				})
+		lt.append(dic)
+	return lt
+
+def GetUserOrderData2(uid, sid):
+	dic={}
+	lt=[]
+	for x in OrderData.objects.filter(User_ID=uid, Store_ID=sid, Status='Deactive'):
+		dic={
+		'date':x.Order_Date,
+		'id':x.Order_ID,
+		'status':x.Order_Status,
+		'type':x.Order_Type,
+		}
+		for y in CartProductData.objects.filter(Cart_ID=x.Cart_ID):
+			dic.update({
+				'quantity':y.Product_Quantity,
+				'total':y.Product_Total
+				})
+			for z in StoreProductData.objects.filter(Product_ID=y.Product_ID):
+				dic.update({
+					'name':z.Product_Name,
+					'pid':z.Product_ID
+					})
+			for w in StoreProductImageData.objects.filter(Product_ID=y.Product_ID):
+				dic.update({
+					'image':w.Product_Image.url
+					})
+		lt.append(dic)
+	return lt
+def GetRating(pid):
+	rating=0
+	obj=StoreProductRatingData.objects.filter(Product_ID=pid)
+	for y in obj:
+		totalrating=0
+		count=0
+		for x in obj:
+			totalrating=totalrating+int(x.Rating)
+			count=count+1
+		rating=totalrating/count
+	return rating
+
+def CheckPublishStatus(sid):
+	msg=''
+	if StoreOtherData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add About Your Store to Publish.'
+	if StoreProductData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Product to Publish'
+	if StoreProductCategoryData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Product Category to Publish'
+	if StoreBannerData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Atleast One Store Banner to Publish'
+	if StoreMerchantData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Payment Merchant Credentials to Publish'
+	else:
+		msg='Ready to Publish'
+	return msg
+
+def CheckPublishStatus2(sid):
+	msg=''
+	if StoreOtherData.objects.filter(Store_ID=sid).exists() == False:
+		msg='100'
+	if StoreSocialMedia.objects.filter(Store_ID=sid).exists() == False:
+		msg='83.3'
+	if StoreProductData.objects.filter(Store_ID=sid).exists() == False:
+		msg='66.64'
+	if StoreProductCategoryData.objects.filter(Store_ID=sid).exists() == False:
+		msg='49.98'
+	if StoreBannerData.objects.filter(Store_ID=sid).exists() == False:
+		msg='33.33'
+	if StoreMerchantData.objects.filter(Store_ID=sid).exists() == False:
+		msg='16.66'
+	else:
+		msg='100'
+	return msg
+
+def CheckPublishStatusMsg(sid):
+	msg=''
+	if StoreSocialMedia.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Social Media Links'
+	if StoreOtherData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add About Your Store to Publish.'
+	if StoreProductData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Product to Publish'
+	if StoreProductCategoryData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Product Category to Publish'
+	if StoreBannerData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Atleast One Store Banner to Publish'
+	if StoreMerchantData.objects.filter(Store_ID=sid).exists() == False:
+		msg='Add Payment Merchant Credentials to Publish'
+	else:
+		msg='Ready to Publish'
+	return msg
+
+def DeductQuantity(cartid):
+	obj=CartProductData.objects.filter(Cart_ID=cartid)
+	for x in obj:
+		obj1=StoreProductData.objects.filter(Product_ID=x.Product_ID)
+		for y in obj1:
+			stock=int(y.Product_Stock)
+			oquantity=int(x.Product_Quantity)
+			obj2=StoreProductData.objects.filter(Product_ID=x.Product_ID)
+			obj2.update(Product_Stock=str(stock-oquantity))
+	return True

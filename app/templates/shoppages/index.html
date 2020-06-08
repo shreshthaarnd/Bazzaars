@@ -67,11 +67,11 @@
             </li>
             {% if checksession == True %}
             <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
-            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span style="font-size:20px;" class="icon-shopping_cart"></span></a></li>
             {% else %}
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
 	          <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span style="font-size:20px;" class="icon-shopping_cart"></span></a></li>
             {% endif %}
 	        </ul>
 	      </div>
@@ -145,7 +145,7 @@
         <div class="slider-item">
 	      	<div class="overlay"></div>
 	        <div class="container-fluid p-0">
-	          <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true" style="background-image:url({{ x.Store_Banner.url|safe }});background-size:100% auto;"></div>
+	          <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true" style="background-image:url({{ x.Store_Banner.url|safe }});background-size:100% 100%;"></div>
 	        </div>
 	      </div>
         {% endfor %}
@@ -173,7 +173,7 @@
     					</div>
     				</div>
     			</div>
-                {% endfor %}
+          {% endfor %}
     			
     		</div>
     	</div>
@@ -244,16 +244,24 @@
     			{% for x in product %}
             <div class="col-sm col-md-6 col-lg ftco-animate">
     				<div class="product">
-                <a href="#" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{{ x.image|safe }}" alt="">
+                <a href="/{{ url|safe }}/{{ x.id|safe }}/" class="img-prod"><img style="height:200px;width:100%;"class="img-fluid" src="{{ x.image|safe }}" alt="">
     					</a>
     					<div class="text py-3 px-3">
-    						<h3 style="font-weight:bold;"><a href="#">{{ x.name|safe }}</a></h3>
+    						<h3 style="font-weight:bold;"><a href="/{{ url|safe }}/{{ x.id|safe }}/">{{ x.name|safe }}</a></h3>
     						<div class="d-flex">
     							<div class="pricing">
 		    						<p class="price"><span class="price-sale"><i class="fa fa-inr"></i> {{ x.price|safe }}</span></p>
 		    					</div>
 		    					<div class="rating">
-	    							<p style="background-color:green;color:white;float:right;padding-right:10px;padding-left:10px;border-radius:5px;"><i class="fa fa-star"></i> 4.5</p>
+	    						 {% if x.rating %}
+                    {% if x.rating > 3.9 %}
+                      <a class="mr-2 w3-green" style="float:right;padding:5px;border-radius:5px;">{{ x.rating|safe }} <i class="fa fa-star"></i></a>
+                     {% else %}
+                       <a class="mr-2 w3-orange" style="padding:5px;border-radius:5px;float:right;">{{ x.rating|safe }} <i class="fa fa-star"></i></a>
+                      {% endif %}
+                      {% else %}
+                        <a class="mr-2 w3-light-grey" style="padding:5px;float:right;border-radius:5px;">0.0 <i class="fa fa-star"></i></a>
+                       {% endif %}
 	    						</div>
 	    					</div>
     						<p class="bottom-area d-flex px-3">

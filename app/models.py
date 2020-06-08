@@ -83,10 +83,17 @@ class StoreProductData(models.Model):
 	class Meta:
 		db_table="StoreProductData"
 
+class StoreProductRatingData(models.Model):
+	Store_ID=models.CharField(max_length=100)
+	Product_ID=models.CharField(max_length=100)
+	Rating=models.CharField(max_length=100, default="0")
+	class Meta:
+		db_table="StoreProductRatingData"
+
 class StoreProductImageData(models.Model):
 	Store_ID=models.CharField(max_length=100)
 	Product_Category_ID=models.CharField(max_length=100)
-	Product_ID=models.CharField(max_length=100, primary_key=True)
+	Product_ID=models.CharField(max_length=100)
 	Product_Image=models.FileField(upload_to='product/')
 	class Meta:
 		db_table="StoreProductImageData"
