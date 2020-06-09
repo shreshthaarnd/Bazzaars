@@ -54,9 +54,16 @@
 			
 				<!-- start: search & user box -->
 				<div class="header-right">
-
+					{% if status == 'Deactive' %}
 					<span class="separator"></span>
-					<button type="button" class="mb-xs mt-xs mr-xs btn btn-success"><i class="fa fa-bullhorn"></i> Publish</button>
+					<a href="/storepublish/" class="mb-xs mt-xs mr-xs btn btn-success"><i class="fa fa-bullhorn"></i> Publish</a>
+					{% else %}
+					<span class="separator"></span>
+					Store URL :
+					<a href="https://bazzaars.com/{{ url|safe }}">https://bazzaars.com/{{ url|safe }}</a>
+					<span class="separator"></span>
+					<a href="/storeunpublish/" class="mb-xs mt-xs mr-xs btn btn-danger"><i class="fa fa-bullhorn"></i> Unpublish</a>
+					{% endif %}
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
@@ -78,7 +85,7 @@
 							<ul class="list-unstyled">
 								<li class="divider"></li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="/adminlogout/"><i class="fa fa-power-off"></i> Logout</a>
+									<a role="menuitem" tabindex="-1" href="/logout/"><i class="fa fa-power-off"></i> Logout</a>
 								</li>
 							</ul>
 						</div>
@@ -106,7 +113,7 @@
 							<nav id="menu" class="nav-main" role="navigation">
 								<ul class="nav nav-main">
 									<li class="nav-active">
-										<a href="/adminhome/">
+										<a href="/storepreview/">
 											<i class="fa fa-home" aria-hidden="true"></i>
 											<span>Dashboard</span>
 										</a>
