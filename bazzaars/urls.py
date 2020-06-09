@@ -11,6 +11,7 @@ urlpatterns = [
     path('contact/',contact),
     path('elements/',elements),
     path('index/',index),
+    path('category/',category),
     path('industries/',industries),
     path('main/',main),
     path('singleblog/',singleblog),

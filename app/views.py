@@ -21,6 +21,13 @@ def index(request):
 	dic={'category':StoreCategoryData.objects.all(),
 		'checksession':checksession(request)}
 	return render(request,'index.html',dic)
+def category(request):
+	cname=request.GET.get('cname')
+	dic={'category':StoreCategoryData.objects.all(),
+		'checksession':checksession(request),
+		'data':BrowseCategory(cname),
+		'cname':cname}
+	return render(request,'category.html',dic)
 def industries(request):
 	return render(request,'industries.html',{})
 def main(request):

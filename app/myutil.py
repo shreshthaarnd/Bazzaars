@@ -429,7 +429,19 @@ def GetRating(pid):
 			totalrating=totalrating+int(x.Rating)
 			count=count+1
 		rating=totalrating/count
-	return rating
+	return round(rating, 1)
+
+def GetStoreRating(sid):
+	lt=[]
+	ratings=[]
+	for x in StoreProductData.objects.filter(Store_ID=sid):
+		lt.append(x.Product_ID)
+	for x in lt:
+		ratings.append(GetRating(x))
+	if ratings != []:
+		return max(ratings)
+	else:
+		return 0
 
 def CheckPublishStatus(sid):
 	msg=''
@@ -493,3 +505,41 @@ def DeductQuantity(cartid):
 			obj2=StoreProductData.objects.filter(Product_ID=x.Product_ID)
 			obj2.update(Product_Stock=str(stock-oquantity))
 	return True
+
+def BrowseCategory(cname):
+	dic={}
+	lt=[]
+	obj=StoreData.objects.filter(Store_Category=cname)
+	for x in obj:
+		dic={
+		'sname':x.Store_Name,
+		'scategory':x.Store_Category,
+		'saddress':x.Store_Address,
+		'scity':x.Store_City,
+		'sstate':x.Store_State,
+		'srating':GetStoreRating(x.Store_ID)
+		}
+		url=''
+		for a in x.Store_Name:
+			if a!=' ':
+				url=url+a
+		dic.update({
+			'url':url.lower()
+		})
+		price=[]
+		for y in StoreProductData.objects.filter(Store_ID=x.Store_ID):
+			price.append(int(y.Product_Price))
+		if price != []:
+			dic.update({
+				'sprice':min(price)
+				})
+		else:
+			dic.update({
+				'sprice':'N/A'
+				})
+		for z in StoreLogoData.objects.filter(Store_ID=x.Store_ID):
+			dic.update({
+			'slogo':z.Store_Logo.url
+			})
+		lt.append(dic)
+	return lt

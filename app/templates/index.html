@@ -215,6 +215,25 @@
     </div>
   </div>
 </div>
+<div id="id06" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Become Agent</div>
+    <button onclick="document.getElementById('id06').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/sendagent/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="name" type="text" placeholder="Name">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile">
+        <input style="margin-bottom:20px;"class="w3-input" name="city" type="text" placeholder="City">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Login">
+      </form>
+    </div>
+  </div>
+</div>
 
     <main>
         <div style="padding:30px;width:100%;background-color:black;height:100px;" class="slider-area">
@@ -279,26 +298,36 @@
             <div class="container text-center">
                 <h1 style="margin-top:30px;font-weight:bold;">Groceries <span style="color:orange">Stores</span></h1>
                 <div class="row justify-content-lg-between">
+                    <a href="/category/?cname=Kirana Store">
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
                         <img src="{% static 'images/0b30b1e17826313ad0017122070460e1.png' %}" style="width:100px;height:100px;">
                         <p style="font-size:20px;margin-top:10px;font-weight:bold;">Kirana Store</p>
                     </div>
+                    </a>
+                    <a href="/category/?cname=Departmental Store">
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
                         <img src="{% static 'images/mhyu.png' %}" style="width:100px;height:100px;">
                         <p style="font-size:20px;margin-top:10px;font-weight:bold;">Departmental<br> Store</p>
                     </div>
+                    </a>
+                    <a href="/category/?cname=Bakery">
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
                         <img src="{% static 'images/backery.jpg' %}" style="width:100px;height:100px;">
                         <p style="font-size:20px;margin-top:10px;font-weight:bold;">Bakery</p>
                     </div>
+                    </a>
+                    <a href="/category/?cname=Dairy Shop">
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
                         <img src="{% static 'images/thick-easy-dairy-product-group-1600x1200-02-324x324.jpg' %}" style="width:100px;height:100px;">
                         <p style="font-size:20px;margin-top:10px;font-weight:bold;">Dairy Shop</p>
                     </div>
+                    </a>
+                    <a href="/category/?cname=Eggs/Meats">
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
                         <img src="{% static 'images/unnamed (1).jpg' %}" style="width:100px;height:100px;">
                         <p style="font-size:20px;margin-top:10px;font-weight:bold;">Eggs/Meats</p>
                     </div>
+                    </a>
                     <div class="column zoom text-center" style="padding:30px;transition: transform .2s;">
                         <img src="{% static 'images/unnamed.jpg' %}" style="width:100px;height:100px;">
                         <p style="font-size:20px;margin-top:10px;font-weight:bold;">Fruits/<br>Vegitable</p>
@@ -403,10 +432,10 @@
                     <div class="col-xl-6 col-lg-6 col-md pr-0">
                         <div class="safe-caption pt-10 mb-40">
                             <h2>Get Your Store Website In Just Simple Steps</h2>
-                            <ol><li>1. Click here to create your online store website.</li>
+                            <ol><li>1. <a href="#id03" onclick="document.getElementById('id03').style.display='block'">Click here</a> to create your online store website.</li>
                             <li>2. Select Store Category</li>
                             <li>3. Fill your store details like Store Name, Store Address, Phone, Email and Owner Name.</li>
-                            <li>4. You are all set now! login to your store dashboard from here.</li></ol>
+                            <li>4. You are all set now! login to your store dashboard from <a href="#id01" onclick="document.getElementById('id01').style.display='block'">here.</a></li></ol>
 
                             For more details download docs which availiable in Hindi and English.<br>
                             <p style="margin-top:20px;font-size:18px;"><span style="font-weight:bold;">Having Trouble?</span> Call Us @ +91-8279831239 or Whatsapp Us @ +918279831239. We will help you to create your online store.</p>
@@ -445,12 +474,12 @@
                 <div class="row d-flex align-items-end">
                     <div class="col-xl-6 col-lg-8 col-md-8">
                         <div class="wantToWork-caption">
-                            <h2>Get Your<br>Own Store Website For <br><i class="fa fa-inr"></i>999/- Only</h2>
+                            <h2>Become an Agent and earn from home</h2>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-4 col-md-4">
                        <div class="wantToWork-btn f-right">
-                            <a href="#id03" onclick="document.getElementById('id03').style.display='block'"class="white-btn">Start Here</a>
+                            <a href="#id06" onclick="document.getElementById('id06').style.display='block'"class="white-btn">Start Here</a>
                        </div>
                     </div>
                 </div>
@@ -510,7 +539,7 @@
         
    <footer>
        <!-- Footer Start-->
-       <div class="footer-area footer-bg footer-padding">
+       <div class="footer-area footer-bg footer-padding" style="padding-bottom:0px;">
            <div class="container">
                <div class="row d-flex justify-content-between">
                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
@@ -519,13 +548,13 @@
                             <div class="footer-tittle">
                                 <h4>About Us</h4>
                                 <div class="footer-pera">
-                                    <p>Heaven fruitful doesn't over lesser days appear creeping seasons so behold bearing</p>
+                                    <p>Bazzaars is a online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.</p>
                                </div>
                             </div>
                         </div>
                          <!-- logo -->
                          <div class="footer-logo">
-                           <a href="index.html"><img src="{% static 'assets/img/logo/logo2_footer.png' %}" alt=""></a>
+                           <a href="index.html"><img style="width:200px;" src="{% static 'White Bazaarrs.png' %}" alt=""></a>
                          </div>
                       </div>
                    </div>
@@ -535,11 +564,10 @@
                                <h4>Contact Info</h4>
                                <ul>
                                    <li>
-                                   <p> Address :Your address goes
-                                    here, your demo address.</p>
+                                   <p> Address : Agra-282007<br>Uttar Pradesh-INDIA</p>
                                    </li>
-                                   <li><a href="#">Phone : +8880 44338899</a></li>
-                                   <li><a href="#">Our Photo Gellary</a></li>
+                                   <li><a href="tel://+918279831239/">Phone : +91-8279831239, +918938979011</a></li>
+                                   <li><a href="mail://bazzaarsdotcom@gmail.com/">Email : bazzaarsdotcom@gmail.com</a></li>
                                </ul>
                            </div>
                        </div>
@@ -549,11 +577,10 @@
                            <div class="footer-tittle">
                                <h4>Important Link</h4>
                                <ul>
-                                   <li><a href="#"> View Project</a></li>
-                                   <li><a href="#">Contact Us</a></li>
-                                   <li><a href="#">Testimonial</a></li>
-                                   <li><a href="#">Proparties</a></li>
-                                   <li><a href="#">Support</a></li>
+                                   <li><a href="#id03" onclick="document.getElementById('id03').style.display='block'">Create Store</a></li>
+                                   <li><a href="#id01" onclick="document.getElementById('id01').style.display='block'">Store Login</a></li>
+                                   <li><a href="#id05" onclick="document.getElementById('id05').style.display='block'">User Login</a></li>
+                                   <li><a href="#id06" onclick="document.getElementById('id06').style.display='block'">Become Agent</a></li>
                                </ul>
                            </div>
                        </div>
@@ -561,22 +588,16 @@
                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
                        <div class="single-footer-caption mb-50">
                            <div class="footer-tittle">
-                               <h4>Newsletter</h4>
-                               <div class="footer-pera footer-pera2">
-                                <p>Heaven fruitful doesn't over lesser in days. Appear creeping seasons</p>
+                               <h4>Feedback</h4>
                             </div>
                             <!-- Form -->
                             <div class="footer-form" >
                                 <div id="mc_embed_signup">
-                                    <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                    method="get" class="subscribe_form relative mail_part">
-                                        <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                                        class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = ' Email Address '">
-                                        <div class="form-icon">
-                                            <button type="submit" name="submit" id="newsletter-submit"
-                                            class="email_icon newsletter-submit button-contactForm"><img src="assets/img/icon/form_icon.png" alt=""></button>
-                                        </div>
+                                    <form>
+                                        <input type="text" name="name" placeholder="Name" class="w3-input">
+                                        <input type="email" placeholder="Email" class="w3-input" name="email">
+                                        <textarea type="email" placeholder="Feedback Here" class="w3-input" name="email"></textarea>
+                                        <button style="width:100%;" type="submit" class="w3-button w3-orange w3-hover-black"><img src="{% static 'assets/img/icon/form_icon.png' %}" alt=""></button>
                                         <div class="mt-10 info"></div>
                                     </form>
                                 </div>
@@ -586,16 +607,15 @@
                    </div>
                </div>
            </div>
-       </div>
        <!-- footer-bottom aera -->
-       <div class="footer-bottom-area footer-bg">
+       <div class="footer-bottom-area footer-bg" style="padding-top:0px;">
            <div class="container">
                <div class="footer-border">
                     <div class="row d-flex justify-content-between align-items-center">
                         <div class="col-xl-10 col-lg-10 ">
                             <div class="footer-copy-right">
                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved @ <a href="https://www.srd.mobi">SRD - Shreshtha Research & Development</a>
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                             </div>
                         </div>
@@ -604,7 +624,6 @@
                                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fas fa-globe"></i></a>
-                                <a href="#"><i class="fab fa-behance"></i></a>
                             </div>
                         </div>
                     </div>
