@@ -44,18 +44,18 @@
       </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	         {% if storelogo %}
-             <a class="navbar-brand" href="/{{ url|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
+      <div class="container">
+            {% if storelogo %}
+             <a class="navbar-brand" href="/{{ storename|safe }}"><img src="{{ storelogo|safe }}" style="width:200px;height:50px;"></a>
             {% else %}
-                <a class="navbar-brand" href="/{{ url|safe }}">{{ storename|safe }}</a>
+                <a class="navbar-brand" href="/{{ storename|safe }}">{{ storename|safe }}</a>
             {% endif %}
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="oi oi-menu"></span> Menu
+        </button>
 
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav ml-auto">
             <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#dropdown04" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Prouct Categories</a>
@@ -67,33 +67,34 @@
             </li>
             {% if checksession == True %}
             <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
-            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span style="font-size:20px;" class="icon-shopping_cart"></span></a></li>
             {% else %}
             <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
             <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span style="font-size:20px;" class="icon-shopping_cart"></span></a></li>
             {% endif %}
           </ul>
-	      </div>
-	    </div>
-	  </nav>
+        </div>
+      </div>
+    </nav>
     <!-- END nav -->
     <div id="id01" class="w3-modal w3-animate-zoom">
   <div style="width:400px;"class="w3-modal-content text-center">
 
-    <div style="width:100%;font-size:20px;padding:6px"class="w3-red text-center">Login</div>
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-blue text-center">Login</div>
     <button onclick="document.getElementById('id01').style.display='none'"
-      style="cursor:pointer;" class="w3-button w3-red w3-hover-orange w3-display-topright ">&times;</button>
+      style="cursor:pointer;" class="w3-button w3-blue w3-hover-black w3-display-topright ">&times;</button>
 
 
     <div style="padding:20px;"class="w3-container">
-      <form action="/checklogin/" method="POST">
+      <form action="/checklogin3/" method="POST">
+        <input name="url" type="hidden" value="{{ url|safe }}">
         <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
         <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
-        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-red" type="submit" value="Login">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-blue" type="submit" value="Login">
       </form>
       <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
-      <button onclick="document.getElementById('id02').style.display='block';document.getElementById('id01').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-red w3-hover-black">Create Account</button>
+      <button onclick="document.getElementById('id02').style.display='block';document.getElementById('id01').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-blue w3-hover-black">Create Account</button>
     </div>
   </div>
 </div>
@@ -136,6 +137,7 @@
 
   </div>
 </div>
+
 
 <style type="text/css">
   /* Slideshow container */
