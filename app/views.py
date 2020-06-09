@@ -1454,3 +1454,5 @@ def adminlistcategory(request):
 	return render(request,'adminpages/listcategory.html',{})
 def termscondition(request):
 	return render(request,'terms-condition.html',{})
+def shop(request):
+	return render(request,'shop.html',{})
