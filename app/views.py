@@ -7,6 +7,7 @@ from django.http import HttpResponse
 import uuid
 from app.myutil import *
 import csv
+from app.sms import *
 
 # Create your views here.
 def about(request):
@@ -425,6 +426,7 @@ Team Bazzaars'''
 			sub='Congratulations! Your '+name+' has Successfully Created'
 			email=EmailMessage(sub,msg,to=[email])
 			email.send()
+			s=sendOTPMessage(mobile, otp)
 			alert='<script type="text/javascript">alert("Your Account Has Been Successfully Created Please Check Your Mail");</script>'
 			dic={'data':StoreCategoryData.objects.all(),
 				'storeid':sid}
@@ -481,8 +483,10 @@ def verifystore(request):
 		else:
 			otp=''
 			email=''
+			mobile=''
 			for x in StoreData.objects.filter(Store_ID=sid):
 				email=x.Store_Email
+				mobile=x.Store_Phone
 				otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+x.Store_Name+x.Store_Owner+x.Store_Category+x.Store_Phone+x.Store_Email)
 			otp=str(otp)
 			otp=otp.upper()[0:6]
@@ -497,6 +501,7 @@ Team Bazzaars'''
 			sub='Bazzaars One Time Password (OTP)'
 			email=EmailMessage(sub,msg,to=[email])
 			email.send()
+			s=sendOTPMessage(mobile, otp)
 			alert='<script type="text/javascript">alert("Incorrect OTP. We have sent another OTP, Verify Again");</script>'
 			dic={'alert':alert,'storeid':sid}
 			return render(request,'verifystore.html',dic)
@@ -569,6 +574,20 @@ def verifypayment2(request):
 				request.session['storeid'] = x.Store_ID
 			dic={'txndata':obj}
 			dic.update({'msg':respons_dict['RESPMSG']})
+			sdata=GetShopData2(request.session['storeid'])
+			s=sendActivationSMS(sdata['storemobile'], sdata['storename'], respons_dict['ORDERID'])
+			msg='''Hi there!
+Congratulations! Your account is successfully activated. Your website url is
+
+https://bazzaars.com/'''+sdata["url"]+'''
+
+This link will be activated after you publish your website from your control panel.
+
+Thanks for creating your store on Bazzaars,
+Team Bazzaars'''
+			sub='Welcome to Bazzaars.com'
+			email=EmailMessage(sub,msg,to=[sdata["storeemail"]])
+			email.send()
 			return render(request,'shoppanel/paymentsuccess.html',dic)
 		else:
 			obj=StoreActivationData.objects.filter(Act_ID=respons_dict['ORDERID'])
@@ -585,8 +604,10 @@ def ResendOTP(request):
 	sid=request.GET.get('sid')
 	otp=''
 	email=''
+	mobile=''
 	for x in StoreData.objects.filter(Store_ID=sid):
 		email=x.Store_Email
+		mobile=x.Store_Phone
 		otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+x.Store_Name+x.Store_Owner+x.Store_Category+x.Store_Phone+x.Store_Email)
 	otp=str(otp)
 	otp=otp.upper()[0:6]
@@ -601,6 +622,7 @@ Team Bazzaars'''
 	sub='Bazzaars One Time Password (OTP)'
 	email=EmailMessage(sub,msg,to=[email])
 	email.send()
+	s=sendOTPMessage(mobile, otp)
 	dic={'storeid':sid}
 	return render(request,'verifystore.html',dic)
 
@@ -853,6 +875,7 @@ Team Bazzaars'''
 			sub='Bazzaars One Time Password (OTP)'
 			email=EmailMessage(sub,msg,to=[email])
 			email.send()
+			s=sendOTPMessage(mobile, otp)
 			return render(request,'verifyuser.html',{'userid':uid})
 @csrf_exempt
 def verifyuser(request):
@@ -874,8 +897,10 @@ def ResendOTPuser(request):
 	uid=request.GET.get('uid')
 	otp=request.session['userotp']
 	email=''
+	mobile=''
 	for x in UserData.objects.filter(User_ID=uid):
 		email=x.User_Email
+		mobile=x.User_Mobile
 	msg='''Hi there!
 Please verify your account with the following One Time Password
 
@@ -886,6 +911,7 @@ Team Bazzaars'''
 	sub='Bazzaars One Time Password (OTP)'
 	email=EmailMessage(sub,msg,to=[email])
 	email.send()
+	s=sendOTPMessage(mobile, otp)
 	alert="<script>alert('OTP Sent Successfully!');</script>"
 	dic={'userid':uid,'alert':alert}
 	return render(request,'verifyuser.html',dic)
@@ -895,14 +921,29 @@ def checklogin2(request):
 		email=request.POST.get('email')
 		password=request.POST.get('password')
 		if UserData.objects.filter(User_Email=email,User_Password=password).exists():
-			for x in UserData.objects.filter(User_Email=email):
-				request.session['userid'] = x.User_ID
-				break
-			return redirect('/userdashboard/')
+			if UserData.objects.filter(User_Email=email,Verify_Status='Unverified').exists():
+				otp=''
+				mobile=''
+				uid=''
+				for x in UserData.objects.filter(User_Email=email):
+					mobile=x.User_Mobile
+					uid=x.User_ID
+					otp=uuid.uuid5(uuid.NAMESPACE_DNS, x.User_ID+x.User_Fname+x.User_Lname+x.User_Password+x.User_Mobile+x.User_Email).int
+				otp=str(otp)
+				otp=otp.upper()[0:6]
+				request.session['userotp'] = otp
+				s=sendOTPMessage(mobile, otp)
+				dic={'userid':uid}
+				return render(request,'verifyuser.html',dic)
+			else:
+				for x in UserData.objects.filter(User_Email=email):
+					request.session['userid'] = x.User_ID
+					break
+				return redirect('/userdashboard/')
 		else:
 			return HttpResponse("<script>alert('Incorrect Email ID or Password'); window.location.replace('/index/')</script>")
 def userdashboard(request):
-#	try:
+	try:
 		uid=request.session['userid']
 		userdata=UserData.objects.filter(User_ID=uid)
 		useraddress=UserAddressData.objects.filter(User_ID=uid)
@@ -910,8 +951,8 @@ def userdashboard(request):
 		dic.update({'productdata':GetUserOrderProduct(uid),
 			'orderdata':GetUserOrderData(uid)})
 		return render(request,'userdashboard.html',dic)
-#	except:
-#		return HttpResponse('<h1>Error 500 Internal Server Error</h1>')
+	except:
+		return HttpResponse('<h1>Error 500 Internal Server Error</h1>')
 @csrf_exempt
 def edituserdata(request):
 	if request.method=='POST':
@@ -980,6 +1021,92 @@ def logoutstore(request):
 		return redirect('/index/')
 	except:
 		return redirect('/index/')
+
+@csrf_exempt
+def shopsaveuser(request):
+	if request.method=='POST':
+		shopname=request.POST.get('url')
+		fname=request.POST.get('fname')
+		lname=request.POST.get('lname')
+		email=request.POST.get('email')
+		mobile=request.POST.get('mobile')
+		password=request.POST.get('password')
+		u="U00"
+		x=1
+		uid=u+str(x)
+		while UserData.objects.filter(User_ID=uid).exists():
+			x=x+1
+			uid=u+str(x)
+		x=int(x)
+		otp=uuid.uuid5(uuid.NAMESPACE_DNS, uid+fname+lname+password+mobile+email).int
+		otp=str(otp)
+		otp=otp.upper()[0:6]
+		request.session['userotp'] = otp
+		obj=UserData(
+			User_ID=uid,
+			User_Fname=fname,
+			User_Lname=lname,
+			User_Email=email,
+			User_Mobile=mobile,
+			User_Password=password
+			)
+		if UserData.objects.filter(User_Email=email).exists():
+			return HttpResponse("<script>alert('User Already Exists'); window.location.replace('/"+shopname+"')</script>")
+		else:
+			obj.save()
+			msg='''Hi there!
+Please verify your account with the following One Time Password
+
+Verification OTP : '''+otp+'''
+
+Thanks for creating your account on Bazzaars,
+Team Bazzaars'''
+			sub='Bazzaars One Time Password (OTP)'
+			email=EmailMessage(sub,msg,to=[email])
+			email.send()
+			s=sendOTPMessage(mobile, otp)
+			return render(request,'shoppages/verifyuser.html',{'userid':uid,'url':shopname})
+@csrf_exempt
+def shopverifyuser(request):
+	if request.method=='POST':
+		shopname=request.POST.get('url')
+		otpp=request.POST.get('otp').upper()
+		uid=request.POST.get('userid')
+		userotp=request.session['userotp']
+		if otpp == userotp:
+			obj=UserData.objects.filter(User_ID=uid)
+			obj.update(Verify_Status='Verified')
+			return HttpResponse("<script>alert('Account Verified Successfully. Proceed for Login'); window.location.replace('/"+shopname+"')</script>")
+		else:
+			alert="<script>alert('Incorrect OTP');</script>"
+			dic={'userid':uid,'alert':alert,'url':shopname}
+			return render(request,'shoppages/verifyuser.html',dic)
+	else:
+		return HttpResponse('<h1>Error 404 Not Found</h1>')
+def shopResendOTPuser(request):
+	shopname=request.GET.get('url')
+	uid=request.GET.get('uid')
+	otp=request.session['userotp']
+	email=''
+	mobile=''
+	for x in UserData.objects.filter(User_ID=uid):
+		email=x.User_Email
+		mobile=x.User_Mobile
+	msg='''Hi there!
+Please verify your account with the following One Time Password
+
+Verification OTP : '''+otp+'''
+
+Thanks for creating your store on Bazzaars,
+Team Bazzaars'''
+	sub='Bazzaars One Time Password (OTP)'
+	email=EmailMessage(sub,msg,to=[email])
+	email.send()
+	s=sendOTPMessage(mobile, otp)
+	alert="<script>alert('OTP Sent Successfully!');</script>"
+	dic={'userid':uid,'alert':alert,'url':shopname}
+	return render(request,'shoppages/verifyuser.html',dic)
+
 @csrf_exempt
 def checklogin3(request):
 	if request.method=='POST':
@@ -987,10 +1114,24 @@ def checklogin3(request):
 		email=request.POST.get('email')
 		password=request.POST.get('password')
 		if UserData.objects.filter(User_Email=email,User_Password=password).exists():
-			for x in UserData.objects.filter(User_Email=email):
-				request.session['userid'] = x.User_ID
-				break
-			return redirect('/shopuserdashboard/?shopname='+shopname)
+			if UserData.objects.filter(User_Email=email,Verify_Status='Unverified').exists():
+				otp=''
+				mobile=''
+				uid=''
+				for x in UserData.objects.filter(User_Email=email):
+					mobile=x.User_Mobile
+					uid=x.User_ID
+					otp=uuid.uuid5(uuid.NAMESPACE_DNS, x.User_ID+x.User_Fname+x.User_Lname+x.User_Password+x.User_Mobile+x.User_Email).int
+				otp=str(otp)
+				otp=otp.upper()[0:6]
+				request.session['userotp'] = otp
+				s=sendOTPMessage(mobile, otp)
+				return render(request,'shoppages/verifyuser.html',{'userid':uid,'url':shopname})
+			else:
+				for x in UserData.objects.filter(User_Email=email):
+					request.session['userid'] = x.User_ID
+					break
+				return redirect('/shopuserdashboard/?shopname='+shopname)
 		else:
 			return HttpResponse("<script>alert('Incorrect Email ID or Password'); window.location.replace('/index/')</script>")
 def shopuserdashboard(request):
@@ -1362,14 +1503,19 @@ def verifypayment(request):
 				obj=OrderData.objects.filter(Order_ID=ORDERID)
 				obj.update(Status='Deactive')
 				sid=''
+				cartid=''
 				for x in obj:
 					sid=x.Store_ID
+					cartid=x.Cart_ID
 					obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
 					obj.update(Status='Deactive')
 					quantity=DeductQuantity(x.Cart_ID)
 					obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
 					obj.update(Status='Deactive')
 				dic=GetShopData2(sid)
+				userdata=GetUserDatafromCart(cartid)
+				s=sendOrderConfirmation(userdata['mobile'], ORDERID, dic['storename'], dic['storemobile'])
+				s=sendOrderConfirmationforStore(dic['storemobile'], ORDERID, TXNAMOUNT, userdata['mobile'])
 				dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
 				return render(request, 'shoppages/paymentsuccess.html', dic)
 			else:

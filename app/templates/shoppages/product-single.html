@@ -98,39 +98,23 @@
     </div>
   </div>
 </div>
-<div id="id01" class="w3-modal w3-animate-zoom">
-  <div style="width:400px;"class="w3-modal-content text-center">
-
-    <div style="width:100%;font-size:20px;padding:6px"class="w3-red text-center">SignIn</div>
-    <button onclick="document.getElementById('id01').style.display='none'"
-      style="cursor:pointer;" class="w3-button w3-red w3-hover-black w3-display-topright ">&times;</button>
-
-
-    <div style="padding:20px;"class="w3-container">
-      <form action="/checklogin/" method="POST">
-        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
-        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
-        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-red" type="submit" value="Sign">
-      </form>
-      <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
-      <button onclick="document.getElementById('id02').style.display='block';document.getElementById('id01').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-red w3-hover-black">Create Account</button>
-    </div>
-  </div>
-</div>
 <div id="id02" class="w3-modal w3-animate-zoom">
   <div style="width:400px;"class="w3-modal-content">
 
-    <div style="width:100%;font-size:20px;padding:6px"class="w3-red text-center">Create Account</div>
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-blue text-center">Create Account</div>
     <button onclick="document.getElementById('id02').style.display='none'"
-      style="cursor:pointer;" class="w3-button w3-red w3-hover-black w3-display-topright ">&times;</button>
+      style="cursor:pointer;" class="w3-button w3-blue w3-hover-black w3-display-topright ">&times;</button>
 
 
     <div style="padding:20px;"class="w3-container">
-      <form>
-        <input style="margin-bottom:20px;"class="w3-input" type="text" placeholder="Name *" required>
-        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" required>
-        <input style="margin-bottom:20px;"class="w3-input" type="number" placeholder="Mobile Number *" required>
-        <input class="w3-input w3-button w3-black w3-hover-red" type="submit" value="Create">
+      <form action="/shopsaveuser/" method="POST">
+        <input name="url" type="hidden" value="{{ url|safe }}">
+        <input style="margin-bottom:20px;"class="w3-input" name="fname" type="text" placeholder="First Name *" required>
+        <input style="margin-bottom:20px;"class="w3-input" name="lname" type="text" placeholder="Last Name *" required>
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email *" required>
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile Number *" required>
+        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password *" required>
+        <input class="w3-input w3-button w3-black w3-hover-blue" type="submit" value="Create">
       </form>
       
     </div>
@@ -305,7 +289,7 @@
     </section>
 
     
-    <footer class="ftco-footer bg-light ftco-section">
+    <footer class="ftco-footer ftco-section" style="background-color:#0044ff;color:white;padding-bottom:5px;">
       <div class="container">
         <div class="row">
           <div class="mouse">
@@ -317,64 +301,52 @@
         <div class="row mb-5">
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">About Us</h2>
+              <h2 class="ftco-heading-2" style="color:white;">About Us</h2>
               <p>{{ storeabout|safe }}</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="{{ twitterlink|safe }}"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="{{ facebooklink|safe }}"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="{{ instagramlink|safe }}"><span class="icon-instagram"></span></a></li>
+                <li style="color:white;" class="ftco-animate"><a href="{{ twitterlink|safe }}"><span style="color:white;" class="icon-twitter"></span></a></li>
+                <li style="color:white;" class="ftco-animate"><a href="{{ facebooklink|safe }}"><span style="color:white;" class="icon-facebook"></span></a></li>
+                <li style="color:white;" class="ftco-animate"><a href="{{ instagramlink|safe }}"><span style="color:white;" class="icon-instagram"></span></a></li>
               </ul>
             </div>
           </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Menu</h2>
+              <h2 class="ftco-heading-2" style="color:white;">Product Categories</h2>
               <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">Shop</a></li>
-                <li><a href="#" class="py-2 d-block">About</a></li>
-                <li><a href="#" class="py-2 d-block">Journal</a></li>
-                <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+                {% for x in productcategory %}
+                <li><a href="{{ url|safe }}/openproductcategory/?cid={{ x.id|safe }}" class="py-2 d-block" style="color:white;">{{ x.name|safe }}</a></li>
+                {% endfor %}
+
               </ul>
             </div>
           </div>
           <div class="col-md-4">
              <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Help</h2>
+              <h2 class="ftco-heading-2" style="color:white;">Help</h2>
               <div class="d-flex">
                 <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
-                  <li><a href="#" class="py-2 d-block">Shipping Information</a></li>
-                  <li><a href="#" class="py-2 d-block">Returns &amp; Exchange</a></li>
-                  <li><a href="#" class="py-2 d-block">Terms &amp; Conditions</a></li>
-                  <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
-                </ul>
-                <ul class="list-unstyled">
-                  <li><a href="#" class="py-2 d-block">FAQs</a></li>
-                  <li><a href="#" class="py-2 d-block">Contact</a></li>
+                  <li><a href="/{{ url|safe }}/contactus/" class="py-2 d-block" style="color:white;">Contact Us</a></li>
+                  <li><a href="/{{ url|safe }}/tandc/" class="py-2 d-block" style="color:white;">Terms &amp; Conditions</a></li>
+                  <li><a href="/{{ url|safe }}/privacy/" class="py-2 d-block" style="color:white;">Privacy Policy</a></li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Have a Questions?</h2>
+              <h2 class="ftco-heading-2" style="color:white;">Have a Questions?</h2>
               <div class="block-23 mb-3">
                 <ul>
-                  <li><span class="icon icon-map-marker"></span><span class="text">{{ storeaddress|safe }}<br>{{ storecity|safe }}, {{ storestate|safe }}</span></li>
-                  <li><a href="#"><span class="icon icon-phone"></span><span class="text">+91-{{ storemobile|safe }}</span></a></li>
-                  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">{{ storeemail|safe }}</span></a></li>
+                  <li><span class="icon icon-map-marker" style="color:white;"></span><span class="text">{{ storeaddress|safe }}<br>{{ storecity|safe }}, {{ storestate|safe }}</span></li>
+                  <li><a href="#"><span class="icon icon-phone" style="color:white;"></span><span class="text" style="color:white;">+91-{{ storemobile|safe }}</span></a></li>
+                  <li><a href="#"><span class="icon icon-envelope" style="color:white;"></span><span class="text" style="color:white;">{{ storeemail|safe }}</span></a></li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved @ <a href="https://www.srd.mobi">SRD - Shreshtha Research & Development</a>
-            </p>
-          </div>
-        </div>
+          
       </div>
     </footer>
     

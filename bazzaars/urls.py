@@ -11,6 +11,7 @@ urlpatterns = [
     path('contact/',contact),
     path('elements/',elements),
     path('index/',index),
+    path('',index),
     path('category/',category),
     path('industries/',industries),
     path('main/',main),
@@ -130,6 +131,9 @@ urlpatterns = [
     path('<str:shopname>/removequantity/<str:pid>/',removequantity),
     path('<str:shopname>/shopcart/opencart/',shopcart),
     path('saverating/',saveproductrating),
+    path('shopsaveuser/',shopsaveuser),
+    path('shopverifyuser/',shopverifyuser),
+    path('shopresendotp/',shopResendOTPuser),
     path('<str:shopname>/<str:crtid>/selectaddress/',selectaddress),
     path('<str:shopname>/<str:ordid>/proceedtocheckout/',proceedtocheckout),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

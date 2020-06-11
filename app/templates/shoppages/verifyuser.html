@@ -78,23 +78,21 @@
 	    </div>
 	  </nav>
     <!-- END nav -->
-    <div id="id01" class="w3-modal w3-animate-zoom">
+<div id="id01" style="display:block" class="w3-modal w3-animate-zoom">
   <div style="width:400px;"class="w3-modal-content text-center">
 
-    <div style="width:100%;font-size:20px;padding:6px"class="w3-blue text-center">Login</div>
-    <button onclick="document.getElementById('id01').style.display='none'"
-      style="cursor:pointer;" class="w3-button w3-blue w3-hover-black w3-display-topright ">&times;</button>
-
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-blue text-center">Enter OTP</div>
+    
 
     <div style="padding:20px;"class="w3-container">
-      <form action="/checklogin3/" method="POST">
+      <form action="/shopverifyuser/" method="POST">
         <input name="url" type="hidden" value="{{ url|safe }}">
-        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
-        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
-        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-blue" type="submit" value="Login">
+        <input name="userid" type="hidden" value="{{ userid|safe }}">
+        <label>OTP has been sent to your Email and Mobile</label>
+        <input style="margin-bottom:20px;"class="w3-input" name="otp" type="text" placeholder="Enter OTP (One Time Password)">
+        <p>Didn't Recieve OTP? <a href="/shopresendotp/?uid={{ userid|safe }}&url={{ url|safe }}" class="itemhover">Resend OTP</a></p>
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-blue" type="submit" value="Verify">
       </form>
-      <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
-      <button onclick="document.getElementById('id02').style.display='block';document.getElementById('id01').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-blue w3-hover-black">Create Account</button>
     </div>
   </div>
 </div>
@@ -108,7 +106,6 @@
 
     <div style="padding:20px;"class="w3-container">
       <form action="/shopsaveuser/" method="POST">
-        <input name="url" type="hidden" value="{{ url|safe }}">
         <input style="margin-bottom:20px;"class="w3-input" name="fname" type="text" placeholder="First Name *" required>
         <input style="margin-bottom:20px;"class="w3-input" name="lname" type="text" placeholder="Last Name *" required>
         <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email *" required>

@@ -25,7 +25,7 @@ SECRET_KEY = 'q$#+h%oqy*)_w6)$vl-06c3%pxn9*5^efrn_nrv7i!htc6o#*6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -127,6 +127,6 @@ MEDIA_URL = '/media/'
 
 EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='shreshtharnd20@gmail.com'
-EMAIL_HOST_PASSWORD='womipbpedpanajrc'
+EMAIL_HOST_USER='bazzaarsdotcom@gmail.com'
+EMAIL_HOST_PASSWORD='rxcgcnmevwpevgtb'
 EMAIL_PORT=587

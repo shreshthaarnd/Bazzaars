@@ -243,7 +243,17 @@ def GetShopData2(sid):
 				'instagramlink':z.Store_Instagram,
 				})
 	return dic
-
+def GetUserDatafromCart(cartid):
+	dic={}
+	userid=''
+	for x in CartData.objects.filter(Cart_ID=cartid):
+		userid=x.User_ID
+		break
+	for x in UserData.objects.filter(User_ID=userid):
+		dic={
+			'mobile':x.User_Mobile
+		}
+	return dic
 def GetFourProducts(sid):
 	dic={}
 	lt=[]
@@ -321,7 +331,7 @@ def getparamdict(orderid):
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'None',
 			'CHANNEL_ID':'WEB',
-			'CALLBACK_URL':'http://127.0.0.1:8000/verifypayment/'
+			'CALLBACK_URL':'https://bazzaars.com/verifypayment/'
 		}
 		for y in StoreData.objects.filter(Store_ID=x.Store_ID):
 			storename=''
@@ -341,7 +351,7 @@ def getparamdict2(sid, aid):
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'Bazzaars',
 			'CHANNEL_ID':'WEB',
-			'CALLBACK_URL':'http://127.0.0.1:8000/verifypayment2/'
+			'CALLBACK_URL':'https://bazzaars.com/verifypayment2/'
 		}
 		for y in StoreData.objects.filter(Store_ID=x.Store_ID):
 			storename=''
