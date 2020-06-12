@@ -277,7 +277,11 @@
 						</div>
     				<p class="price"><span><i class="fa fa-inr"></i> {{ x.Product_Price|safe }}</span></p>
     				<p>{{ x.Product_Description|safe }}</p>
-          	<p><a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+            {% if checksession == True %}
+          	<p><a href="/{{ url|safe }}/addtocart/{{ x.id|safe }}/" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+            {% else %}
+            <p><a href="#id01" onclick="document.getElementById('id01').style.display='block';" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+            {% endif %}
             {% endfor %}
     			</div>
           <h2>Product Reviews</h2>

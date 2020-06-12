@@ -10,6 +10,55 @@ import csv
 from app.sms import *
 
 # Create your views here.
+@csrf_exempt
+def savefeedback(request):
+	if request.method=='POST':
+		name=request.POST.get('name')
+		email=request.POST.get('email')
+		feedback=request.POST.get('feedback')
+		c="FED00"
+		x=1
+		cid=c+str(x)
+		while FeedbackData.objects.filter(Feedback_ID=cid).exists():
+			x=x+1
+			cid=c+str(x)
+		x=int(x)
+		obj=FeedbackData(
+			Feedback_ID=cid,
+			Name=name,
+			Email=email,
+			Feedback=feedback
+			)
+		obj.save()
+		return HttpResponse("<script>alert('Thanks for your feedback. Your feedback is important to us.'); window.location.replace('/index/')</script>")
+	else:
+		return redirect('/shoppanelpages404/')
+
+@csrf_exempt
+def saveagent(request):
+	if request.method=='POST':
+		name=request.POST.get('name')
+		email=request.POST.get('email')
+		mobile=request.POST.get('mobile')
+		city=request.POST.get('city')
+		c="AG00"
+		x=1
+		cid=c+str(x)
+		while AgentData.objects.filter(Agent_ID=cid).exists():
+			x=x+1
+			cid=c+str(x)
+		x=int(x)
+		obj=AgentData(
+			Agent_ID=cid,
+			Name=name,
+			Email=email,
+			Mobile=mobile,
+			City=city,
+			)
+		obj.save()
+		return HttpResponse("<script>alert('Agent Request Recieved! We will contact you soon...'); window.location.replace('/index/')</script>")
+	else:
+		return redirect('/shoppanelpages404/')
 def about(request):
 	return render(request,'about.html',{})
 def blog(request):
@@ -49,27 +98,6 @@ def shopindex(request):
 	return render(request,'shoppages/index.html',{})
 def shopshop(request):
 	return render(request,'shoppages/shop.html',{})
-def adminindex(request):
-	return render(request,'adminpages/index.html',{})
-def adminpagelogin(request):
-	return render(request,'adminpages/page-login.html',{})
-def adminpageregister(request):
-	return render(request,'adminpages/page-register.html',{})
-def adminpagesforget(request):
-	return render(request,'adminpages/pages-forget.html',{})
-def admintablesbasic(request):
-	return render(request,'adminpages/tables-basic.html',{})
-def admintablesdata(request):
-	return render(request,'adminpages/tables-data.html',{})
-def adminwidgets(request):
-	return render(request,'adminpages/widgets.html',{})
-def adminformsadvanced(request):
-	return render(request,'adminpages/forms-advanced.html',{})
-def adminformsbasic(request):
-	return render(request,'adminpages/forms-basic.html',{})
-def adminlogin(request):
-	return render(request,'adminpages/login.html',{})
-
 def shoppanelindex(request):
 	return render(request,'shoppanel/index.html',{})
 def shoppanelpages404(request):
@@ -1439,13 +1467,16 @@ def processpayment(request):
 import cgi
 @csrf_exempt
 def verifypayment(request):
-		MERCHANT_KEY = 'gDokYWVAFFW9OSlZ'
+		MID=request.POST.get('MID')
+		obj=StoreMerchantData.objects.filter(MID=MID)
+		MERCHANT_KEY = ''
+		for x in obj:
+			MERCHANT_KEY = x.MERCHANT_KEY
 		CURRENCY=request.POST.get('CURRENCY')
 		GATEWAYNAME=request.POST.get('GATEWAYNAME')
 		RESPMSG=request.POST.get('RESPMSG')
 		BANKNAME=request.POST.get('BANKNAME')
 		PAYMENTMODE=request.POST.get('PAYMENTMODE')
-		MID=request.POST.get('MID')
 		RESPCODE=request.POST.get('RESPCODE')
 		TXNID=request.POST.get('TXNID')
 		TXNAMOUNT=request.POST.get('TXNAMOUNT')
@@ -1558,47 +1589,298 @@ def shoppanelpaymentsuccess(request):
 	return render(request,'shoppanel/paymentsuccess.html',{})
 def shoppanelpaymentfailed(request):
 	return render(request,'shoppanel/paymentfailed.html',{})
-def adminstoreslist(request):
-	return render(request,'adminpages/storeslist.html',{})
-def adminpublishedstore(request):
-	return render(request,'adminpages/publishedstore.html',{})
-def adminunpublishedstore(request):
-	return render(request,'adminpages/unpublishedstore.html',{})
-def admindeactivestore(request):
-	return render(request,'adminpages/deactivestore.html',{})
-def adminunverifiedstore(request):
-	return render(request,'adminpages/unverifiedstore.html',{})
-def adminpaidstores(request):
-	return render(request,'adminpages/paidstores.html',{})
-def adminunpaidstores(request):
-	return render(request,'adminpages/unpaidstores.html',{})
-def adminstoremerchantdata(request):
-	return render(request,'adminpages/storemerchantdata.html',{})
-def adminstoreactivationdata(request):
-	return render(request,'adminpages/storeactivationdata.html',{})
-def adminorderlist(request):
-	return render(request,'adminpages/orderlist.html',{})
-def adminonlinepaidorderlist(request):
-	return render(request,'adminpages/onlinepaidorderlist.html',{})
-def admincodorderlist(request):
-	return render(request,'adminpages/codorderlist.html',{})
-def admincompleteorderlist(request):
-	return render(request,'adminpages/completeorderlist.html',{})
-def adminincompleteorderlist(request):
-	return render(request,'adminpages/incompleteorderlist.html',{})
-def adminorderpaymentdata(request):
-	return render(request,'adminpages/orderpaymentdata.html',{})
-def admindeactiveuser(request):
-	return render(request,'adminpages/deactiveuser.html',{})
-def adminactiveuser(request):
-	return render(request,'adminpages/activeuser.html',{})
-def adminuseraddressdata(request):
-	return render(request,'adminpages/useraddressdata.html',{})
-def adminaddcategory(request):
-	return render(request,'adminpages/addcategory.html',{})
-def adminlistcategory(request):
-	return render(request,'adminpages/listcategory.html',{})
 def termscondition(request):
 	return render(request,'terms-condition.html',{})
-def shop(request):
-	return render(request,'shop.html',{})
+
+#Admin Section
+def adminlogin(request):
+	return render(request,'adminpages/login.html',{})
+@csrf_exempt
+def adminlogincheck(request):
+	if request.method=='POST':
+		email=request.POST.get('email')
+		password=request.POST.get('password')
+		if email == 'admin@bazzaars.com' and password == '1234':
+			request.session['admin'] = email
+			return redirect('/adminindex/')
+		else:
+			return HttpResponse("<script>alert('Incorrect Credentials'); window.location.replace('/adminlogin/')</script>")
+def adminlogout(request):
+	try:
+		del request.session['admin']
+		request.session.flush()
+		return redirect('/adminlogin/')
+	except:
+		return redirect('/adminlogin/')
+
+def adminindex(request):
+	try:
+		aid=request.session['admin']
+		return render(request,'adminpages/index.html',{})
+	except:
+		return redirect('/shoppanelpages404/')
+
+def adminstoreslist(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreData.objects.all()
+		dic={'data':reversed(obj)}
+		return render(request,'adminpages/storeslist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminpublishedstore(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreData.objects.filter(Status='Active')
+		dic={'data':reversed(obj)}
+		return render(request,'adminpages/publishedstore.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminmakestoreunpublish(request):
+	try:
+		aid=request.session['admin']
+		sid=request.GET.get('sid')
+		obj=StoreData.objects.filter(Store_ID=sid)
+		obj.update(Status='Deactive')
+		return redirect('/adminpublishedstore/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminunpublishedstore(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreData.objects.filter(Status='Deactive')
+		dic={'data':reversed(obj)}
+		return render(request,'adminpages/unpublishedstore.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminmakestorepublish(request):
+	try:
+		aid=request.session['admin']
+		sid=request.GET.get('sid')
+		obj=StoreData.objects.filter(Store_ID=sid)
+		obj.update(Status='Active')
+		return redirect('/adminunpublishedstore/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminunverifiedstore(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreData.objects.filter(Verify_Status='Unverified')
+		dic={'data':reversed(obj)}
+		return render(request,'adminpages/unverifiedstore.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminmakestoreverify(request):
+	try:
+		aid=request.session['admin']
+		sid=request.GET.get('sid')
+		obj=StoreData.objects.filter(Store_ID=sid)
+		obj.update(Verify_Status='Verified')
+		return redirect('/adminunverifiedstore/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminpaidstores(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreData.objects.filter(Payment_Status='Paid')
+		dic={'data':reversed(obj)}
+		return render(request,'adminpages/paidstores.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminunpaidstores(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreData.objects.filter(Payment_Status='Unpaid')
+		dic={'data':reversed(obj)}
+		return render(request,'adminpages/unpaidstores.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminmakestorepaid(request):
+	try:
+		aid=request.session['admin']
+		sid=request.GET.get('sid')
+		obj=StoreData.objects.filter(Store_ID=sid)
+		obj.update(Payment_Status='Paid')
+		return redirect('/adminunpaidstores/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminstoremerchantdata(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreMerchantData.objects.all()
+		obj1=StoreData.objects.all()
+		dic={'data':obj,'data2':obj1}
+		return render(request,'adminpages/storemerchantdata.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminstoreactivationdata(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreActivationData.objects.all()
+		dic={'data':obj}
+		return render(request,'adminpages/storeactivationdata.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminorderlist(request):
+	try:
+		aid=request.session['admin']
+		obj=OrderData.objects.all()
+		dic={'data':obj}
+		return render(request,'adminpages/orderlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminonlinepaidorderlist(request):
+	try:
+		aid=request.session['admin']
+		obj=OrderData.objects.filter(Order_Type='online')
+		dic={'data':obj}
+		return render(request,'adminpages/onlinepaidorderlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def admincodorderlist(request):
+	try:
+		aid=request.session['admin']
+		obj=OrderData.objects.filter(Order_Type='cod')
+		dic={'data':obj}
+		return render(request,'adminpages/codorderlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def admincompleteorderlist(request):
+	try:
+		aid=request.session['admin']
+		obj=OrderData.objects.filter(Order_Status='Completed')
+		dic={'data':obj}
+		return render(request,'adminpages/completeorderlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminincompleteorderlist(request):
+	try:
+		aid=request.session['admin']
+		obj=OrderData.objects.filter(Order_Status='Pending')
+		dic={'data':obj}
+		return render(request,'adminpages/incompleteorderlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminorderpaymentdata(request):
+	try:
+		aid=request.session['admin']
+		obj=OrderPaymentData.objects.all()
+		dic={'data':obj}
+		return render(request,'adminpages/orderpaymentdata.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def admindeactiveuser(request):
+	try:
+		aid=request.session['admin']
+		obj=UserData.objects.filter(Status='Deactive')
+		dic={'data':obj}
+		return render(request,'adminpages/deactiveuser.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminactiveuser(request):
+	try:
+		aid=request.session['admin']
+		obj=UserData.objects.filter(Status='Active')
+		dic={'data':obj}
+		return render(request,'adminpages/activeuser.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminuseraddressdata(request):
+	try:
+		aid=request.session['admin']
+		obj=UserAddressData.objects.all()
+		dic={'data':obj}
+		return render(request,'adminpages/useraddressdata.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminmakeuserdeactive(request):
+	try:
+		aid=request.session['admin']
+		uid=request.GET.get('uid')
+		obj=UserData.objects.filter(User_ID=uid)
+		obj.update(Status='Deactive')
+		return redirect('/adminactiveuser/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminmakeuseractive(request):
+	try:
+		aid=request.session['admin']
+		uid=request.GET.get('uid')
+		obj=UserData.objects.filter(User_ID=uid)
+		obj.update(Status='Active')
+		return redirect('/admindeactiveuser/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminaddcategory(request):
+	try:
+		aid=request.session['admin']
+		return render(request,'adminpages/addcategory.html',{})
+	except:
+		return redirect('/shoppanelpages404/')
+def adminsavecategory(request):
+	try:
+		aid=request.session['admin']
+		if request.method=='POST':
+			cname=request.POST.get('name')
+			c="C00"
+			x=1
+			cid=c+str(x)
+			while StoreCategoryData.objects.filter(Category_ID=cid).exists():
+				x=x+1
+				cid=c+str(x)
+			x=int(x)
+			obj=StoreCategoryData(
+				Category_ID=cid,
+				Category_Name=cname
+				)
+			obj.save()
+			return redirect('/adminlistcategory/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminlistcategory(request):
+	try:
+		aid=request.session['admin']
+		obj=StoreCategoryData.objects.all()
+		dic={'data':obj}
+		return render(request,'adminpages/listcategory.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def admindeletecategory(request):
+	try:
+		aid=request.session['admin']
+		cid=request.GET.get('cid')
+		obj=StoreCategoryData.objects.filter(Category_ID=cid)
+		obj.delete()
+		return redirect('/adminlistcategory/')
+	except:
+		return redirect('/shoppanelpages404/')
+def adminagentlist(request):
+	try:
+		aid=request.session['admin']
+		obj=AgentData.objects.all()
+		dic={'data':obj}
+		return render(request,'adminpages/agentlist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminfeedbacklist(request):
+	try:
+		aid=request.session['admin']
+		obj=FeedbackData.objects.all()
+		dic={'data':obj}
+		return render(request,'adminpages/feedbacklist.html',dic)
+	except:
+		return redirect('/shoppanelpages404/')
+def adminpageregister(request):
+	return render(request,'adminpages/page-register.html',{})
+def adminpagesforget(request):
+	return render(request,'adminpages/pages-forget.html',{})
+def admintablesbasic(request):
+	return render(request,'adminpages/tables-basic.html',{})
+def admintablesdata(request):
+	return render(request,'adminpages/tables-data.html',{})
+def adminwidgets(request):
+	return render(request,'adminpages/widgets.html',{})
+def adminformsadvanced(request):
+	return render(request,'adminpages/forms-advanced.html',{})
+def adminformsbasic(request):
+	return render(request,'adminpages/forms-basic.html',{})

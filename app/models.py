@@ -2,6 +2,25 @@ from django.db import models
 from datetime import date
 from django.conf import settings
 
+
+class FeedbackData(models.Model):
+	Feedback_Date=models.CharField(max_length=15, default=date.today().strftime("%d/%m/%Y"))
+	Feedback_ID=models.CharField(max_length=20, primary_key=True)
+	Name=models.CharField(max_length=50)
+	Email=models.CharField(max_length=50)
+	Feedback=models.CharField(max_length=500)
+	class Meta:
+		db_table="FeedbackData"
+
+class AgentData(models.Model):
+	Agent_ID=models.CharField(max_length=20, primary_key=True)
+	Name=models.CharField(max_length=50)
+	Email=models.CharField(max_length=50)
+	Mobile=models.CharField(max_length=50)
+	City=models.CharField(max_length=50)
+	class Meta:
+		db_table="AgentData"
+
 class StoreCategoryData(models.Model):
 	Category_ID=models.CharField(max_length=100, primary_key=True)
 	Category_Name=models.CharField(max_length=100)
