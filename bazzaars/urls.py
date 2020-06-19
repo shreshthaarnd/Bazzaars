@@ -25,6 +25,7 @@ urlpatterns = [
     path('edituserdata/',edituserdata),
     path('logoutuser/',logout),
     path('logout/',logoutstore),
+    path('documentry/',documentry),
     
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),
