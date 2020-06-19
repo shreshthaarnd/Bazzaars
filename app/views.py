@@ -1884,3 +1884,5 @@ def adminformsadvanced(request):
 	return render(request,'adminpages/forms-advanced.html',{})
 def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
+def documentry(request):
+	return render(request,'documentry.html',{})
