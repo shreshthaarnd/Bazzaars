@@ -94,6 +94,7 @@ urlpatterns = [
     path('logout2/',logout2),
     path('searchresult/',searchresult),
     path('shoppanelpayment/',shoppanelpayment),
+    path('shoppanelupdatestock/',shoppanelupdatestock),
 
     path('shoppanelpaymentsuccess/',shoppanelpaymentsuccess),
     path('shoppanelpaymentfailed/',shoppanelpaymentfailed),

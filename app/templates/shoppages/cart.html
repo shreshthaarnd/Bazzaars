@@ -36,7 +36,7 @@
 	    		<div class="col-lg-12 d-block">
 		    		<div class="row d-flex text-center">
 					    <div class="col-md pr-4 d-flex topper align-items-center">
-						    <span class="text">Store Created By <a href="" style="color:white;">BAZZAARS.COM</a></span>
+						    <span class="text">Store Created By <a href="https://bazzaars.com/" style="color:white;">BAZZAARS.COM</a></span>
 					    </div>
 				    </div>
 			    </div>
@@ -67,11 +67,11 @@
             </li>
             {% if checksession == True %}
             <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
-            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span style="font-size:20px;" class="icon-shopping_cart"></span></a></li>
             {% else %}
             <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link">Login</a></li>
             <li class="nav-item"><a style="cursor:pointer;" onclick="document.getElementById('id02').style.display='block';" class="nav-link">SignUp</a></li>
-            <li class="nav-item cta cta-colored"><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block';" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span style="font-size:20px;" class="icon-shopping_cart"></span></a></li>
             {% endif %}
 	        </ul>
 	      </div>
@@ -201,18 +201,6 @@
     				<div class="cart-total mb-3">
     					<h3>Cart Totals</h3>
     					{% for x in cartdata %}
-              <p class="d-flex">
-    						<span>Subtotal</span>
-    						<span>$20.60</span>
-    					</p>
-    					<p class="d-flex">
-    						<span>Delivery</span>
-    						<span>$0.00</span>
-    					</p>
-    					<p class="d-flex">
-    						<span>Discount</span>
-    						<span>$3.00</span>
-    					</p>
     					<hr>
     					<p class="d-flex total-price">
     						<span>Total</span>

@@ -269,25 +269,25 @@
                 {% endif %}
 							</p>
 							<p class="text-left mr-4">
-								<a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
+								<a href="#" class="mr-2" style="color: #000;">{{ ratingcount|safe }} <span style="color: #bbb;">Rating</span></a>
 							</p>
 							<p class="text-left">
-								<a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
+								<a href="#" class="mr-2" style="color: #000;">{{ x.Product_Stock|safe }} <span style="color: #bbb;">left</span></a>
 							</p>
 						</div>
     				<p class="price"><span><i class="fa fa-inr"></i> {{ x.Product_Price|safe }}</span></p>
     				<p>{{ x.Product_Description|safe }}</p>
+            {% if x.Product_Stock > '0' %}
             {% if checksession == True %}
           	<p><a href="/{{ url|safe }}/addtocart/{{ x.id|safe }}/" class="btn btn-black py-3 px-5">Add to Cart</a></p>
             {% else %}
             <p><a href="#id01" onclick="document.getElementById('id01').style.display='block';" class="btn btn-black py-3 px-5">Add to Cart</a></p>
             {% endif %}
+            {% else %}
+            <p><a href="#" class="btn btn-black py-3 px-5">Out of Stock</a></p>
+            {% endif %}
             {% endfor %}
     			</div>
-          <h2>Product Reviews</h2>
-          <form class="w3-container">
-
-          </form>
     		</div>
     	</div>
     </section>

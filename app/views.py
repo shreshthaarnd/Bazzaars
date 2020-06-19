@@ -68,6 +68,10 @@ def contact(request):
 def elements(request):
 	return render(request,'elements.html',{})
 def index(request):
+	s=sendOrderConfirmation('8077410226', 'ORDERID', 'Bhagat Halwai', '7417358703')
+	print(s)
+	s=sendOrderConfirmationforStore('8077410226', 'ORDERID', '500', '7417358703')
+	print(s)
 	dic={'category':StoreCategoryData.objects.all(),
 		'checksession':checksession(request)}
 	return render(request,'index.html',dic)
@@ -106,6 +110,21 @@ def shoppanelpages500(request):
 	return render(request,'shoppanel/pages-500.html',{})
 
 #Store Product Category
+@csrf_exempt
+def shoppanelupdatestock(request):
+	try:
+		sid=request.session['storeid']
+		if request.method=='POST':
+			pid=request.POST.get('pid')
+			stock=request.POST.get('stock')
+			newstock=0
+			obj=StoreProductData.objects.filter(Product_ID=pid,Store_ID=sid)
+			for x in obj:
+				newstock=int(stock)+int(x.Product_Stock)
+			obj.update(Product_Stock=str(newstock))
+			return HttpResponse("<script>alert('Product Stock Updated!'); window.location.replace('/shoppanelproductlist/')</script>")
+	except:
+		return redirect('/shoppanelpages404/')
 def shoppaneladdproductcategory(request):
 	try:
 		sid=request.session['storeid']
@@ -853,13 +872,14 @@ def openproductcategory(request, shopname):
 def shopproductsingle(request, shopname, pid):
 	data1=GetStoreIDByName(shopname)
 	images=StoreProductImageData.objects.filter(Product_ID=pid)
-	for x in images:
-		print(x.Product_Image)
 	productdata=StoreProductData.objects.filter(Product_ID=pid)
+	ratingcount=StoreProductRatingData.objects.filter(Product_ID=pid)
+	ratingcount=len(ratingcount)
 	dic=GetShopData(data1['sname'])
 	dic.update({'images':images,
 				'productdata':productdata,
 				'rating':GetRating(pid),
+				'ratingcount':ratingcount,
 				'checksession':checksession(request)})
 	return render(request,'shoppages/product-single.html',dic)
 @csrf_exempt
