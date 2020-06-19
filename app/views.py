@@ -1589,8 +1589,14 @@ def shoppanelpaymentsuccess(request):
 	return render(request,'shoppanel/paymentsuccess.html',{})
 def shoppanelpaymentfailed(request):
 	return render(request,'shoppanel/paymentfailed.html',{})
-def termscondition(request):
+def privacypolicy(request):
+	return render(request,'privacypolicy.html',{})
+def tcstore(request):
 	return render(request,'terms-condition.html',{})
+def tcuser(request):
+	return render(request,'terms-condition2.html',{})
+def disclaimer(request):
+	return render(request,'disclaimer.html',{})
 
 #Admin Section
 def adminlogin(request):
