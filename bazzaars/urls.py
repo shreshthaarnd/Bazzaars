@@ -135,7 +135,10 @@ urlpatterns = [
     path('adminagentlist/',adminagentlist),
     path('adminfeedbacklist/',adminfeedbacklist),
 
-    path('termscondition/',termscondition),
+    path('privacypolicy/',privacypolicy),
+    path('tcstore/',tcstore),
+    path('tcuser/',tcuser),
+    path('disclaimer/',disclaimer),
 
     path('<str:shopname>/addtocart/<str:pid>/',addtocart),
     path('<str:shopname>/addquantity/<str:pid>/',addquantity),
