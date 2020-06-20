@@ -111,21 +111,153 @@
        </div>
         <!-- Header End -->
     </header>
+<div id="id01" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
 
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Store Login</div>
+    <button onclick="document.getElementById('id01').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/checklogin/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Login">
+      </form>
+      <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
+      <button onclick="document.getElementById('id03').style.display='block';document.getElementById('id01').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-orange w3-hover-black">Create Store</button>
+    </div>
+  </div>
+</div>
+<div id="id02" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Create Account</div>
+    <button onclick="document.getElementById('id02').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/saveuser/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" type="text" placeholder="First Name *" name="fname" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="text" placeholder="Last Name *" name="lname" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" name="email" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="number" placeholder="Mobile Number *" name="mobile" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="password" placeholder="Password *" name="password" required>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/tcuser/">terms & conditions.</a></label><br>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/privacypolicy/">privacy policy.</a></label>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Create">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+
+
+<div id="id03" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Create Store</div>
+    <button onclick="document.getElementById('id03').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/savestore/" method="POST">
+        <input class="w3-input" type="text" name="name" placeholder="Store Name *" required>
+        <input class="w3-input" type="text" name="owner" placeholder="Store Owner Name *" required>
+        <input class="w3-input" type="email" name="email" placeholder="Email *" required>
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile Number *" required>
+        <input style="margin-bottom:10px;"class="w3-input" name="pass" type="password" placeholder="Password *" required>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/tcstore/">terms & conditions.</a></label><br>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/privacypolicy/">privacy policy.</a></label>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Proceed">
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="id04" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Forgot Password</div>
+    <button onclick="document.getElementById('id04').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form>
+        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" required>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Send Password">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+<div id="id05" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Login</div>
+    <button onclick="document.getElementById('id05').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/checklogin2/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Login">
+      </form>
+      <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
+      <button onclick="document.getElementById('id02').style.display='block';document.getElementById('id05').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-orange w3-hover-black">Create An Account</button>
+    </div>
+  </div>
+</div>
+<div id="id06" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Become Agent</div>
+    <button onclick="document.getElementById('id06').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/sendagent/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="name" type="text" placeholder="Name">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile">
+        <input style="margin-bottom:20px;"class="w3-input" name="city" type="text" placeholder="City">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
+</div>
     <main>
-      <div style="padding:30px;text-align:center;width:100%;background-color:black;height:100px;"class="row">
-            <form style="width:700px;float:right;">
-                <div style="width:25%;float:left;">
-                    <div class="form-select">
-                <select>
-                    <option>City</option>
-                </select>
+      <div style="padding:30px;width:100%;background-color:black;height:100px;" class="slider-area">
+                <form class="w3-container" action="/searchresult/" method="GET">
+                    <div style="width:20%;float:left;">
+                        <div class="form-select">
+                            <select name="city">
+                                {% for x in cities %}
+                                {% if x != 'NA' %}
+                                <option value="{{ x|safe }}">{{ x|safe }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <input style="width:65%;float:left;margin-left:20px;"class="w3-input w3-border" name="Search Here" type="text" placeholder="Search Here">
-                <button class="w3-orange w3-hover-black"style="width:50px;float:left;padding:7px;"class="w3-input" type="submit"><i class="fa fa-search"></i></button>
+                    <input style="width:50%;float:left;margin-left:20px;"class="w3-input w3-border" name="search" type="text" placeholder="Search by Store Name">
+                    <button class="w3-orange w3-hover-black"style="width:50px;float:left;padding:7px;"class="w3-input" type="submit"><i class="fa fa-search"></i></button>
 
-            </form>
+                
+                </form>
         </div>
         <h1 style="margin-top:50px;text-align:center;">{{ cname|safe }}</h1>
         <!-- slider Area Start-->
@@ -173,22 +305,45 @@
                         {% endfor %}
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
+                            {% if data.has_other_pages %}
+                                {% if data.has_previous %}
                                 <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
+                                    <a href="/category/?cname={{ cname|safe }}&page={{ data.previous_page_number }}" class="page-link" aria-label="Previous">
                                         <i class="ti-angle-left"></i>
                                     </a>
                                 </li>
+                                {% else %}
                                 <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
+                                    <a href="" class="page-link" aria-label="Previous">
+                                        <i class="ti-angle-left"></i>
+                                    </a>
                                 </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
+                                {% endif %}
+                                {% for i in data.paginator.page_range %}
+                                    {% if data.number == i %}
+                                    <li class="page-item active">
+                                        <a href="#" class="page-link">{{ i }}</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item active">
+                                        <a href="/category/?cname={{ cname|safe }}&page={{ i }}" class="page-link">{{ i }}</a>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if data.has_next %}
                                 <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
+                                    <a href="/category/?cname={{ cname|safe }}&page={{ data.next_page_number }}" class="page-link" aria-label="Next">
                                         <i class="ti-angle-right"></i>
                                     </a>
                                 </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a href="" class="page-link" aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            {% endif %}
                             </ul>
                         </nav>
                     </div>

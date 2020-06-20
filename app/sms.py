@@ -15,23 +15,24 @@ def sendSMS(numbers, message):
 def sendOTPMessage(number, otp):
 	number='91'+number
 	message='Welcome to Bazzaars.com, Your verification code is '+otp
-	result=sendSMS(number, message)
+	result='sendSMS(number, message)'
 	return result
 
 def sendOrderConfirmation(number, orderid, storename, storemobile):
     number='91'+number
     message='Order Successful! with ORDER ID '+orderid+' from '+storename+'. Kindly contact Store Owner at +91 '+storemobile+' for delivery regarding issues.'
-    result=sendSMS(number, message)
+    result='sendSMS(number, message)'
     return result
 
 def sendOrderConfirmationforStore(number, orderid, amount, customercontact):
     number='91'+number
     message='New Order Recieved! with ORDER ID '+orderid+' of amount Rs. '+amount+'. Customer Contact : +91 '+customercontact+'. Kindly contact customer for order confirmation.'
-    result=sendSMS(number, message)
+    result='sendSMS(number, message)'
     return result
 
 def sendActivationSMS(number, storename, actid):
     number='91'+number
     message='Account Activated Successfully! Welcome to Bazzaars.com '+storename+', Activation Amount of Rs. 999/- with ACTIVATION ID '+actid+'.'
-    result=sendSMS(number, message)
+    #result=sendSMS(number, message)
+    result='sendSMS(number, message)'
     return result

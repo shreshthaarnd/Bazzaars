@@ -4,9 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        {% for x in userdata %}
-        <title>Bazzaars - Hi! {{ x.User_Fname|safe }}</title>
-        {% endfor %}
+        <title>Bazzaars - {{ count|safe }} Results</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -83,9 +81,15 @@
                                 <div class="main-menu f-right d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">          
+                                            {% if checksession == True %}
                                             <li><a href="/index/">Home</a></li>
-                                            <li><a href="#address" onclick="document.getElementById('address').style.display='block';document.getElementById('account').style.display='none';document.getElementById('order').style.display='none';">My Address</a></li>
-                                            <li><a href="#order" onclick="document.getElementById('address').style.display='none';document.getElementById('account').style.display='none';document.getElementById('order').style.display='block';">My Orders</a></li>
+                                            <li><a href="/userdashboard/">My Account</a></li>
+                                            <li><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block'">Store Login</a></li>
+                                            {% else %}
+                                            <li><a href="/index/">Home</a></li>
+                                            <li><a style="cursor:pointer;" onclick="document.getElementById('id05').style.display='block'">User Login</a></li>
+                                            <li><a style="cursor:pointer;" onclick="document.getElementById('id01').style.display='block'">Store Login</a></li>
+                                            {% endif %}
                                         </ul>
                                     </nav>
                                 </div>
@@ -93,7 +97,7 @@
                             <div class="col-xl-2 col-lg-3 col-md-3">
                                 <!-- Header-btn -->
                                 <div  style="text-align:center;" class="header-btn d-none d-lg-block">
-                                    <a href="/logoutuser/" class="get-btn">Logout</a>
+                                    <a style="color:white;cursor:pointer;" onclick="document.getElementById('id03').style.display='block'" class="get-btn text-center">Create Store</a>
                                 </div>
                             </div>
                             <!-- Mobile Menu -->
@@ -107,23 +111,155 @@
        </div>
         <!-- Header End -->
     </header>
+<div id="id01" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
 
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Store Login</div>
+    <button onclick="document.getElementById('id01').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/checklogin/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Login">
+      </form>
+      <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
+      <button onclick="document.getElementById('id03').style.display='block';document.getElementById('id01').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-orange w3-hover-black">Create Store</button>
+    </div>
+  </div>
+</div>
+<div id="id02" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Create Account</div>
+    <button onclick="document.getElementById('id02').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/saveuser/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" type="text" placeholder="First Name *" name="fname" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="text" placeholder="Last Name *" name="lname" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" name="email" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="number" placeholder="Mobile Number *" name="mobile" required>
+        <input style="margin-bottom:20px;"class="w3-input" type="password" placeholder="Password *" name="password" required>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/tcuser/">terms & conditions.</a></label><br>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/privacypolicy/">privacy policy.</a></label>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Create">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+
+
+<div id="id03" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Create Store</div>
+    <button onclick="document.getElementById('id03').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/savestore/" method="POST">
+        <input class="w3-input" type="text" name="name" placeholder="Store Name *" required>
+        <input class="w3-input" type="text" name="owner" placeholder="Store Owner Name *" required>
+        <input class="w3-input" type="email" name="email" placeholder="Email *" required>
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile Number *" required>
+        <input style="margin-bottom:10px;"class="w3-input" name="pass" type="password" placeholder="Password *" required>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/tcstore/">terms & conditions.</a></label><br>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/privacypolicy/">privacy policy.</a></label>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Proceed">
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="id04" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Forgot Password</div>
+    <button onclick="document.getElementById('id04').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form>
+        <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" required>
+        <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Send Password">
+      </form>
+      
+    </div>
+
+  </div>
+</div>
+<div id="id05" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Login</div>
+    <button onclick="document.getElementById('id05').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/checklogin2/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="password" type="password" placeholder="Password">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Login">
+      </form>
+      <a style="cursor:pointer;" onclick="document.getElementById('id04').style.display='block';document.getElementById('id01').style.display='none';" class="itemhover">Forgot Password?</a>
+      <button onclick="document.getElementById('id02').style.display='block';document.getElementById('id05').style.display='none';"style="width:100%;margin-top:20px;"class="w3-button w3-orange w3-hover-black">Create An Account</button>
+    </div>
+  </div>
+</div>
+<div id="id06" class="w3-modal w3-animate-zoom">
+  <div style="width:400px;"class="w3-modal-content text-center">
+
+    <div style="width:100%;font-size:20px;padding:6px"class="w3-orange text-center">Become Agent</div>
+    <button onclick="document.getElementById('id06').style.display='none'"
+      style="cursor:pointer;" class="w3-button w3-orange w3-hover-black w3-display-topright ">&times;</button>
+
+
+    <div style="padding:20px;"class="w3-container">
+      <form action="/sendagent/" method="POST">
+        <input style="margin-bottom:20px;"class="w3-input" name="name" type="text" placeholder="Name">
+        <input style="margin-bottom:20px;"class="w3-input" name="email" type="email" placeholder="Email">
+        <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile">
+        <input style="margin-bottom:20px;"class="w3-input" name="city" type="text" placeholder="City">
+        <input style="margin-bottom:10px;" class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
+</div>
     <main>
-      <div style="padding:30px;text-align:center;width:100%;background-color:black;height:100px;"class="row">
-            <form style="width:700px;float:right;">
-                <div style="width:25%;float:left;">
-                    <div class="form-select">
-                <select>
-                    <option>City</option>
-                </select>
+      <div style="padding:30px;width:100%;background-color:black;height:100px;" class="slider-area">
+                <form class="w3-container" action="/searchresult/" method="GET">
+                    <div style="width:20%;float:left;">
+                        <div class="form-select">
+                            <select name="city">
+                                {% for x in cities %}
+                                {% if x != 'NA' %}
+                                <option value="{{ x|safe }}">{{ x|safe }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <input style="width:65%;float:left;margin-left:20px;"class="w3-input w3-border" name="Search Here" type="text" placeholder="Search Here">
-                <button class="w3-orange w3-hover-black"style="width:50px;float:left;padding:7px;"class="w3-input" type="submit"><i class="fa fa-search"></i></button>
+                    <input style="width:50%;float:left;margin-left:20px;"class="w3-input w3-border" name="search" type="text" placeholder="Search by Store Name">
+                    <button class="w3-orange w3-hover-black"style="width:50px;float:left;padding:7px;"class="w3-input" type="submit"><i class="fa fa-search"></i></button>
 
-            </form>
+                
+                </form>
         </div>
-        <h1 style="margin-top:50px;text-align:center;">(5) Results</h1>
+        <h1 style="margin-top:50px;text-align:center;">({{ count|safe }}) Results</h1>
         <!-- slider Area Start-->
   
         <!-- slider Area End-->
@@ -134,225 +270,54 @@
             <div class="row">
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
+                        {% for x in data %}
                         <article class="blog_item">
                             <div style="padding:30px;border-radius:10px;"class="row w3-card-4">
                               <div class="column">
-                                <img style="width:280px;border-radius:10px;"src="{% static 'images/download.jpg' %}">
+                                {% if x.slogo %}
+                                <img style="width:280px;border-radius:10px;"src="{{ x.slogo|safe }}">
+                                {% else %}
+                                <img style="width:280px;border-radius:10px;"src="{% static 'LOGO.png' %}">
+                                {% endif %}
                               </div>
                               <div style="padding-left:30px;"class="column">
-                                <h3>Mobile Shop</h3>
+                                <h3>{{ x.sname|safe }}</h3>
                                 <p>
-                                  <span style="font-size:20px;">Electronic Shop</span>
-                                  <span style="margin-left:30px;padding-left:5px;padding-right:5px;padding-top:2px;padding-bottom:2px;border-radius:5px;" class="w3-green">4.5 <i class="fa fa-star"></i></span><br>
+                                  <span style="font-size:20px;">{{ x.scategory|safe }}</span>
+                                  {% if x.srating > 3.9 %}
+                                  <span style="margin-left:30px;padding-left:5px;padding-right:5px;padding-top:2px;padding-bottom:2px;border-radius:5px;" class="w3-green">{{ x.srating|safe }} <i class="fa fa-star"></i></span><br>
+                                  {% else %}
+                                  {% if x.srating > 0 %}
+                                  <span style="margin-left:30px;padding-left:5px;padding-right:5px;padding-top:2px;padding-bottom:2px;border-radius:5px;" class="w3-orange">{{ x.srating|safe }} <i class="fa fa-star"></i></span><br>
+                                  {% else %}
+                                  <span style="margin-left:30px;padding-left:5px;padding-right:5px;padding-top:2px;padding-bottom:2px;border-radius:5px;" class="w3-light-grey">{{ x.srating|safe }} <i class="fa fa-star"></i></span><br>
+                                  {% endif %}
+                                  {% endif %}
+                                  
                                   <span><i class="fa fa-map-marker"></i> 
-                                  12,Saraswat Enclav <br>tundli road Tundla</span><br>
-                                  <span style="padding-left:5px;padding-right:5px;padding-top:2px;padding-bottom:2px;border-radius:5px;"class="w3-yellow">Product Starting at : <i class="fa fa-inr"></i> 5000.00</span>
+                                  {{ x.saddress|safe }}<br>{{ x.scity|safe }}, {{ x.sstate|safe }}</span><br>
+                                  <span style="padding-left:5px;padding-right:5px;padding-top:2px;padding-bottom:2px;border-radius:5px;"class="w3-yellow">Product Starting at : <i class="fa fa-inr"></i> {{ x.sprice|safe }}</span>
                                 </p>
-                                <a style="border-style:solid;border-color:orange;border-width:2px;color:white;" class="w3-button w3-white" href="">Visit Store</a>
+                                <a style="border-style:solid;border-color:orange;border-width:2px;color:white;" class="w3-button w3-white" href="/{{ x.url|safe }}">Visit Store</a>
                               </div>
                             </div>
                         </article>
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
-                        <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword'
-                                            onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Search Keyword'">
-                                        <div class="input-group-append">
-                                            <button class="btns" type="button"><i class="ti-search"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                    type="submit">Search</button>
-                            </form>
-                        </aside>
-
                         <aside class="single_sidebar_widget post_category_widget">
                             <h4 class="widget_title">Category</h4>
                             <ul class="list cat-list">
+                                {% for x in category %}
                                 <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Resaurant food</p>
-                                        <p>(37)</p>
+                                    <a href="/category/?cname={{ x.Category_Name|safe }}" class="d-flex">
+                                        <p>{{ x.Category_Name|safe }}</p>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Travel news</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Modern technology</p>
-                                        <p>(03)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Product</p>
-                                        <p>(11)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Inspiration</p>
-                                        <p>21</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Health Care (21)</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
+                                {% endfor %}
                             </ul>
-                        </aside>
-
-                        <aside class="single_sidebar_widget popular_post_widget">
-                            <h3 class="widget_title">Recent Post</h3>
-                            <div class="media post_item">
-                                <img src="{% static 'assets/img/post/post_1.png' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>From life was you fish...</h3>
-                                    </a>
-                                    <p>January 12, 2019</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="{% static 'assets/img/post/post_2.png' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="{% static 'assets/img/post/post_3.png' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                    <p>03 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="{% static 'assets/img/post/post_4.png' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                    <p>01 Hours ago</p>
-                                </div>
-                            </div>
-                        </aside>
-                        <aside class="single_sidebar_widget tag_cloud_widget">
-                            <h4 class="widget_title">Tag Clouds</h4>
-                            <ul class="list">
-                                <li>
-                                    <a href="#">project</a>
-                                </li>
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">restaurant</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
-                            </ul>
-                        </aside>
-
-
-                        <aside class="single_sidebar_widget instagram_feeds">
-                            <h4 class="widget_title">Instagram Feeds</h4>
-                            <ul class="instagram_row flex-wrap">
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="{% static 'assets/img/post/post_5.png' %}" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="{% static 'assets/img/post/post_6.png' %}" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="{% static 'assets/img/post/post_7.png' %} " alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="{% static 'assets/img/post/post_8.png' %}" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="{% static 'assets/img/post/post_9.png' %}" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="{% static 'assets/img/post/post_10.png' %}" alt="">
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-
-
-                        <aside class="single_sidebar_widget newsletter_widget">
-                            <h4 class="widget_title">Newsletter</h4>
-
-                            <form action="#">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
-                                </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                    type="submit">Subscribe</button>
-                            </form>
                         </aside>
                     </div>
                 </div>
@@ -360,26 +325,6 @@
         </div>
     </section>
         <!-- Gallery End-->
-        
-        <!-- Want To Work Start -->
-        <div class="wantToWork-area w-padding">
-            <div class="container">
-                <div class="row d-flex align-items-end">
-                    <div class="col-xl-6 col-lg-8 col-md-8">
-                        <div class="wantToWork-caption">
-                            <h2>Want To Work<br> With Us? Hit The Button.</h2>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-4 col-md-4">
-                       <div class="wantToWork-btn f-right">
-                            <a href="#" class="white-btn">Let’s Work Toghter</a>
-                       </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Want To Work End -->
-
     </main>
     
    <footer>

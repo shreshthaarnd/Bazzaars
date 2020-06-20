@@ -148,6 +148,10 @@
         <input style="margin-bottom:20px;"class="w3-input" type="email" placeholder="Email *" name="email" required>
         <input style="margin-bottom:20px;"class="w3-input" type="number" placeholder="Mobile Number *" name="mobile" required>
         <input style="margin-bottom:20px;"class="w3-input" type="password" placeholder="Password *" name="password" required>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/tcuser/">terms & conditions.</a></label><br>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/privacypolicy/">privacy policy.</a></label>
         <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Create">
       </form>
       
@@ -171,7 +175,11 @@
         <input class="w3-input" type="text" name="owner" placeholder="Store Owner Name *" required>
         <input class="w3-input" type="email" name="email" placeholder="Email *" required>
         <input style="margin-bottom:20px;"class="w3-input" name="mobile" type="number" placeholder="Mobile Number *" required>
-        <input style="margin-bottom:20px;"class="w3-input" name="pass" type="password" placeholder="Password *" required>
+        <input style="margin-bottom:10px;"class="w3-input" name="pass" type="password" placeholder="Password *" required>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/tcstore/">terms & conditions.</a></label><br>
+        <input type="checkbox" class="w3-check" required>
+        <label> I accept all the <a href="/privacypolicy/">privacy policy.</a></label>
         <input class="w3-input w3-button w3-black w3-hover-orange" type="submit" value="Proceed">
       </form>
     </div>
@@ -237,16 +245,19 @@
 
     <main>
         <div style="padding:30px;width:100%;background-color:black;height:100px;" class="slider-area">
-                <form class="w3-container">
-                    <div></div>
+                <form class="w3-container" action="/searchresult/" method="GET">
                     <div style="width:20%;float:left;">
                         <div class="form-select">
-                            <select>
-                                <option>City</option>
+                            <select name="city">
+                                {% for x in cities %}
+                                {% if x != 'NA' %}
+                                <option value="{{ x|safe }}">{{ x|safe }}</option>
+                                {% endif %}
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
-                    <input style="width:50%;float:left;margin-left:20px;"class="w3-input w3-border" name="Search Here" type="text" placeholder="Search Stores Here....">
+                    <input style="width:50%;float:left;margin-left:20px;"class="w3-input w3-border" name="search" type="text" placeholder="Search by Store Name">
                     <button class="w3-orange w3-hover-black"style="width:50px;float:left;padding:7px;"class="w3-input" type="submit"><i class="fa fa-search"></i></button>
 
                 
@@ -476,7 +487,7 @@
                             <p style="margin-top:20px;font-size:18px;"><span style="font-weight:bold;">Having Trouble?</span> Call Us @ +91-8279831239 or Whatsapp Us @ +918279831239. We will help you to create your online store.</p>
                             <!-- btn -->
                             <a href="#id03" onclick="document.getElementById('id03').style.display='block'"class="btn">Click Here To Proceed</a>
-                            <a style="margin-left:20px;" href="#id03" class="btn">Documentation</a>
+                            <a style="margin-left:20px;" href="/documentry/" class="btn">Documentation</a>
                         </div>
                     </div>
                     <div class="col-xl-5 offset-xl-1 col-lg-6 pl-0">
@@ -533,10 +544,8 @@
                     <i style="font-size:60px;color:orange;margin-bottom:10px;"class="fa fa-credit-card-alt"></i>
                 </div>
                 <div class="services-caption">
-                    <h4>Zero Monthly Billing</h4>
-                    <p>
-                    We take zero monthly rent and zero monthly or yearly maintenence. It means a one time investment take your business online.
-                    </p>
+                    <h4>Zero Maintenance</h4>
+                    <p>We will take care of all your maintenance and site errors. You have to Pay on Rs 100/- per month as a rent.</p>
                 </div>
                 
             </div>
@@ -573,12 +582,12 @@
 
         <!-- Gallery Start-->
         <div style="padding-bottom:50px;"class="container">
-            <h1>Feedback <span style="color:orange;">Here</span></h1>
+            <h1 style="font-weight:bold;">Feedback <span style="color:orange;">Here</span></h1>
             <form method="POST" action="/savefeedback/">
                 <input style="margin-top:20px;"class="w3-input" type="text" placeholder="Name" name="name">
                 <input style="margin-top:20px;"class="w3-input" type="email" placeholder="Email" name="email"> 
                 <textarea style="margin-top:20px;"class="w3-input" type="text" placeholder="Feedback Here" name="feedback"></textarea>
-                <input style="margin-top:20px;"class="w3-button w3-orange w3-hover-black" type="submit" placeholder="Submit" name="submit" value="submit">
+                <input style="margin-top:20px;"class="w3-button w3-orange w3-hover-black" type="submit" value="Submit">
             </form>
         </div>
         

@@ -68,20 +68,39 @@ def contact(request):
 def elements(request):
 	return render(request,'elements.html',{})
 def index(request):
-	s=sendOrderConfirmation('8077410226', 'ORDERID', 'Bhagat Halwai', '7417358703')
-	print(s)
-	s=sendOrderConfirmationforStore('8077410226', 'ORDERID', '500', '7417358703')
-	print(s)
 	dic={'category':StoreCategoryData.objects.all(),
+		'cities':GetCities(),
 		'checksession':checksession(request)}
 	return render(request,'index.html',dic)
 def category(request):
 	cname=request.GET.get('cname')
+	page = request.GET.get('page')
+	paginator = Paginator(list(reversed(BrowseCategory(cname))), 15)
+	try:
+		data = paginator.page(page)
+	except PageNotAnInteger:
+		data = paginator.page(1)
+	except EmptyPage:
+		data = paginator.page(paginator.num_pages)
 	dic={'category':StoreCategoryData.objects.all(),
 		'checksession':checksession(request),
-		'data':BrowseCategory(cname),
+		'data':data,
+		'cities':GetCities(),
 		'cname':cname}
 	return render(request,'category.html',dic)
+def searchresult(request):
+	city=request.GET.get('city')
+	search=request.GET.get('search')
+	lt=[]
+	for x in StoreData.objects.all():
+		if x.Store_Name.upper() == search.upper() and x.Store_City.upper() == city.upper():
+			lt.append(x.Store_ID)
+	dic={'category':StoreCategoryData.objects.all(),
+		'checksession':checksession(request),
+		'data':GetSearchResults(lt),
+		'cities':GetCities(),
+		'count':len(GetSearchResults(lt))}
+	return render(request,'searchresult.html',dic)
 def industries(request):
 	return render(request,'industries.html',{})
 def main(request):
@@ -520,8 +539,8 @@ def verifystore(request):
 				Store_ID=sid
 				)
 			obj.save()
-			MERCHANT_KEY = 'gDokYWVAFFW9OSlZ'
-			MID = 'bAQrse69179758299775'
+			MERCHANT_KEY = 'UvLwriZgMrbFs65E'
+			MID = 'iogjiL69888304358895'
 			data_dict = {'MID':MID}
 			data_dict.update(getparamdict2(sid, aid))
 			param_dict = data_dict
@@ -557,7 +576,7 @@ Team Bazzaars'''
 import cgi
 @csrf_exempt
 def verifypayment2(request):
-	MERCHANT_KEY = 'gDokYWVAFFW9OSlZ'
+	MERCHANT_KEY = 'UvLwriZgMrbFs65E'
 	CURRENCY=request.POST.get('CURRENCY')
 	GATEWAYNAME=request.POST.get('GATEWAYNAME')
 	RESPMSG=request.POST.get('RESPMSG')
@@ -1462,14 +1481,41 @@ def processpayment(request):
 		if paymentmode=='cod':
 			obj=OrderData.objects.filter(Order_ID=orderid)
 			obj.update(Status='Deactive')
+			cartid=''
+			TXNAMOUNT=''
 			for x in obj:
 				obj=CartData.objects.filter(Cart_ID=x.Cart_ID)
 				obj.update(Status='Deactive')
 				quantity=DeductQuantity(x.Cart_ID)
+				cartid=x.Cart_ID
+				TXNAMOUNT=x.Order_Amount
 				obj=CartProductData.objects.filter(Cart_ID=x.Cart_ID)
 				obj.update(Status='Deactive')
 			sid=request.session['sid']
 			dic=GetShopData2(sid)
+			userdata=GetUserDatafromCart(cartid)
+			s=sendOrderConfirmation(userdata['mobile'], orderid, dic['storename'], dic['storemobile'])
+			s=sendOrderConfirmationforStore(dic['storemobile'], orderid, TXNAMOUNT, userdata['mobile'])
+			msg='''Woo Hoo!
+Order Confirmed! from '''+dic['storename']+''' with Order ID '''+orderid+'''. Kindly contact store at +91'''+dic['storemobile']+'''
+
+Note : Bazzaars is not responsible for any delivery and product quality issues.
+
+Thanks for ordering from '''+dic['storename']+''',
+Team Bazzaars'''
+			sub=dic['storename']+' - Order Confirmed'
+			email=EmailMessage(sub,msg,to=[userdata['email']])
+			email.send()
+			msg='''Woo Hoo!
+New Order Received! with Order ID '''+orderid+''' and Transaction Amount of '''+TXNAMOUNT+'''. Kindly contact customer at '''+userdata['mobile']+''' for order confirmation and check your dashboard for more details.
+
+Note : Bazzaars is not responsible for any delivery and product quality issues.
+
+Thanks for being with Bazzaars,
+Team Bazzaars'''
+			sub='Gazzaars - New Order Received'
+			email=EmailMessage(sub,msg,to=[dic['storeemail']])
+			email.send()
 			dic.update({'Order_ID':orderid})
 			return render(request,'shoppages/ordersuccess.html',dic)
 		else:
@@ -1567,6 +1613,26 @@ def verifypayment(request):
 				userdata=GetUserDatafromCart(cartid)
 				s=sendOrderConfirmation(userdata['mobile'], ORDERID, dic['storename'], dic['storemobile'])
 				s=sendOrderConfirmationforStore(dic['storemobile'], ORDERID, TXNAMOUNT, userdata['mobile'])
+				msg='''Woo Hoo!
+Order Confirmed! from '''+dic['storename']+''' with Order ID '''+ORDERID+'''. Kindly contact store at +91'''+dic['storemobile']+'''
+
+Note : Bazzaars is not responsible for any delivery and product quality issues.
+
+Thanks for ordering from '''+dic['storename']+''',
+Team Bazzaars'''
+				sub=dic['storename']+' - Order Confirmed'
+				email=EmailMessage(sub,msg,to=[userdata['email']])
+				email.send()
+				msg='''Woo Hoo!
+New Order Received! with Order ID '''+ORDERID+''' and Transaction Amount of '''+TXNAMOUNT+'''. Kindly contact customer at '''+userdata['mobile']+''' for order confirmation and check your dashboard for more details.
+
+Note : Bazzaars is not responsible for any delivery and product quality issues.
+
+Thanks for being with Bazzaars,
+Team Bazzaars'''
+				sub='Gazzaars - New Order Received'
+				email=EmailMessage(sub,msg,to=[dic['storeemail']])
+				email.send()
 				dic.update({'txndata':OrderPaymentData.objects.filter(Order_ID=ORDERID)})
 				return render(request, 'shoppages/paymentsuccess.html', dic)
 			else:
@@ -1598,9 +1664,6 @@ def verifypayment(request):
 			dic.update({'because':respons_dict['RESPMSG']})
 			return render(request, 'shoppages/processfail.html', dic)
 
-
-def searchresult(request):
-	return render(request,'searchresult.html',{})
 def shopselectaddress(request):
 	return render(request,'shoppages/selectaddress.html',{})
 def shoppanelpayment(request):

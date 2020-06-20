@@ -37,7 +37,7 @@
       <h2 style="font-weight:bold;">Please Wait....</h2>
       <h5 style="color:red;">Do not press 'BACK' or 'REFRESH'</h5>
       <img style="width:300px;" src="{% static 'shoppanel/assets/images/paytm-offer.jpg' %}">
-      <form method="post" action="https://securegw-stage.paytm.in/order/process" name="f1">
+      <form method="post" action="https://securegw.paytm.in/order/process" name="f1">
         <input name="MID" type="hidden" value="{{ MID|safe }}">
         <input name="ORDER_ID" type="hidden" value="{{ ORDER_ID|safe }}">
         <input name="TXN_AMOUNT" type="hidden" value="{{ TXN_AMOUNT|safe }}">

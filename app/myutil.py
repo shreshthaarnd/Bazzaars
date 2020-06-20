@@ -251,7 +251,8 @@ def GetUserDatafromCart(cartid):
 		break
 	for x in UserData.objects.filter(User_ID=userid):
 		dic={
-			'mobile':x.User_Mobile
+			'mobile':x.User_Mobile,
+			'email':x.User_Email
 		}
 	return dic
 def GetFourProducts(sid):
@@ -553,3 +554,56 @@ def BrowseCategory(cname):
 			})
 		lt.append(dic)
 	return lt
+
+def GetSearchResults(sidlist):
+	dic={}
+	lt=[]
+	for x in sidlist:
+		obj=StoreData.objects.filter(Store_ID=x)
+		for x in obj:
+			dic={
+			'sname':x.Store_Name,
+			'scategory':x.Store_Category,
+			'saddress':x.Store_Address,
+			'scity':x.Store_City,
+			'sstate':x.Store_State,
+			'srating':GetStoreRating(x.Store_ID)
+			}
+			url=''
+			for a in x.Store_Name:
+				if a!=' ':
+					url=url+a
+			dic.update({
+				'url':url.lower()
+			})
+			price=[]
+			for y in StoreProductData.objects.filter(Store_ID=x.Store_ID):
+				price.append(int(y.Product_Price))
+			if price != []:
+				dic.update({
+					'sprice':min(price)
+					})
+			else:
+				dic.update({
+					'sprice':'N/A'
+					})
+			for z in StoreLogoData.objects.filter(Store_ID=x.Store_ID):
+				dic.update({
+				'slogo':z.Store_Logo.url
+				})
+			lt.append(dic)
+	return lt
+
+def unique(list1):
+	lt=[]
+	list_set = set(list1)
+	unique_list = (list(list_set))
+	for x in unique_list:
+		lt.append(x)
+	return sorted(lt)
+
+def GetCities():
+	lt=[]
+	for x in StoreData.objects.all():
+		lt.append(x.Store_City.upper())
+	return unique(lt)
