@@ -1365,7 +1365,7 @@ def shopcart(request, shopname):
 def addquantity(request, shopname, pid):
 	data1=GetStoreIDByName(shopname)
 	uid=request.session['userid']
-	obj=CartProductData.objects.filter(Product_ID=pid)
+	obj=CartProductData.objects.filter(Product_ID=pid,Status='Active')
 	quantity=0
 	tprice=0
 	for x in obj:
@@ -1377,7 +1377,7 @@ def addquantity(request, shopname, pid):
 		price=int(x.Product_Price)
 	tprice=price*quantity
 	obj.update(Product_Quantity=str(quantity),Product_Total=str(tprice))
-	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'],Status='Active')
 	carttotal=0
 	for x in obj:
 		carttotal=carttotal+int(x.Product_Total)
@@ -1389,7 +1389,7 @@ def addquantity(request, shopname, pid):
 def removequantity(request, shopname, pid):
 	data1=GetStoreIDByName(shopname)
 	uid=request.session['userid']
-	obj=CartProductData.objects.filter(Product_ID=pid)
+	obj=CartProductData.objects.filter(Product_ID=pid,Status='Active')
 	quantity=0
 	tprice=0
 	for x in obj:
@@ -1401,11 +1401,11 @@ def removequantity(request, shopname, pid):
 		price=int(x.Product_Price)
 	tprice=price*quantity
 	obj.update(Product_Quantity=str(quantity),Product_Total=str(tprice))
-	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj=CartProductData.objects.filter(User_ID=uid,Store_ID=data1['sid'],Status='Active')
 	carttotal=0
 	for x in obj:
 		carttotal=carttotal+int(x.Product_Total)
-	obj1=CartData.objects.filter(User_ID=uid,Store_ID=data1['sid'])
+	obj1=CartData.objects.filter(User_ID=uid,Store_ID=data1['sid'],Status='Active')
 	obj1.update(Cart_Total=carttotal)
 	dic=GetShopData(data1['sname'])
 	dic.update({'cartdata':obj1,'cart':GetCartItems(obj),'checksession':checksession(request)})
