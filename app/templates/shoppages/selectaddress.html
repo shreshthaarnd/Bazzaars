@@ -80,7 +80,7 @@
 	          
             <li class="nav-item active"><a href="/{{ url|safe }}" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="/shopuserdashboard/?shopname={{ url|safe }}" class="nav-link">My Account</a></li>
-            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+            <li class="nav-item cta cta-colored"><a href="/{{ url|safe }}/shopcart/opencart/" class="nav-link"><span style="font-size:20px;" class="icon-shopping_cart"></span></a></li>
 
 	        </ul>
 	      </div>
@@ -126,10 +126,22 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-8 ftco-animate">
-						{% for x in address %}
+            <h3 class="mb-4 billing-heading">Select Address</h3>
+						
             {% for y in orderdata %}
             <form method="POST" action="/{{ url|safe }}/{{ y.Order_ID|safe }}/proceedtocheckout/" class="billing-form">
-							<h3 class="mb-4 billing-heading">Select Address</h3>
+              {% for x in address|slice:":1" %}
+              <label>Deliver To</label><br>
+              <label>
+                  <input class="w3-input" type="radio" name="aid" style="margin-bottom:20px;position:absolute;opacity:0;height:0;width:0;cursor:pointer;" value="{{ x.Address_ID|safe }}" checked required>
+                  <p>
+                    <span style="font-size:25px;font-weight:bold;">{{ x.Name|safe }}</span><br>
+                    <span style="font-size:18px;"><i class="fa fa-map-marker"></i> {{ x.HouseStreet|safe }}, {{ x.LandmarkColony|safe }}<br>{{ x.City|safe }}-{{ x.Pincode|safe }}, {{ x.State|safe }}</span><br>
+                    <span style="font-size:18px;"><i class="fa fa-phone"></i> +91-{{ x.Mobile|safe }}</span>
+                  </p>
+              </label><br>
+              {% for z in address %}
+              {% if x.Address_ID != z.Address_ID %}
               <label>Deliver To</label><br>
               <label>
                   <input class="w3-input" type="radio" name="aid" style="margin-bottom:20px;position:absolute;opacity:0;height:0;width:0;cursor:pointer;" value="{{ x.Address_ID|safe }}" required>
@@ -139,11 +151,14 @@
                     <span style="font-size:18px;"><i class="fa fa-phone"></i> +91-{{ x.Mobile|safe }}</span>
                   </p>
               </label><br>
-              <button class="w3-button w3-blue w3-hover-black"type="submit"><i class="fa fa-arrow-right"></i> Proceed to Checkout</button>
-              <a class="w3-button w3-blue w3-hover-black" href="#id02" onclick="document.getElementById('id02').style.display='block';"><i class="fa fa-plus"></i>
+              {% endif %}
+              {% endfor %}
+              {% endfor %}
+              <button class="w3-button w3-blue w3-hover-black w3-large"style="width:100%;border-radius:50px;"type="submit"><i class="fa fa-arrow-right"></i> Proceed to Checkout</button>
+              <a class="w3-button w3-red w3-hover-black w3-large"style="width:100%;border-radius:50px;margin-top:10px;" href="#id02" onclick="document.getElementById('id02').style.display='block';"><i class="fa fa-plus"></i>
                 Add Address</a> 
 	          </form><!-- END -->
-	          {% endfor %}
+	          
             {% endfor %}
           </div> <!-- .col-md-8 -->
         </div>

@@ -68,6 +68,25 @@ def contact(request):
 def elements(request):
 	return render(request,'elements.html',{})
 def index(request):
+	'''obj=FeedbackData.objects.all().delete()
+	obj=AgentData.objects.all().delete()
+	obj=StoreData.objects.all().delete()
+	obj=StoreActivationData.objects.all().delete()
+	obj=StoreOtherData.objects.all().delete()
+	obj=StoreSocialMedia.objects.all().delete()
+	obj=StoreLogoData.objects.all().delete()
+	obj=StoreProductCategoryData.objects.all().delete()
+	obj=StoreProductData.objects.all().delete()
+	obj=StoreProductRatingData.objects.all().delete()
+	obj=StoreProductImageData.objects.all().delete()
+	obj=StoreBannerData.objects.all().delete()
+	obj=StoreMerchantData.objects.all().delete()
+	obj=UserData.objects.all().delete()
+	obj=UserAddressData.objects.all().delete()
+	obj=CartData.objects.all().delete()
+	obj=CartProductData.objects.all().delete()
+	obj=OrderData.objects.all().delete()
+	obj=OrderPaymentData.objects.all().delete()'''
 	dic={'category':StoreCategoryData.objects.all(),
 		'cities':GetCities(),
 		'checksession':checksession(request)}
@@ -1513,7 +1532,7 @@ Note : Bazzaars is not responsible for any delivery and product quality issues.
 
 Thanks for being with Bazzaars,
 Team Bazzaars'''
-			sub='Gazzaars - New Order Received'
+			sub='Bazzaars - New Order Received'
 			email=EmailMessage(sub,msg,to=[dic['storeemail']])
 			email.send()
 			dic.update({'Order_ID':orderid})
@@ -1975,3 +1994,5 @@ def adminformsbasic(request):
 	return render(request,'adminpages/forms-basic.html',{})
 def documentry(request):
 	return render(request,'documentry.html',{})
+def construction(request):
+	return render(request, 'construction.html', {})
