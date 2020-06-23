@@ -118,6 +118,7 @@
     <div style="padding:20px;"class="w3-container">
       <form action="/verifystore/" method="POST">
         <input type="hidden" name="storeid" value="{{ storeid|safe }}">
+        <label>OTP has been sent to your Email ID.</label>
         <input class="w3-input" type="text" name="otp" placeholder="Enter One Time Password (OTP)" required style="margin-bottom:10px;">
         <p>Didn't Recieve OTP? <a href="/resendotp/?sid={{ storeid|safe }}" class="itemhover">Resend OTP</a></p>
 
