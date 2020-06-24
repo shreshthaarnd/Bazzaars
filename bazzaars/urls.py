@@ -27,6 +27,8 @@ urlpatterns = [
     path('logoutuser/',logout),
     path('logout/',logoutstore),
     path('documentry/',documentry),
+    path('downloaddatabase/',downloaddatabase),
+    path('downloadCSV/',downloadCSV),
     
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),

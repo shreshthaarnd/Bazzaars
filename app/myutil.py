@@ -1,4 +1,6 @@
 from app.models import *
+from django.http import HttpResponse
+import csv
 
 def GetShopDash(sid):
 	dic={}
@@ -607,3 +609,185 @@ def GetCities():
 	for x in StoreData.objects.all():
 		lt.append(x.Store_City.upper())
 	return unique(lt)
+
+def downloaddata(table):
+	if table=='FeedbackData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=FeedbackData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Feedback_Date", "Feedback_ID", "Name", "Email", "Feedback"])
+		obj1=FeedbackData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Feedback_Date, x.Feedback_ID, x.Name, x.Email, x.Feedback])
+		return response
+	if table=='AgentData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=AgentData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Agent_ID", "Name", "Email", "Mobile", "City"])
+		obj1=AgentData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Agent_ID, x.Name, x.Email, x.Mobile, x.City])
+		return response
+	if table=='StoreCategoryData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreCategoryData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Category_ID", "Category_Name"])
+		obj1=StoreCategoryData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Category_ID, x.Category_Name])
+		return response
+	if table=='StoreData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Store_Name", "Store_Owner", "Store_Category", "Store_Email", "Store_Phone", "Store_Password", "Store_Address", "Store_City", "Store_State", "Verify_Status", "Status", "Payment_Status", "Payment_Status"])
+		obj1=StoreData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Store_Name, x.Store_Owner, x.Store_Category, x.Store_Email, x.Store_Phone, x.Store_Password, x.Store_Address, x.Store_City, x.Store_State, x.Verify_Status, x.Status, x.Payment_Status])
+		return response
+	if table=='StoreActivationData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreActivationData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Act_ID", "Store_ID", "CURRENCY", "RESPMSG", "BANKNAME", "PAYMENTMODE", "RESPCODE", "TXNID", "TXNAMOUNT", "STATUS", "BANKTXNID", "TXNDATE", "CHECKSUMHASH"])
+		obj1=StoreActivationData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Act_ID, x.Store_ID, x.CURRENCY, x.RESPMSG, x.BANKNAME, x.PAYMENTMODE, x.RESPCODE, x.TXNID, x.TXNAMOUNT, x.STATUS, x.BANKTXNID, x.TXNDATE, x.CHECKSUMHASH])
+		return response
+	if table=='StoreOtherData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreOtherData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Store_About"])
+		obj1=StoreOtherData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Store_About])
+		return response
+	if table=='StoreSocialMedia':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreSocialMedia.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Store_About"])
+		obj1=StoreSocialMedia.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Store_Facebook, x.Store_Twitter, Store_Instagram])
+		return response
+	if table=='StoreLogoData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreLogoData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Store_Logo"])
+		obj1=StoreLogoData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Store_Logo])
+		return response
+	if table=='StoreProductCategoryData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreProductCategoryData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Product_Category_ID", "Product_Category_Name", "Product_Category_Image"])
+		obj1=StoreProductCategoryData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Product_Category_ID, x.Product_Category_Name, x.Product_Category_Image])
+		return response
+	if table=='StoreProductData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreProductData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Product_Category_ID", "Product_ID", "Product_Name", "Product_Expiry", "Product_Stock", "Product_Description", "Product_Price"])
+		obj1=StoreProductCategoryData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Product_Category_ID, x.Product_ID, x.Product_Name, x.Product_Expiry, x.Product_Stock, x.Product_Description, x.Product_Price])
+		return response
+	if table=='StoreProductRatingData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreProductRatingData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Product_ID", "Rating"])
+		obj1=StoreProductCategoryData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Product_ID, x.Rating])
+		return response
+	if table=='StoreProductImageData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreProductImageData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Product_Category_ID", "Product_ID", "Product_Image"])
+		obj1=StoreProductImageData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Product_Category_ID, x.Product_ID, x.Product_Image])
+		return response
+	if table=='StoreBannerData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreBannerData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "Store_Banner"])
+		obj1=StoreBannerData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.Store_Banner])
+		return response
+	if table=='StoreMerchantData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=StoreMerchantData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Store_ID", "MID", "MERCHANT_KEY"])
+		obj1=StoreMerchantData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Store_ID, x.MID, x.MERCHANT_KEY])
+		return response
+	if table=='UserData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=UserData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["User_ID", "User_Fname", "User_Lname", "User_Email", "User_Mobile", "Status", "Verify_Status"])
+		obj1=UserData.objects.all()
+		for x in obj1:
+			writer.writerow([x.User_ID, x.User_Fname, x.User_Lname, x.User_Email, x.User_Mobile, x.Status, x.Verify_Status])
+		return response
+	if table=='UserAddressData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=UserAddressData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Address_ID", "User_ID", "Name", "HouseStreet", "LandmarkColony", "City", "State", "Pincode", "Mobile"])
+		obj1=UserAddressData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Address_ID, x.User_ID, x.Name, x.HouseStreet, x.LandmarkColony, x.City, x.State, x.Pincode, x.Mobile])
+		return response
+	if table=='CartData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=CartData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Cart_ID", "Store_ID", "User_ID", "Cart_Total", "Status"])
+		obj1=CartData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Cart_ID, x.Store_ID, x.User_ID, x.Cart_Total, x.Status])
+		return response
+	if table=='CartProductData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=CartProductData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Product_Add_Date", "Cart_ID", "Store_ID", "User_ID", "Product_ID", "Product_Quantity", "Product_Total", "Status"])
+		obj1=CartProductData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Product_Add_Date, x.Cart_ID, x.Store_ID, x.User_ID, x.Product_ID, x.Product_Quantity, x.Product_Total, x.Status])
+		return response
+	if table=='OrderData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=OrderData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Order_Date", "Order_ID", "Cart_ID", "Store_ID", "User_ID", "Address_ID", "Order_Amount", "Order_Type", "Status", "Order_Status"])
+		obj1=OrderData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Order_Date, x.Order_ID, x.Cart_ID, x.Store_ID, x.User_ID, x.Address_ID, x.Order_Amount, x.Order_Type, x.Status, x.Order_Status])
+		return response
+	if table=='OrderPaymentData':
+		response = HttpResponse()
+		response['Content-Disposition'] = 'attachment;filename=OrderPaymentData.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Order_ID", "MERCHANT_KEY", "CURRENCY", "RESPMSG", "BANKNAME", "PAYMENTMODE", "MID", "RESPCODE", "TXNID", "TXNAMOUNT", "STATUS", "BANKTXNID", "TXNDATE", "CHECKSUMHASH"])
+		obj1=OrderPaymentData.objects.all()
+		for x in obj1:
+			writer.writerow([x.Order_ID, x.MERCHANT_KEY, x.CURRENCY, x.RESPMSG, x.BANKNAME, x.PAYMENTMODE, x.MID, x.RESPCODE, x.TXNID, x.TXNAMOUNT, x.STATUS, x.BANKTXNID, x.TXNDATE, x.CHECKSUMHASH])
+		return response

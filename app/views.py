@@ -1978,6 +1978,19 @@ def adminfeedbacklist(request):
 		return render(request,'adminpages/feedbacklist.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
+def downloaddatabase(request):
+	try:
+		aid=request.session['admin']
+		return render(request,'adminpages/datatables.html',{})
+	except:
+		return redirect('/shoppanelpages404/')
+def downloadCSV(request):
+	try:
+		aid=request.session['admin']
+		table=request.GET.get('tablename')
+		return downloaddata(table)
+	except:
+		return redirect('/shoppanelpages404/')
 def adminpageregister(request):
 	return render(request,'adminpages/page-register.html',{})
 def adminpagesforget(request):
