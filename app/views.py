@@ -1712,7 +1712,7 @@ def adminlogincheck(request):
 	if request.method=='POST':
 		email=request.POST.get('email')
 		password=request.POST.get('password')
-		if email == 'admin@bazzaars.com' and password == '1234':
+		if email == 'admin@bazzaars.com' and password == '2Baramttpochna@Bazzaars':
 			request.session['admin'] = email
 			return redirect('/adminindex/')
 		else:
