@@ -697,7 +697,7 @@ def downloaddata(table):
 		response['Content-Disposition'] = 'attachment;filename=StoreProductData.csv'
 		writer = csv.writer(response)
 		writer.writerow(["Store_ID", "Product_Category_ID", "Product_ID", "Product_Name", "Product_Expiry", "Product_Stock", "Product_Description", "Product_Price"])
-		obj1=StoreProductCategoryData.objects.all()
+		obj1=StoreProductData.objects.all()
 		for x in obj1:
 			writer.writerow([x.Store_ID, x.Product_Category_ID, x.Product_ID, x.Product_Name, x.Product_Expiry, x.Product_Stock, x.Product_Description, x.Product_Price])
 		return response
@@ -706,7 +706,7 @@ def downloaddata(table):
 		response['Content-Disposition'] = 'attachment;filename=StoreProductRatingData.csv'
 		writer = csv.writer(response)
 		writer.writerow(["Store_ID", "Product_ID", "Rating"])
-		obj1=StoreProductCategoryData.objects.all()
+		obj1=StoreProductRatingData.objects.all()
 		for x in obj1:
 			writer.writerow([x.Store_ID, x.Product_ID, x.Rating])
 		return response

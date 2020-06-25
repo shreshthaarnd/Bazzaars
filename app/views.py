@@ -1989,12 +1989,12 @@ def downloaddatabase(request):
 	except:
 		return redirect('/shoppanelpages404/')
 def downloadCSV(request):
-	try:
+#	try:
 		aid=request.session['admin']
 		table=request.GET.get('tablename')
 		return downloaddata(table)
-	except:
-		return redirect('/shoppanelpages404/')
+#	except:
+#		return redirect('/shoppanelpages404/')
 def adminpageregister(request):
 	return render(request,'adminpages/page-register.html',{})
 def adminpagesforget(request):
