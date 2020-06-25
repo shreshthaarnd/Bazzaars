@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="{% static 'w3.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
+  <style>
+  .mySlides {display:none;}
+  </style>
   <body class="goto-here">
 		<div class="py-1 bg-black">
     	<div class="container">
@@ -125,19 +128,17 @@
 
 
     <section id="home-section" class="hero">
-		  <div class="home-slider owl-carousel" style="height:400px;">
+		  <div class="home-slider owl-carousel">
 	      {% for x in banner %}
         <div class="slider-item">
-	      	<div class="overlay"></div>
-	        <div class="container-fluid p-0">
-	          <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true" style="background-image:url({{ x.Store_Banner.url|safe }});background-size:100% 100%;"></div>
+	      	<div class="container-fluid p-0">
+            <img class="row no-gutters slider-text" style="height:auto;" data-scrollax-parent="true" src="{{ x.Store_Banner.url|safe }}">
 	        </div>
 	      </div>
         {% endfor %}
       </div>
     </section>
-
-    <section style="padding-bottom:0px;margin-bottom:0px;"class="ftco-section bg-light" style="padding-top:50px;">
+    <section style="padding-top:50px;padding-bottom:0px;margin-bottom:0px;"class="ftco-section bg-light">
     	<div class="container">
 				<div class="row justify-content-center mb-3 pb-3">
           <div class="col-md-12 heading-section text-center ftco-animate">
@@ -363,6 +364,22 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="{% static 'js/google-map.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
+  <script type="text/javascript">
+  var slideIndex = 0;
+carousel();
+
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > x.length) {slideIndex = 1}
+  x[slideIndex-1].style.display = "block";
+  setTimeout(carousel, 2000); // Change image every 2 seconds
+}
+  </script>
     
   </body>
 </html>

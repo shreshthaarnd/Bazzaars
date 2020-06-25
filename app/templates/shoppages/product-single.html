@@ -274,6 +274,9 @@
 							<p class="text-left">
 								<a href="#" class="mr-2" style="color: #000;">{{ x.Product_Stock|safe }} <span style="color: #bbb;">left</span></a>
 							</p>
+              <p class="text-left">
+                <a href="#" class="mr-2 w3-blue" style="padding:5px;border-radius:5px;color: #000;">Made in {{ x.Product_Origin|safe }}</a>
+              </p>
 						</div>
     				<p class="price"><span><i class="fa fa-inr"></i> {{ x.Product_Price|safe }}</span></p>
     				<p>{{ x.Product_Description|safe }}</p>

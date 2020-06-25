@@ -29,6 +29,7 @@ urlpatterns = [
     path('documentry/',documentry),
     path('downloaddatabase/',downloaddatabase),
     path('downloadCSV/',downloadCSV),
+    #path('uploaddata/',uploaddata),
     
     path('shopabout/',shopabout),
     path('shopblog/',shopblog),
@@ -57,6 +58,7 @@ urlpatterns = [
     path('saveproductcategory/',saveproductcategory),
     path('shoppanelstoreprofile/',shoppanelstoreprofile),
     path('shoppanelstorebanner/',shoppanelstorebanner),
+    path('shoppaneldeletestorebanner/',shoppaneldeletestorebanner),
     path('savebanner/',savebanner),
     path('shoppaneladdproduct/',shoppaneladdproduct),
     path('saveproduct/',saveproduct),

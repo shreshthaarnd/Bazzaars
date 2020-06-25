@@ -237,6 +237,7 @@ def saveproduct(request):
 		name=request.POST.get('name')
 		expiry=request.POST.get('expiry')
 		stock=request.POST.get('stock')
+		origin=request.POST.get('origin')
 		des=request.POST.get('des')
 		price=request.POST.get('price')
 		images=request.FILES.getlist('images')
@@ -255,6 +256,7 @@ def saveproduct(request):
 			Product_Name=name,
 			Product_Expiry=expiry,
 			Product_Stock=stock,
+			Product_Origin=origin,
 			Product_Description=des,
 			Product_Price=price
 			)
@@ -266,7 +268,6 @@ def saveproduct(request):
 		else:
 			obj.save()
 			for x in images:
-				print(x)
 				obj2=StoreProductImageData(
 					Store_ID=sid,
 					Product_Category_ID=category,
@@ -284,12 +285,8 @@ def saveproduct(request):
 def shoppanelproductlist(request):
 	try:
 		sid=request.session['storeid']
-		obj=StoreProductImageData.objects.all()
-		for x in obj:
-			print(x.Product_ID)
 		dic=GetShopDash(sid)
 		dic.update({'data':StoreProductData.objects.filter(Store_ID=sid)})
-		dic.update(GetShopDash(sid))
 		return render(request,'shoppanel/productlist.html',dic)
 	except:
 		return redirect('/shoppanelpages404/')
@@ -317,7 +314,13 @@ def shoppanelstoreprofile(request):
 def shoppanelstorebanner(request):
 	sid=request.session['storeid']
 	dic=GetShopDash(sid)
+	dic.update({'data':StoreBannerData.objects.filter(Store_ID=sid)})
 	return render(request,'shoppanel/storebanner.html',dic)
+def shoppaneldeletestorebanner(request):
+	sid=request.session['storeid']
+	banner=request.GET.get('bid')
+	obj=StoreBannerData.objects.filter(id=banner, Store_ID=sid).delete()
+	return redirect('/shoppanelstorebanner/')
 @csrf_exempt
 def savebanner(request):
 	if request.method=='POST':
@@ -330,6 +333,7 @@ def savebanner(request):
 		obj.save()
 		dic=GetShopDash(sid)
 		dic.update({'msg':'Banner Uploaded'})
+		dic.update({'data':StoreBannerData.objects.filter(Store_ID=sid)})
 		return render(request,'shoppanel/storebanner.html',dic)
 	else:
 		return redirect('/shoppanelpages404/')
@@ -2009,3 +2013,25 @@ def documentry(request):
 	return render(request,'documentry.html',{})
 def construction(request):
 	return render(request, 'construction.html', {})
+'''import pandas as pd
+def uploaddata(request):
+	df=pd.read_csv('app/StoreData.csv')
+	for x in range(0,len(df)):
+		data=df.loc[x]
+		obj=StoreData(
+			Store_ID=data.Store_ID,
+			Store_Name=data.Store_Name,
+			Store_Owner=data.Store_Owner,
+			Store_Category=data.Store_Category,
+			Store_Email=data.Store_Email,
+			Store_Phone=data.Store_Phone,
+			Store_Password=data.Store_Password,
+			Store_Address=data.Store_Address,
+			Store_City=data.Store_City,
+			Store_State=data.Store_State,
+			Verify_Status=data.Verify_Status,
+			Status=data.Status,
+			Payment_Status=data.Payment_Status,
+			)
+		obj.save()
+	return HttpResponse(df)'''

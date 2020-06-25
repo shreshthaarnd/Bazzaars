@@ -270,6 +270,7 @@
 														<th>Product Name</th>
 														<th>Product Category</th>
 														<th>Stock</th>
+														<th>Origin</th>
 														<th>Expiry</th>
 														<th>Product Discription</th>
 														<th>Product Amount</th>
@@ -283,6 +284,7 @@
 														<td>{{ x.Product_Name|safe }}</td>
 														<td>{{ x.Product_Category_ID|safe }}</td>
 														<td>{{ x.Product_Stock|safe }}</td>
+														<td>Made in {{ x.Product_Origin|safe }}</td>
 														<td>{{ x.Product_Expiry|safe }}</td>
 														<td>{{ x.Product_Description|safe }}</td>
 														<td><i class="fa fa-inr"> {{ x.Product_Price|safe }}</i></td>

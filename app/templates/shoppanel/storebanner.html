@@ -312,17 +312,42 @@ input:checked + .slider:before {
 													<input type="submit" value="Upload" class="mb-xs mt-xs mr-xs btn btn-primary btn-block">
 												</div>
 											</div>
+										</form>
+									</div>
+								</section>
 
+								<section class="panel">
+									<header class="panel-heading">
+										<h2 class="panel-title">Banners List</h2>
+									</header>
+									<div class="panel-body">
+										<div class="table-responsive">
+											<div style="overflow-x:auto;overflow-y:auto;">
+											<table class="table table-hover mb-none">
+												<thead>
+													<tr>
+														<th>Banner</th>
+														<th>Delete</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for x in data %}
+													<tr>
+														<td><img src="{{ x.Store_Banner.url|safe }}" style="height:200px;"></td>
+														<td>
+															<a class="mb-xs mt-xs mr-xs btn btn-danger" href="/shoppaneldeletestorebanner/?bid={{ x.id|safe }}">Delete</a>
+														</td>
+													</tr>
+													{% endfor %}
+												
+													
+												</table>
+											</div>
 										</div>
 									</div>
-								</form>
-
+								</section>
 							</div>
 						</div>
-					</div>
-				</section>
-			</div>
-		</div>
 						
 						
 					<!-- end: page -->

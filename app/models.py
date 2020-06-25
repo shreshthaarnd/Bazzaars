@@ -97,6 +97,7 @@ class StoreProductData(models.Model):
 	Product_Name=models.CharField(max_length=500)
 	Product_Expiry=models.CharField(max_length=500, default="NA")
 	Product_Stock=models.CharField(max_length=500, default="NA")
+	Product_Origin=models.CharField(max_length=500, default="India")
 	Product_Description=models.CharField(max_length=1000, default='Description Not Availiable')
 	Product_Price=models.CharField(max_length=100)
 	class Meta:
