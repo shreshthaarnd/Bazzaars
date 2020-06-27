@@ -354,8 +354,8 @@ def shoppanelaboutstore(request):
 def savestoreabout(request):
 	if request.method=='POST':
 		about=request.POST.get('about')
-		obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid'])
-		obj.update(Store_About=about)
+		obj=StoreOtherData.objects.filter(Store_ID=request.session['storeid']).delete()
+		obj=StoreOtherData(Store_ID=request.session['storeid'],Store_About=about).save()
 		return redirect('/shoppanelaboutstore/')
 
 #Store Logo
