@@ -1929,6 +1929,7 @@ def adminaddcategory(request):
 		return render(request,'adminpages/addcategory.html',{})
 	except:
 		return redirect('/shoppanelpages404/')
+@csrf_exempt
 def adminsavecategory(request):
 	try:
 		aid=request.session['admin']
