@@ -128,15 +128,9 @@
 
 
     <section id="" class="hero">
-		  <div class="home-slider owl-carousel">
-	      {% for x in banner %}
-        <div class="slider-item">
-	      	<div class="container-fluid p-0">
-            <img class="row no-gutters slider-text" style="height:auto;" data-scrollax-parent="true" src="{{ x.Store_Banner.url|safe }}">
-	        </div>
-	      </div>
-        {% endfor %}
-      </div>
+		  {% for x in banner|slice:"1" %}
+      <img class="row no-gutters slider-text" style="width:100%;height:auto;" data-scrollax-parent="true" src="{{ x.Store_Banner.url|safe }}">
+	    {% endfor %}
     </section>
     <section style="padding-top:50px;padding-bottom:0px;margin-bottom:0px;"class="ftco-section bg-light">
     	<div class="container">
