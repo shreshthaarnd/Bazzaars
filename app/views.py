@@ -2040,7 +2040,7 @@ def documentry(request):
 	return render(request,'documentry.html',{})
 def construction(request):
 	return render(request, 'construction.html', {})
-import pandas as pd
+#import pandas as pd
 '''def uploaddata(request):
 	df=pd.read_csv('app/data/StoreData.csv')
 	for x in range(0,len(df)):
