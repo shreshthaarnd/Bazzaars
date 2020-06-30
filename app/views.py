@@ -89,6 +89,7 @@ def index(request):
 	obj=CartProductData.objects.all().delete()
 	obj=OrderData.objects.all().delete()
 	obj=OrderPaymentData.objects.all().delete()'''
+	#obj=StoreData.objects.filter(Store_ID='S002').update(Payment_Status='Trial')
 	dic={'category':StoreCategoryData.objects.all(),
 		'cities':GetCities(),
 		'checksession':checksession(request)}
