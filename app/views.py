@@ -8,6 +8,8 @@ import uuid
 from app.myutil import *
 import csv
 from app.sms import *
+from datetime import date
+from django.conf import settings
 
 # Create your views here.
 @csrf_exempt
@@ -484,11 +486,12 @@ def savestore(request):
 			x=x+1
 			sid=s+str(x)
 		x=int(x)
-		otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+name+owner+password+mobile+email)
+		otp=uuid.uuid5(uuid.NAMESPACE_DNS, sid+name+owner+password+mobile+email).int
 		otp=str(otp)
 		otp=otp.upper()[0:6]
 		request.session['storeotp'] = otp
 		obj=StoreData(
+			Join_Date=date.today(),
 			Store_ID=sid,
 			Store_Name=name,
 			Store_Owner=owner,
@@ -545,12 +548,17 @@ def verifystore(request):
 	if request.method=='POST':
 		otpp=request.POST.get('otp').upper()
 		sid=request.POST.get('storeid')
+		email=''
+		for x in StoreData.objects.filter(Store_ID=sid):
+			email=x.Store_Email
 		storeotp=request.session['storeotp']
 		if otpp == storeotp:
 			obj=StoreData.objects.filter(Store_ID=sid)
 			obj.update(Verify_Status='Verified')
 			request.session['storeid'] = sid
-			a="ACT00"
+			obj1=StoreData.objects.filter(Store_ID=sid)
+			obj1.update(Payment_Status='Trial')
+			'''a="ACT00"
 			x=1
 			aid=a+str(x)
 			while StoreActivationData.objects.filter(Act_ID=aid).exists():
@@ -567,8 +575,22 @@ def verifystore(request):
 			data_dict = {'MID':MID}
 			data_dict.update(getparamdict2(sid, aid))
 			param_dict = data_dict
-			param_dict['CHECKSUMHASH'] =Checksum.generateSignature(data_dict, MERCHANT_KEY)
-			return render(request,'shoppanel/payment.html',param_dict)
+			param_dict['CHECKSUMHASH'] =Checksum.generateSignature(data_dict, MERCHANT_KEY)'''
+			#return render(request,'shoppanel/payment.html',param_dict)
+			msg='''Welcome to Bazzaars.com!
+Congratulations, Your 15 Days Free Trial has Started. Enjoy unlimited services for free. After 15 Days Just Pay Rs 999/- to enjoy uninterrupted services from Bazzaars.com.
+For more details about premium plan whatsapp us @ +91-8279831239 or reply to this email.
+
+Your Store ID is : '''+sid+'''
+
+For any technical assistance whatsapp your Store ID at +918279831239
+
+Thanks for creating your store on Bazzaars,
+Team Bazzaars'''
+			sub='Welcome to Bazzaars! 15 Days Free Trial has Started'
+			email=EmailMessage(sub,msg,to=[email])
+			email.send()
+			return redirect('/shoppanelstoreprofile/')
 		else:
 			otp=''
 			email=''
@@ -739,6 +761,7 @@ def checklogin(request):
 		password=request.POST.get('password')
 		dic={}
 		if StoreData.objects.filter(Store_Email=email, Store_Password=password).exists():
+			days=checkvalidity(email)
 			obj=StoreData.objects.filter(Store_Email=email)
 			for x in obj:
 				request.session['storeid'] = x.Store_ID
@@ -1343,6 +1366,7 @@ def addtocart(request, shopname, pid):
 			return HttpResponse("<script>alert('Product Added to Cart!'); window.location.replace('/"+shopname+"')</script>")
 		else:
 			obj=CartProductData(
+				Product_Add_Date=date.today().strftime("%d/%m/%Y"),
 				Cart_ID=cartid,
 				Store_ID=data1['sid'],
 				User_ID=uid,
@@ -1461,6 +1485,7 @@ def selectaddress(request, shopname, crtid):
 			amount=x.Cart_Total
 			break
 		obj=OrderData(
+			Order_Date=data.today().strftime("%d/%m/%Y"),
 			Order_ID=oid,
 			Cart_ID=crtid,
 			Store_ID=data1['sid'],
@@ -2014,9 +2039,9 @@ def documentry(request):
 	return render(request,'documentry.html',{})
 def construction(request):
 	return render(request, 'construction.html', {})
-'''import pandas as pd
-def uploaddata(request):
-	df=pd.read_csv('app/StoreData.csv')
+import pandas as pd
+'''def uploaddata(request):
+	df=pd.read_csv('app/data/StoreData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
 		obj=StoreData(
@@ -2035,4 +2060,91 @@ def uploaddata(request):
 			Payment_Status=data.Payment_Status,
 			)
 		obj.save()
+	return HttpResponse(df)
+def uploaddata(request):
+	df=pd.read_csv('app/data/StoreProductImageData.csv')
+	for x in range(0,len(df)):
+		data=df.loc[x]
+		obj=StoreProductImageData(
+			Store_ID=data.Store_ID,
+			Product_Category_ID=data.Product_Category_ID,
+			Product_ID=data.Product_ID,
+			Product_Image=data.Product_Image,
+			)
+		obj.save()
+	return HttpResponse(df)
+def uploaddata(request):
+	print(StoreProductImageData.objects.all())
+	df=pd.read_csv('app/data/StoreActivationData.csv')
+	for x in range(0,len(df)):
+		data=df.loc[x]
+		obj=StoreActivationData(
+			Act_ID=data.Act_ID,
+			Store_ID=data.Store_ID,
+			CURRENCY=data.CURRENCY,
+			RESPMSG=data.RESPMSG,
+			BANKNAME=data.BANKNAME,
+			PAYMENTMODE=data.PAYMENTMODE,
+			RESPCODE=data.RESPCODE,
+			TXNID=data.TXNID,
+			TXNAMOUNT=data.TXNAMOUNT,
+			STATUS=data.STATUS,
+			BANKTXNID=data.BANKTXNID,
+			TXNDATE=data.TXNDATE,
+			CHECKSUMHASH=data.CHECKSUMHASH,
+			)
+		obj.save()
+		print(StoreActivationData.objects.all())
+	return HttpResponse(df)
+def uploaddata(request):
+	df=pd.read_csv('app/data/StoreBannerData.csv')
+	for x in range(0,len(df)):
+		data=df.loc[x]
+		obj=StoreBannerData(
+			Store_ID=data.Store_ID,
+			Store_Banner=data.Store_Banner
+			)
+		obj.save()
+		print(StoreBannerData.objects.all())
+	return HttpResponse(df)
+def uploaddata(request):
+	df=pd.read_csv('app/data/StoreOtherData.csv')
+	for x in range(0,len(df)):
+		data=df.loc[x]
+		obj=StoreOtherData(
+			Store_ID=data.Store_ID,
+			Store_About=data.Store_About
+			)
+		obj.save()
+		print(StoreOtherData.objects.all())
+	return HttpResponse(df)
+def uploaddata(request):
+	df=pd.read_csv('app/data/StoreProductCategoryData.csv')
+	for x in range(0,len(df)):
+		data=df.loc[x]
+		obj=StoreProductCategoryData(
+			Store_ID=data.Store_ID,
+			Product_Category_ID=data.Product_Category_ID,
+			Product_Category_Name=data.Product_Category_Name,
+			Product_Category_Image=data.Product_Category_Image
+			)
+		obj.save()
+		print(StoreProductCategoryData.objects.all())
+	return HttpResponse(df)
+def uploaddata(request):
+	df=pd.read_csv('app/data/StoreProductData.csv')
+	for x in range(0,len(df)):
+		data=df.loc[x]
+		obj=StoreProductData(
+			Store_ID=data.Store_ID,
+			Product_Category_ID=data.Product_Category_ID,
+			Product_ID=data.Product_ID,
+			Product_Name=data.Product_Name,
+			Product_Expiry=data.Product_Expiry,
+			Product_Stock=data.Product_Stock,
+			Product_Description=data.Product_Description,
+			Product_Price=data.Product_Price
+			)
+		obj.save()
+		print(StoreProductData.objects.all())
 	return HttpResponse(df)'''

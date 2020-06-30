@@ -1,0 +1,5 @@
+Store_ID,Product_Category_ID,Product_Category_Name,Product_Category_Image
+S001,CA001,Category 1,productcategory/LOGO.png
+S001,CA002,Category 2,productcategory/LOGO.png
+S001,CA003,Category 3,productcategory/LOGO.png
+S001,CA004,Category 4,productcategory/LOGO.png

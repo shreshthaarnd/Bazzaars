@@ -1,2 +1,3 @@
 Store_ID,Store_Name,Store_Owner,Store_Category,Store_Email,Store_Phone,Store_Password,Store_Address,Store_City,Store_State,Verify_Status,Status,Payment_Status,Payment_Status
 S001,Sample Store,Aryan Kulshreshtha,Kirana Store,aryankul97@gmail.com,7417358703,passion,Sikandra,Agra,Uttar Pradesh,Verified,Active,Paid
+S002,Everyday,Shubham Jain,Electronic Store,shubhamjainglobal@gmail.com,8920825001,qwertyuiop,NA,NA,NA,Verified,Deactive,Unpaid

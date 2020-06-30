@@ -28,6 +28,7 @@ class StoreCategoryData(models.Model):
 		db_table="StoreCategoryData"
 
 class StoreData(models.Model):
+	Join_Date=models.CharField(max_length=50)
 	Store_ID=models.CharField(max_length=100, primary_key=True)
 	Store_Name=models.CharField(max_length=100)
 	Store_Owner=models.CharField(max_length=100)

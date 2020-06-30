@@ -1,6 +1,22 @@
 from app.models import *
 from django.http import HttpResponse
 import csv
+from datetime import date
+
+def checkvalidity(semail):
+	jdate=''
+	obj=StoreData.objects.filter(Store_Email=semail)
+	for x in obj:
+		jdate=x.Join_Date
+	jday=jdate[8:10]
+	jmonth=jdate[5:7]
+	jyear=jdate[0:4]
+	today=date.today()
+	delta=today - date(int(jyear), int(jmonth), int(jday))
+	days=delta.days
+	if days==15:
+		obj.update(Payment_Status='Unpaid')
+	return days
 
 def GetShopDash(sid):
 	dic={}
@@ -651,10 +667,10 @@ def downloaddata(table):
 		response = HttpResponse()
 		response['Content-Disposition'] = 'attachment;filename=StoreActivationData.csv'
 		writer = csv.writer(response)
-		writer.writerow(["Act_ID", "Store_ID", "CURRENCY", "RESPMSG", "BANKNAME", "PAYMENTMODE", "RESPCODE", "TXNID", "TXNAMOUNT", "STATUS", "BANKTXNID", "TXNDATE", "CHECKSUMHASH"])
+		writer.writerow(["Act_ID", "Store_ID", "CURRENCY", "GATEWAYNAME", "RESPMSG", "BANKNAME", "PAYMENTMODE", "RESPCODE", "TXNID", "TXNAMOUNT", "STATUS", "BANKTXNID", "TXNDATE", "CHECKSUMHASH"])
 		obj1=StoreActivationData.objects.all()
 		for x in obj1:
-			writer.writerow([x.Act_ID, x.Store_ID, x.CURRENCY, x.RESPMSG, x.BANKNAME, x.PAYMENTMODE, x.RESPCODE, x.TXNID, x.TXNAMOUNT, x.STATUS, x.BANKTXNID, x.TXNDATE, x.CHECKSUMHASH])
+			writer.writerow([x.Act_ID, x.Store_ID, x.CURRENCY, x.GATEWAYNAME, x.RESPMSG, x.BANKNAME, x.PAYMENTMODE, x.RESPCODE, x.TXNID, x.TXNAMOUNT, x.STATUS, x.BANKTXNID, x.TXNDATE, x.CHECKSUMHASH])
 		return response
 	if table=='StoreOtherData':
 		response = HttpResponse()
@@ -696,10 +712,10 @@ def downloaddata(table):
 		response = HttpResponse()
 		response['Content-Disposition'] = 'attachment;filename=StoreProductData.csv'
 		writer = csv.writer(response)
-		writer.writerow(["Store_ID", "Product_Category_ID", "Product_ID", "Product_Name", "Product_Expiry", "Product_Stock", "Product_Description", "Product_Price"])
+		writer.writerow(["Store_ID", "Product_Category_ID", "Product_ID", "Product_Name", "Product_Expiry", "Product_Stock", "Product_Origin", "Product_Description", "Product_Price"])
 		obj1=StoreProductData.objects.all()
 		for x in obj1:
-			writer.writerow([x.Store_ID, x.Product_Category_ID, x.Product_ID, x.Product_Name, x.Product_Expiry, x.Product_Stock, x.Product_Description, x.Product_Price])
+			writer.writerow([x.Store_ID, x.Product_Category_ID, x.Product_ID, x.Product_Name, x.Product_Expiry, x.Product_Stock, x.Product_Origin, x.Product_Description, x.Product_Price])
 		return response
 	if table=='StoreProductRatingData':
 		response = HttpResponse()
