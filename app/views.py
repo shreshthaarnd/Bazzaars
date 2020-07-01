@@ -2040,12 +2040,15 @@ def documentry(request):
 	return render(request,'documentry.html',{})
 def construction(request):
 	return render(request, 'construction.html', {})
-#import pandas as pd
-'''def uploaddata(request):
+'''import pandas as pd
+def uploaddata(request):
+	obj=StoreData.objects.all()
+	obj.update(Join_Date=date.today())
 	df=pd.read_csv('app/data/StoreData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
 		obj=StoreData(
+			Join_Date=data.Join_Date,
 			Store_ID=data.Store_ID,
 			Store_Name=data.Store_Name,
 			Store_Owner=data.Store_Owner,
@@ -2061,8 +2064,6 @@ def construction(request):
 			Payment_Status=data.Payment_Status,
 			)
 		obj.save()
-	return HttpResponse(df)
-def uploaddata(request):
 	df=pd.read_csv('app/data/StoreProductImageData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
@@ -2073,9 +2074,6 @@ def uploaddata(request):
 			Product_Image=data.Product_Image,
 			)
 		obj.save()
-	return HttpResponse(df)
-def uploaddata(request):
-	print(StoreProductImageData.objects.all())
 	df=pd.read_csv('app/data/StoreActivationData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
@@ -2095,9 +2093,6 @@ def uploaddata(request):
 			CHECKSUMHASH=data.CHECKSUMHASH,
 			)
 		obj.save()
-		print(StoreActivationData.objects.all())
-	return HttpResponse(df)
-def uploaddata(request):
 	df=pd.read_csv('app/data/StoreBannerData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
@@ -2106,9 +2101,6 @@ def uploaddata(request):
 			Store_Banner=data.Store_Banner
 			)
 		obj.save()
-		print(StoreBannerData.objects.all())
-	return HttpResponse(df)
-def uploaddata(request):
 	df=pd.read_csv('app/data/StoreOtherData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
@@ -2117,9 +2109,6 @@ def uploaddata(request):
 			Store_About=data.Store_About
 			)
 		obj.save()
-		print(StoreOtherData.objects.all())
-	return HttpResponse(df)
-def uploaddata(request):
 	df=pd.read_csv('app/data/StoreProductCategoryData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
@@ -2130,9 +2119,6 @@ def uploaddata(request):
 			Product_Category_Image=data.Product_Category_Image
 			)
 		obj.save()
-		print(StoreProductCategoryData.objects.all())
-	return HttpResponse(df)
-def uploaddata(request):
 	df=pd.read_csv('app/data/StoreProductData.csv')
 	for x in range(0,len(df)):
 		data=df.loc[x]
@@ -2147,5 +2133,4 @@ def uploaddata(request):
 			Product_Price=data.Product_Price
 			)
 		obj.save()
-		print(StoreProductData.objects.all())
-	return HttpResponse(df)'''
+	return HttpResponse('df')'''

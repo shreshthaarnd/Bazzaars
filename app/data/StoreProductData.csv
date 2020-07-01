@@ -1,5 +1,5 @@
-Store_ID,Product_Category_ID,Product_ID,Product_Name,Product_Expiry,Product_Stock,Product_Description,Product_Price
-S001,CA001,PR001,Product 1,2020,20,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,100
-S001,CA002,PR002,Product 2,2020,20,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,200
-S001,CA003,PR003,Product 3,2020,30,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,300
-S001,CA004,PR004,Product 4,2020,40,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,400
+Store_ID,Product_Category_ID,Product_ID,Product_Name,Product_Expiry,Product_Stock,Product_Origin,Product_Description,Product_Price
+S001,CA001,PR001,Product 1,2020,20,India,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,100
+S001,CA002,PR002,Product 2,2020,20,India,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,200
+S001,CA003,PR003,Product 3,2020,30,India,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,300
+S001,CA004,PR004,Product 4,2020,40,India,Bazzaars is an online platform for indian local market. On Bazzaars we provide an ecommerce website to the local shop owners in just few simple steps and at just Rs 999/-.,400

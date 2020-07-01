@@ -12,6 +12,8 @@ def checkvalidity(semail):
 	jmonth=jdate[5:7]
 	jyear=jdate[0:4]
 	today=date.today()
+	print('hello')
+	print(jdate)
 	delta=today - date(int(jyear), int(jmonth), int(jday))
 	days=delta.days
 	if days==15:
@@ -658,10 +660,10 @@ def downloaddata(table):
 		response = HttpResponse()
 		response['Content-Disposition'] = 'attachment;filename=StoreData.csv'
 		writer = csv.writer(response)
-		writer.writerow(["Store_ID", "Store_Name", "Store_Owner", "Store_Category", "Store_Email", "Store_Phone", "Store_Password", "Store_Address", "Store_City", "Store_State", "Verify_Status", "Status", "Payment_Status", "Payment_Status"])
+		writer.writerow(["Join_Date", "Store_ID", "Store_Name", "Store_Owner", "Store_Category", "Store_Email", "Store_Phone", "Store_Password", "Store_Address", "Store_City", "Store_State", "Verify_Status", "Status", "Payment_Status", "Payment_Status"])
 		obj1=StoreData.objects.all()
 		for x in obj1:
-			writer.writerow([x.Store_ID, x.Store_Name, x.Store_Owner, x.Store_Category, x.Store_Email, x.Store_Phone, x.Store_Password, x.Store_Address, x.Store_City, x.Store_State, x.Verify_Status, x.Status, x.Payment_Status])
+			writer.writerow([x.Join_Date, x.Store_ID, x.Store_Name, x.Store_Owner, x.Store_Category, x.Store_Email, x.Store_Phone, x.Store_Password, x.Store_Address, x.Store_City, x.Store_State, x.Verify_Status, x.Status, x.Payment_Status])
 		return response
 	if table=='StoreActivationData':
 		response = HttpResponse()
