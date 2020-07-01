@@ -1,7 +1,0 @@
-Store_ID,Store_Name,Store_Owner,Store_Category,Store_Email,Store_Phone,Store_Password,Store_Address,Store_City,Store_State,Verify_Status,Status,Payment_Status,Payment_Status
-S001,Sample Store,Aryan Kulshreshtha,Kirana Store,aryankul97@gmail.com,7417358703,passion,Sikandra,Agra,Uttar Pradesh,Verified,Active,Paid,
-S002,Everyday,Shubham Jain,Electronic Store,shubhamjainglobal@gmail.com,8920825001,qwertyuiop,NA,NA,NA,Verified,Deactive,Trial,
-S003,Saawariya Lifestyle,C k singh,Cloth Store,saawariya7011@gmail.com,7011357457,123456789,NA,NA,NA,Unverified,Deactive,Unpaid,
-S004,Bazzaars Sample,Bazzaars,Departmental Store,bazzaarsdotcom@gmail.com,7417358703,1234,NA,NA,NA,Verified,Deactive,Trial,
-S005,Gupta general store,Deepu kumar,Kirana Store,deepukumar9910@gmail.com,9958354525,Deepu@123,NA,NA,NA,Verified,Deactive,Trial,
-S006,Test,Test,Fruits/Vegetable,test@abc.com,3456778899,4test,NA,NA,NA,Unverified,Deactive,Unpaid,
