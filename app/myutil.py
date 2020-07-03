@@ -684,8 +684,7 @@ def downloaddata(table):
 	if table=='StoreSocialMedia':
 		response = HttpResponse()
 		response['Content-Disposition'] = 'attachment;filename=StoreSocialMedia.csv'
-		writer = csv.wr
-		iter(response)
+		writer = csv.writer(response)
 		writer.writerow(["Store_ID", "Store_Facebook", "Store_Twitter", "Store_Instagram"])
 		obj1=StoreSocialMedia.objects.all()
 		for x in obj1:
