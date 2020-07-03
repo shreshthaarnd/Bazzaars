@@ -484,8 +484,6 @@ def CheckPublishStatus(sid):
 		msg='Add Product Category to Publish'
 	if StoreBannerData.objects.filter(Store_ID=sid).exists() == False:
 		msg='Add Atleast One Store Banner to Publish'
-	if StoreMerchantData.objects.filter(Store_ID=sid).exists() == False:
-		msg='Add Payment Merchant Credentials to Publish'
 	else:
 		msg='Ready to Publish'
 	return msg
@@ -686,11 +684,12 @@ def downloaddata(table):
 	if table=='StoreSocialMedia':
 		response = HttpResponse()
 		response['Content-Disposition'] = 'attachment;filename=StoreSocialMedia.csv'
-		writer = csv.writer(response)
-		writer.writerow(["Store_ID", "Store_About"])
+		writer = csv.wr
+		iter(response)
+		writer.writerow(["Store_ID", "Store_Facebook", "Store_Twitter", "Store_Instagram"])
 		obj1=StoreSocialMedia.objects.all()
 		for x in obj1:
-			writer.writerow([x.Store_ID, x.Store_Facebook, x.Store_Twitter, Store_Instagram])
+			writer.writerow([x.Store_ID, x.Store_Facebook, x.Store_Twitter, x.Store_Instagram])
 		return response
 	if table=='StoreLogoData':
 		response = HttpResponse()

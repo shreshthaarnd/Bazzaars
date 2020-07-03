@@ -910,7 +910,7 @@ def storewebsite(request, shopname):
 			})
 		return render(request,'shoppages/index.html',dic)
 	else:
-		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name')
+		return HttpResponse('<h1>Error 404 Not Found</h1><br>Incorrect Store Name or Store is Not Published Yet')
 
 def openproductcategory(request, shopname):
 	category=request.GET.get('cid')
@@ -1486,7 +1486,7 @@ def selectaddress(request, shopname, crtid):
 			amount=x.Cart_Total
 			break
 		obj=OrderData(
-			Order_Date=data.today().strftime("%d/%m/%Y"),
+			Order_Date=date.today().strftime("%d/%m/%Y"),
 			Order_ID=oid,
 			Cart_ID=crtid,
 			Store_ID=data1['sid'],
@@ -1509,6 +1509,12 @@ def proceedtocheckout(request, shopname, ordid):
 		obj1=UserAddressData.objects.filter(Address_ID=aid)
 		dic.update({'order':obj, 'address':obj1})
 		request.session['sid'] = data1['sid']
+		pay=True
+		if StoreMerchantData.objects.filter(Store_ID=data1['sid']).exists():
+			pay=True
+		else:
+			pay=False
+		dic.update({'pay':pay})
 		return render(request,'shoppages/checkout.html',dic)
 
 #Paytm Payments
